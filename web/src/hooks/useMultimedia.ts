@@ -1,14 +1,21 @@
 import { useState } from 'react';
 import { API_BASE } from '../constants';
 
-interface MultimediaContent {
+export interface MultimediaContent {
   infographic_url: string;
   audio_url: string;
   video_url: string;
   topic: string;
 }
 
-export const useMultimedia = () => {
+export interface UseMultimediaResult {
+  generateContent: (topic: string, language?: string) => Promise<void>;
+  content: MultimediaContent | null;
+  loading: boolean;
+  error: string | null;
+}
+
+export const useMultimedia = (): UseMultimediaResult => {
   const [loading, setLoading] = useState(false);
   const [content, setContent] = useState<MultimediaContent | null>(null);
   const [error, setError] = useState<string | null>(null);

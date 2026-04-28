@@ -32,7 +32,7 @@ export interface GamificationState {
 }
 
 export interface UseGamificationResult extends GamificationState {
-  awardXP: (amount: number, reason: string) => void;
+  awardXP: (amount: number) => void;
   completeChapter: (chapterId: string) => void;
   recordQuizAnswer: (correct: boolean) => void;
   unlockBadge: (badgeId: string) => void;
@@ -241,7 +241,7 @@ export function useGamification(): UseGamificationResult {
     saveState(state);
   }, [state]);
 
-  const awardXP = useCallback((amount: number, _reason: string) => {
+  const awardXP = useCallback((amount: number) => {
     setState((prev) => {
       const newXP = prev.xp + amount;
       const { level, xpToNextLevel } = computeLevel(newXP);

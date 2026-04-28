@@ -17,6 +17,7 @@ class CachingService:
     """Service for managing Vertex AI Context Caches."""
 
     def __init__(self) -> None:
+        """Initialize the caching service."""
         self.enabled = os.getenv("ENABLE_CONTEXT_CACHING", "false").lower() == "true"
 
     def create_instruction_cache(
@@ -36,7 +37,9 @@ class CachingService:
             # This is a placeholder for the actual GenAI Caching API call
             # In production: cache = client.caches.create(...)
             logger.info("[Caching] Simulated cache creation for model: %s", model)
-            return f"projects/{os.getenv('GOOGLE_CLOUD_PROJECT')}/locations/us-central1/cachedContents/mock-cache-{uuid.uuid4()}"
+            project = os.getenv('GOOGLE_CLOUD_PROJECT')
+            cache_id = f"mock-cache-{uuid.uuid4()}"
+            return f"projects/{project}/locations/us-central1/cachedContents/{cache_id}"
         except Exception as e:
             logger.error("[Caching] Failed to create context cache: %s", e)
             return None

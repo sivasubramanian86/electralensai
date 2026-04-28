@@ -9,9 +9,15 @@ interface AuditTrace {
   rationale: string;
 }
 
+interface AuditMetrics {
+  avg_latency_ms: number;
+  total_tokens_consumed: number;
+  cache_hit_rate: string;
+}
+
 export function AuditDashboard() {
   const [traces, setTraces] = useState<AuditTrace[]>([]);
-  const [metrics, setMetrics] = useState<any>(null);
+  const [metrics, setMetrics] = useState<AuditMetrics | null>(null);
 
   useEffect(() => {
     // Mock fetch for the audit endpoints

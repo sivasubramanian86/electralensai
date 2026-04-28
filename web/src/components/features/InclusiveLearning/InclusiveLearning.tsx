@@ -12,7 +12,6 @@ import {
   Accessibility,
   Loader2,
   ImageIcon,
-  Volume2,
   Video,
   Download,
   Captions
@@ -62,7 +61,7 @@ export function InclusiveLearning() {
     if (activeModule) {
       generateContent(activeModule.topic, i18n.language.split('-')[0]);
     }
-  }, [activeModule, i18n.language]);
+  }, [activeModule, i18n.language, generateContent]);
 
   return (
     <div className="max-w-6xl mx-auto space-y-8 animate-in fade-in duration-1000 pb-20">

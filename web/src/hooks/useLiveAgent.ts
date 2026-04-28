@@ -50,6 +50,8 @@ export function useLiveAgent() {
     isPlayingRef.current = false;
   }, []);
 
+  const playNextInQueueRef = useRef<() => void>(() => {});
+
   const playNextInQueue = useCallback(async () => {
     if (audioQueue.current.length === 0 || isPlayingRef.current || !audioContextRef.current) {
       return;
@@ -77,15 +79,19 @@ export function useLiveAgent() {
         if (audioQueue.current.length === 0) {
           setIsSpeaking(false);
         }
-        playNextInQueue();
+        playNextInQueueRef.current();
       };
       source.start();
     } catch (err) {
       console.error('Audio playback error:', err);
       isPlayingRef.current = false;
-      playNextInQueue();
+      playNextInQueueRef.current();
     }
   }, []);
+
+  useEffect(() => {
+    playNextInQueueRef.current = playNextInQueue;
+  }, [playNextInQueue]);
 
   const startSession = useCallback(async () => {
     try {
@@ -122,7 +128,7 @@ export function useLiveAgent() {
             } else if (msg.type === 'error') {
               setTranscript(`Error: ${msg.error}`);
             }
-          } catch (e) {
+          } catch {
             console.error('Failed to parse WebSocket message:', event.data);
           }
         }
@@ -150,8 +156,8 @@ export function useLiveAgent() {
       const processor = audioContext.createScriptProcessor(4096, 1, 1);
       processorRef.current = processor;
 
-      processor.onaudioprocess = (e) => {
-        const inputData = e.inputBuffer.getChannelData(0);
+      processor.onaudioprocess = (evt) => {
+        const inputData = evt.inputBuffer.getChannelData(0);
         const pcmData = new Int16Array(inputData.length);
         for (let i = 0; i < inputData.length; i++) {
           pcmData[i] = Math.max(-1, Math.min(1, inputData[i])) * 0x7FFF;

@@ -73,7 +73,7 @@ export function LiveAgentOverlay() {
                  isSpeaking ? 'animate-pulse' : ''
                }`} 
                style={{ 
-                 height: isSpeaking ? `${40 + Math.random() * 60}%` : '4px',
+                 height: isSpeaking ? `${40 + (i % 3) * 20}%` : '4px',
                  animationDelay: `${i * 0.1}s` 
                }} 
              />

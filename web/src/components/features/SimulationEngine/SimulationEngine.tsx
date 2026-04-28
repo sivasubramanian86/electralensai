@@ -14,7 +14,7 @@ import { useAgentStream } from '../../../hooks/useAgentStream';
 import ReactMarkdown from 'react-markdown';
 
 export function SimulationEngine() {
-  const { t, i18n } = useTranslation();
+  const { i18n } = useTranslation();
   const [mode, setMode] = useState<'menu' | 'training' | 'scenario' | 'whatif'>('menu');
   const { output, status, activeAgent, submit, reset } = useAgentStream();
   const [userAction, setUserAction] = useState('');

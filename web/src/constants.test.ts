@@ -15,7 +15,7 @@ describe('Constants', () => {
 
   it('API_BASE should fallback to localhost if env is missing', async () => {
     vi.resetModules();
-    vi.stubEnv('VITE_API_URL', undefined as any);
+    vi.stubEnv('VITE_API_URL', undefined as unknown as string);
     const { API_BASE } = await import('./constants');
     expect(API_BASE).toBe('http://localhost:8082');
   });

@@ -1,8 +1,6 @@
-import { useTranslation } from 'react-i18next';
-import { Settings, Bell, Shield, User, Globe2, Moon, Sun, Save } from 'lucide-react';
+import { Settings, Bell, Shield, User, Globe2, Moon, Save } from 'lucide-react';
 
 export function SettingsPanel() {
-  const { t, i18n } = useTranslation();
 
   return (
     <div className="max-w-4xl mx-auto space-y-12 animate-in fade-in duration-1000">

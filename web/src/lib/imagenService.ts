@@ -133,6 +133,7 @@ export function useInfographic(concept: ConceptSlug, style?: ImagenStyle): UseIn
 
   useEffect(() => {
     let cancelled = false;
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setLoading(true);
     setError(null);
 

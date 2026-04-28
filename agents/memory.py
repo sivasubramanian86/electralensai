@@ -8,18 +8,21 @@ from __future__ import annotations
 
 import logging
 import os
-from typing import Any
+from typing import TYPE_CHECKING, Any
+
+if TYPE_CHECKING:
+    import asyncpg
 
 from google.genai import types
 
 logger = logging.getLogger(__name__)
 
 _USE_ALLOYDB = os.getenv("USE_ALLOYDB", "false").lower() == "true"
-_POOL: Any = None  # asyncpg.Pool singleton
+_POOL: asyncpg.Pool | None = None  # asyncpg.Pool singleton
 EMBEDDING_MODEL = "text-embedding-004"
 
 
-async def _get_pool() -> Any:
+async def _get_pool() -> asyncpg.Pool:
     """Return the asyncpg connection pool singleton."""
     global _POOL
     if _POOL is not None:

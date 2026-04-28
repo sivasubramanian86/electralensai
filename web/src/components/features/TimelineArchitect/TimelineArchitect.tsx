@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
   CalendarDays,
@@ -76,15 +76,20 @@ const electionPhases = [
 export function TimelineArchitect() {
   const { t, i18n } = useTranslation();
   const [activePhase, setActivePhase] = useState(1);
-  const exploredRef = useRef<Set<number>>(new Set([1]));
   const { output, activeAgent, submit } = useAgentStream();
   const { generateContent, content: multimedia, loading: multimediaLoading } = useMultimedia();
   const [showAiInsights, setShowAiInsights] = useState(false);
+  const [exploredPhases, setExploredPhases] = useState<Set<number>>(new Set([1]));
 
-  useEffect(() => {
-    exploredRef.current.add(activePhase);
-    setShowAiInsights(false); // Reset AI insights panel when changing phase
-  }, [activePhase]);
+  const handlePhaseChange = (id: number) => {
+    setActivePhase(id);
+    setShowAiInsights(false);
+    setExploredPhases(prev => {
+      const next = new Set(prev);
+      next.add(id);
+      return next;
+    });
+  };
 
   const phase = electionPhases[activePhase - 1];
   const PhaseIcon = phase.icon;
@@ -122,11 +127,11 @@ export function TimelineArchitect() {
         <div className="grid grid-cols-1 md:grid-cols-5 gap-6">
           {electionPhases.map((p) => {
             const Icon = p.icon;
-            const explored = exploredRef.current.has(p.id);
+            const explored = exploredPhases.has(p.id);
             return (
               <button
                 key={p.id}
-                onClick={() => setActivePhase(p.id)}
+                onClick={() => handlePhaseChange(p.id)}
                 className="flex flex-col items-center gap-4 group"
               >
                 <div className={`w-14 h-14 rounded-2xl flex items-center justify-center transition-all duration-500 border-2 ${

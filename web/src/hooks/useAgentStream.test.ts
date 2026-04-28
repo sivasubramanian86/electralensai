@@ -151,4 +151,23 @@ describe('useAgentStream Hook', () => {
     expect(result.current.activeAgent).toBe('NewAgent');
     expect(result.current.output).toBe('');
   });
+
+  it('logs warning on invalid JSON in SSE', async () => {
+    const mockStream = new ReadableStream({
+      start(controller) {
+        controller.enqueue(new TextEncoder().encode('data: {invalid-json}\n'));
+        controller.enqueue(new TextEncoder().encode('data: {"content": "recovered"}\n'));
+        controller.close();
+      }
+    });
+    vi.stubGlobal('fetch', vi.fn().mockResolvedValue({ ok: true, body: mockStream }));
+    const consoleSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
+    const { result } = renderHook(() => useAgentStream());
+    await act(async () => {
+      await result.current.submit('test', 'IN', 'rumor_guard');
+    });
+    expect(consoleSpy).toHaveBeenCalled();
+    expect(result.current.output).toBe('recovered');
+    consoleSpy.mockRestore();
+  });
 });

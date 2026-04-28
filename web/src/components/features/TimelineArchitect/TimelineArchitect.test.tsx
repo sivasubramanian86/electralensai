@@ -1,13 +1,14 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { TimelineArchitect } from './TimelineArchitect';
-import { useAgentStream } from '../../../hooks/useAgentStream';
+import { useAgentStream, type UseAgentStreamResult } from '../../../hooks/useAgentStream';
 import { useMultimedia } from '../../../hooks/useMultimedia';
+import type { UseMultimediaResult } from '../../../hooks/useMultimedia';
 
 // Mock dependencies
 vi.mock('react-i18next', () => ({
   useTranslation: () => ({
-    t: (key: string, def: string) => def,
+    t: (_key: string, def: string) => def,
     i18n: { language: 'en' }
   })
 }));
@@ -25,16 +26,17 @@ describe('TimelineArchitect', () => {
     vi.mocked(useAgentStream).mockReturnValue({
       output: '',
       status: 'idle',
-      activeAgent: null,
-      submit: vi.fn()
-    } as any);
+      activeAgent: '',
+      submit: vi.fn(),
+      reset: vi.fn()
+    } as unknown as UseAgentStreamResult);
 
     vi.mocked(useMultimedia).mockReturnValue({
       generateContent: vi.fn(),
       content: null,
       loading: false,
       error: null
-    } as any);
+    } as unknown as UseMultimediaResult);
   });
 
   it('renders initial phases correctly', () => {
@@ -57,9 +59,10 @@ describe('TimelineArchitect', () => {
     vi.mocked(useAgentStream).mockReturnValue({
       output: '',
       status: 'idle',
-      activeAgent: null,
-      submit: mockSubmit
-    } as any);
+      activeAgent: '',
+      submit: mockSubmit,
+      reset: vi.fn()
+    } as unknown as UseAgentStreamResult);
 
     render(<TimelineArchitect />);
     const deepDiveBtn = screen.getByText('Deep Dive with AI Guide');
@@ -80,7 +83,7 @@ describe('TimelineArchitect', () => {
       content: null,
       loading: false,
       error: null
-    } as any);
+    } as unknown as UseMultimediaResult);
 
     render(<TimelineArchitect />);
     const generateBtn = screen.getByText('Generate MultiModal Pack');
@@ -119,7 +122,7 @@ describe('TimelineArchitect', () => {
       },
       loading: false,
       error: null
-    } as any);
+    } as unknown as UseMultimediaResult);
 
     render(<TimelineArchitect />);
     
@@ -137,8 +140,9 @@ describe('TimelineArchitect', () => {
       output: 'Insight content',
       status: 'streaming',
       activeAgent: 'ArchitectAgent',
-      submit: vi.fn()
-    } as any);
+      submit: vi.fn(),
+      reset: vi.fn()
+    } as unknown as UseAgentStreamResult);
 
     render(<TimelineArchitect />);
     const deepDiveBtn = screen.getByText('Deep Dive with AI Guide');
@@ -153,8 +157,9 @@ describe('TimelineArchitect', () => {
       output: '',
       status: 'streaming',
       activeAgent: 'ArchitectAgent',
-      submit: vi.fn()
-    } as any);
+      submit: vi.fn(),
+      reset: vi.fn()
+    } as unknown as UseAgentStreamResult);
 
     render(<TimelineArchitect />);
     const deepDiveBtn = screen.getByText('Deep Dive with AI Guide');
@@ -169,7 +174,7 @@ describe('TimelineArchitect', () => {
       content: null,
       loading: true,
       error: null
-    } as any);
+    } as unknown as UseMultimediaResult);
 
     render(<TimelineArchitect />);
     expect(screen.getByText(/Generating Assets.../i)).toBeInTheDocument();

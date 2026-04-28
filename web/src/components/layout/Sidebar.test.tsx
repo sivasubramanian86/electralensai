@@ -1,6 +1,7 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import { Sidebar } from './Sidebar';
 import { describe, it, expect, vi } from 'vitest';
+import type { UseGamificationResult } from '../../hooks/useGamification';
 
 // Global mocks for lucide-react and react-i18next are in setup.tsx
 
@@ -10,7 +11,7 @@ vi.mock('../auth/LoginButton', () => ({
 }));
 
 describe('Sidebar Component', () => {
-  const mockGamification = {
+  const mockGamification: Partial<UseGamificationResult> = {
     xp: 100,
     level: 2,
     xpPercent: 40,
@@ -34,7 +35,7 @@ describe('Sidebar Component', () => {
       <Sidebar 
         activeTab="dashboard" 
         onTabChange={mockOnTabChange} 
-        gamification={mockGamification as any} 
+        gamification={mockGamification as UseGamificationResult} 
       />
     );
     
@@ -42,5 +43,35 @@ describe('Sidebar Component', () => {
     fireEvent.click(timelineBtn);
     
     expect(mockOnTabChange).toHaveBeenCalledWith('timeline');
+  });
+
+  it('calls onTabChange when the settings button is clicked', () => {
+    const mockOnTabChange = vi.fn();
+    render(
+      <Sidebar 
+        activeTab="dashboard" 
+        onTabChange={mockOnTabChange} 
+        gamification={mockGamification as UseGamificationResult} 
+      />
+    );
+    
+    // The settings button doesn't have text, but it's the last button in the footer
+    const settingsBtn = screen.getByRole('button', { name: /Settings/i });
+    fireEvent.click(settingsBtn);
+    
+    expect(mockOnTabChange).toHaveBeenCalledWith('settings');
+  });
+
+  it('highlights the settings button when activeTab is settings', () => {
+    render(
+      <Sidebar 
+        activeTab="settings" 
+        onTabChange={vi.fn()} 
+        gamification={mockGamification as UseGamificationResult} 
+      />
+    );
+    
+    const settingsBtn = screen.getByRole('button', { name: /Settings/i });
+    expect(settingsBtn).toHaveClass('bg-blue-600/10');
   });
 });
