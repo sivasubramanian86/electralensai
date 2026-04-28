@@ -1,0 +1,57 @@
+"""Translation service module."""
+
+import logging
+import os
+from typing import Optional
+
+from google.cloud import translate_v3 as translate
+
+logger = logging.getLogger(__name__)
+
+
+class TranslationService:
+    """Service wrapper for Google Cloud Translation API."""
+
+    def __init__(self, project_id: Optional[str] = None) -> None:
+        """Initialize the TranslationService."""
+        from dotenv import load_dotenv
+
+        load_dotenv(override=True)
+        self.project_id = project_id or os.environ.get("GOOGLE_CLOUD_PROJECT")
+        if not self.project_id:
+            logger.warning(
+                "No GOOGLE_CLOUD_PROJECT set. Translation functionality will fallback to native LLM."  # noqa: E501
+            )
+        try:
+            self.client = translate.TranslationServiceClient() if self.project_id else None
+        except Exception as e:
+            logger.error(f"Failed to initialize Translation client: {e}")
+            self.client = None
+
+    def translate_text(
+        self, text: str, target_language_code: str, source_language_code: str = "en"
+    ) -> str:
+        """Translates text using Google Cloud Translation API."""
+        logger.info(f"Translation requested to {target_language_code} for text: {text[:50]}...")
+        if not self.client or target_language_code == source_language_code:
+            return text  # No-op if no credentials or same language
+
+        parent = f"projects/{self.project_id}/locations/global"
+
+        try:
+            response = self.client.translate_text(
+                request={
+                    "parent": parent,
+                    "contents": [text],
+                    "mime_type": "text/plain",
+                    "source_language_code": source_language_code,
+                    "target_language_code": target_language_code,
+                }
+            )
+            return response.translations[0].translated_text
+        except Exception as e:
+            logger.error(f"Translation failed: {e}")
+            return text  # Fallback to original text
+
+
+translation_service = TranslationService()

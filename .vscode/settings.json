@@ -1,0 +1,15 @@
+{
+  "files.exclude": {
+    "**/__pyrefly_virtual__": true,
+    "**/__pycache__": true,
+    "**/.pytest_cache": true,
+    "**/.ruff_cache": true
+  },
+  "search.exclude": {
+    "**/__pyrefly_virtual__": true
+  },
+  "python.analysis.exclude": [
+    "**/__pyrefly_virtual__/**",
+    "**/inmemory/**"
+  ]
+}

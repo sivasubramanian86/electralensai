@@ -1,0 +1,20 @@
+{
+  "app": {
+    "title": "ElectraLensAI",
+    "subtitle": "Your Civic AI Guide",
+    "description": "Understand elections, verify claims, simulate voting — powered by a multi-agent AI system."
+  },
+  "nav": {
+    "timeline": "Election Timeline",
+    "ballot": "Registration & Ballot",
+    "rumor": "Rumor Guard",
+    "simulation": "Voter Simulation",
+    "voice": "CivicVoice Live"
+  },
+  "language": {
+    "en": "English",
+    "hi": "हिन्दी (Hindi)",
+    "ta": "தமிழ் (Tamil)",
+    "te": "తెలుగు (Telugu)"
+  }
+}
