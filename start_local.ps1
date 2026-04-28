@@ -3,7 +3,7 @@
 
 Write-Host "Cleaning up existing processes on ports 8080, 8082, 5173, and 5174..." -ForegroundColor Cyan
 
-function Kill-ProcessOnPort {
+function Stop-ProcessOnPort {
     param([int]$Port)
     $connections = Get-NetTCPConnection -LocalPort $Port -State Listen -ErrorAction SilentlyContinue
     if ($connections) {
@@ -17,10 +17,10 @@ function Kill-ProcessOnPort {
     }
 }
 
-Kill-ProcessOnPort 8080
-Kill-ProcessOnPort 8082
-Kill-ProcessOnPort 5173
-Kill-ProcessOnPort 5174
+Stop-ProcessOnPort 8080
+Stop-ProcessOnPort 8082
+Stop-ProcessOnPort 5173
+Stop-ProcessOnPort 5174
 
 Write-Host "Starting ElectraLensAI Backend (FastAPI on Port 8082)..." -ForegroundColor Green
 Start-Process -FilePath ".\.venv\Scripts\python.exe" -ArgumentList "-m uvicorn main:app --host 0.0.0.0 --port 8082" -NoNewWindow

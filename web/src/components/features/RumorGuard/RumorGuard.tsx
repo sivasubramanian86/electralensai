@@ -8,7 +8,7 @@ import {
   Flame,
   ExternalLink,
   ChevronRight,
-  RotateCcw
+  Loader2
 } from 'lucide-react';
 import { useAgentStream } from '../../../hooks/useAgentStream';
 import ReactMarkdown from 'react-markdown';
