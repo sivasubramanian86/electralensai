@@ -14,7 +14,14 @@ from dotenv import load_dotenv
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from api.routers import agent_router, health_router, imagen_router, live_router, multimedia_router, audit_router
+from api.routers import (
+    agent_router,
+    audit_router,
+    health_router,
+    imagen_router,
+    live_router,
+    multimedia_router,
+)
 
 load_dotenv(override=True)
 

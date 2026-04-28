@@ -1,7 +1,9 @@
 """Specialist agent for myth-busting and rumor detection."""
 
 import os
+
 from google.adk import agents
+
 from .tools import broadcast_misinformation_alert
 
 _INSTRUCTION = """

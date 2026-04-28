@@ -6,6 +6,8 @@ serves as the Cloud Run container CMD target.
 
 from __future__ import annotations
 
+import logging
+import os
 import warnings
 
 import uvicorn
@@ -15,9 +17,6 @@ from dotenv import load_dotenv
 warnings.filterwarnings("ignore", category=DeprecationWarning)
 warnings.filterwarnings("ignore", message=".*EXPERIMENTAL.*")
 warnings.filterwarnings("ignore", message=".*deprecated as of June 24, 2025.*")
-
-import os  # noqa: E402
-import logging
 
 logging.basicConfig(
     level=logging.INFO,
@@ -47,7 +46,7 @@ app = create_app()
 if __name__ == "__main__":
     uvicorn.run(
         "main:app",
-        host="0.0.0.0",  # nosec B104
+        host="0.0.0.0",  # noqa: S104
         port=8082,
         ws_ping_interval=60,
         ws_ping_timeout=60,

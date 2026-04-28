@@ -22,7 +22,7 @@ class PubSubService:
         self.project_id = os.getenv("GOOGLE_CLOUD_PROJECT")
         self.topic_id = os.getenv("PUBSUB_TOPIC_ALERTS", "electralens-alerts")
         self.publisher = None
-        
+
         if self.project_id:
             try:
                 self.publisher = pubsub_v1.PublisherClient()
@@ -33,7 +33,7 @@ class PubSubService:
 
     def publish_alert(self, alert_type: str, data: dict[str, Any]) -> None:
         """Publish a high-priority alert to the topic.
-        
+
         Args:
             alert_type: The category of the alert (e.g., 'RUMOR_DETECTED').
             data: Structured payload containing alert details.
@@ -43,11 +43,7 @@ class PubSubService:
             return
 
         try:
-            payload = {
-                "version": "1.0",
-                "alert_type": alert_type,
-                "payload": data
-            }
+            payload = {"version": "1.0", "alert_type": alert_type, "payload": data}
             message_bytes = json.dumps(payload).encode("utf-8")
             future = self.publisher.publish(self.topic_path, message_bytes)
             message_id = future.result()

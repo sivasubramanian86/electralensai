@@ -19,7 +19,7 @@ class CloudLoggingService:
         """Initialize the cloud logging client."""
         self.project_id = os.getenv("GOOGLE_CLOUD_PROJECT")
         self.client = None
-        
+
         if self.project_id:
             try:
                 self.client = cloud_logging.Client(project=self.project_id)
@@ -31,7 +31,7 @@ class CloudLoggingService:
 
     def log_agent_reasoning(self, agent_name: str, session_id: str, reasoning: str) -> None:
         """Log structured agent reasoning for audit trails.
-        
+
         Args:
             agent_name: Name of the agent performing the action.
             session_id: Unique identifier for the user session.
@@ -40,15 +40,10 @@ class CloudLoggingService:
         logger.info(
             "Agent Reasoning Trace",
             extra={
-                "labels": {
-                    "agent": agent_name,
-                    "session_id": session_id,
-                    "type": "agent_trace"
-                },
-                "json_payload": {
-                    "reasoning": reasoning
-                }
-            }
+                "labels": {"agent": agent_name, "session_id": session_id, "type": "agent_trace"},
+                "json_payload": {"reasoning": reasoning},
+            },
         )
+
 
 cloud_logger_service = CloudLoggingService()

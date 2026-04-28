@@ -98,7 +98,7 @@ async def live_agent_ws(websocket: WebSocket) -> None:
             while True:
                 message = await websocket.receive()
                 msg_type = message.get("type")
-                
+
                 if msg_type == "websocket.receive":
                     if "bytes" in message:
                         live_request_queue.send_realtime(
@@ -118,13 +118,15 @@ async def live_agent_ws(websocket: WebSocket) -> None:
                             elif data_type == "text":
                                 live_request_queue.send_content(
                                     types.Content(
-                                        role="user", parts=[types.Part.from_text(text=data.get("text", ""))]
+                                        role="user",
+                                        parts=[types.Part.from_text(text=data.get("text", ""))],
                                     )
                                 )
                         except json.JSONDecodeError:
                             live_request_queue.send_content(
                                 types.Content(
-                                    role="user", parts=[types.Part.from_text(text=message.get("text", ""))]
+                                    role="user",
+                                    parts=[types.Part.from_text(text=message.get("text", ""))],
                                 )
                             )
                 elif message.get("type") == "websocket.disconnect":
@@ -133,6 +135,7 @@ async def live_agent_ws(websocket: WebSocket) -> None:
             raise
         except Exception as e:
             import traceback
+
             logger.error(f"Client loop error: {e}")
             logger.error(traceback.format_exc())
         finally:

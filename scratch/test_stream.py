@@ -1,13 +1,11 @@
-
 import requests
-import json
 
 url = "http://localhost:8082/v1/query/stream"
 payload = {
     "question": "What ID do I need to vote in Texas?",
     "region": "US",
     "mode": "ballot",
-    "language": "en"
+    "language": "en",
 }
 
 print(f"Sending request to {url}...")

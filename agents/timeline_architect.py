@@ -5,6 +5,7 @@ the user's region and the current election cycle.
 """
 
 import os
+
 from google.adk.agents import Agent
 
 _INSTRUCTION = """

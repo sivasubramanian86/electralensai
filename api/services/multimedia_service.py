@@ -3,12 +3,12 @@
 import logging
 import os
 import uuid
-from google.genai import types
-from api.genai_client import client, RETRY_POLICY
 
 import vertexai
 from google.cloud import storage, texttospeech
 from vertexai.preview.vision_models import ImageGenerationModel
+
+from api.genai_client import client
 
 logger = logging.getLogger(__name__)
 
@@ -41,15 +41,19 @@ class MultimediaService:
         """
         try:
             logger.info("Generating infographic for prompt: %s", prompt)
-            
+
             # Use Gemini to engineer a high-quality Imagen prompt
             model_id = os.getenv("GOOGLE_MODEL", "gemini-2.5-flash")
             response = client.models.generate_content(
                 model=model_id,
-                contents=f"Create a highly detailed, professional prompt for Imagen 3 to generate an educational infographic about: {prompt}. Focus on inclusive design, clarity, and specific election-related iconography. No text except headings."
+                contents=(
+                    f"Create an educational infographic about: {prompt}. "
+                    "Focus on inclusive design, clarity, and election iconography. "
+                    "No text except headings."
+                ),
             )
             enhanced_prompt = response.text.strip()
-            
+
             logger.info("Enhanced Imagen prompt: %s", enhanced_prompt)
 
             images = self.imagen_model.generate_images(
@@ -137,16 +141,20 @@ class MultimediaService:
             contents=(
                 f"Write a 60-second educational audio guide script about: {topic}. "
                 f"The target language is {language}. Tone: Encouraging, clear, and non-partisan. "
-                "CRITICAL: Return ONLY the spoken text. Do NOT include markdown markers (like **, ##, *), "
+                "CRITICAL: Return ONLY the spoken text. "
+                "Do NOT include markdown markers (like **, ##, *), "
                 "do NOT include speaker notes, timestamps, or stage directions. "
-                "The output will be fed directly to a Text-to-Speech engine, so ensure it is 100% plain text."
-            )
+                "The output will be fed directly to a Text-to-Speech engine, "
+                "so ensure it is 100% plain text."
+            ),
         )
         detailed_script = script_response.text.strip()
-        
+
         # Clean up any residual markdown just in case
-        detailed_script = detailed_script.replace("*", "").replace("#", "").replace("`", "").replace("_", "")
-        
+        detailed_script = (
+            detailed_script.replace("*", "").replace("#", "").replace("`", "").replace("_", "")
+        )
+
         audio_url = self.generate_audio_guide(detailed_script, tts_lang)
 
         return {
@@ -154,7 +162,7 @@ class MultimediaService:
             "infographic_url": infographic_url,
             "audio_url": audio_url,
             "video_url": "https://www.youtube.com/embed/S2HAsU_wL1U",  # General Election Guide
-            "script_preview": detailed_script[:200] + "..."
+            "script_preview": detailed_script[:200] + "...",
         }
 
 

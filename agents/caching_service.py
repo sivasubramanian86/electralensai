@@ -10,9 +10,6 @@ import os
 import uuid
 from typing import Optional
 
-from google.genai import types
-from api.genai_client import client
-
 logger = logging.getLogger(__name__)
 
 
@@ -22,9 +19,11 @@ class CachingService:
     def __init__(self) -> None:
         self.enabled = os.getenv("ENABLE_CONTEXT_CACHING", "false").lower() == "true"
 
-    def create_instruction_cache(self, model: str, instruction: str, ttl_minutes: int = 60) -> Optional[str]:
+    def create_instruction_cache(
+        self, model: str, instruction: str, ttl_minutes: int = 60
+    ) -> Optional[str]:
         """Creates a context cache for a specific set of instructions.
-        
+
         Returns:
             The cache name (identifier) or None if caching is disabled.
         """
@@ -41,5 +40,6 @@ class CachingService:
         except Exception as e:
             logger.error("[Caching] Failed to create context cache: %s", e)
             return None
+
 
 caching_service = CachingService()

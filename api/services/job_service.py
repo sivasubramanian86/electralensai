@@ -4,17 +4,18 @@ Handles asynchronous background tasks for long-running multimodal asset generati
 Allows the API to remain responsive while complex assets (Imagen, TTS) are built.
 """
 
-import asyncio
 import logging
 import uuid
 from typing import Any, Dict, Optional
 
 logger = logging.getLogger(__name__)
 
+
 class JobService:
     """Service for managing background execution states."""
 
     def __init__(self) -> None:
+        """Initialize the in-memory job store."""
         self.jobs: Dict[str, Dict[str, Any]] = {}
 
     def create_job(self, task_name: str) -> str:
@@ -25,11 +26,13 @@ class JobService:
             "task": task_name,
             "status": "pending",
             "result": None,
-            "error": None
+            "error": None,
         }
         return job_id
 
-    def update_job(self, job_id: str, status: str, result: Any = None, error: str = None) -> None:
+    def update_job(
+        self, job_id: str, status: str, result: Any = None, error: str = None  # noqa: ANN401
+    ) -> None:
         """Update the status and result of a job."""
         if job_id in self.jobs:
             self.jobs[job_id]["status"] = status
@@ -46,5 +49,6 @@ class JobService:
     def list_jobs(self) -> list[Dict[str, Any]]:
         """List all current jobs."""
         return list(self.jobs.values())
+
 
 job_service = JobService()

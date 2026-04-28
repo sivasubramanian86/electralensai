@@ -6,12 +6,10 @@ Uses a mock fallback when USE_ALLOYDB is 'false' or DATABASE_URL is missing.
 
 from __future__ import annotations
 
-import json
 import logging
 import os
 from typing import Any
 
-from google import genai
 from google.genai import types
 
 logger = logging.getLogger(__name__)
@@ -52,11 +50,11 @@ async def _get_pool() -> Any:
 async def _embed(text: str) -> list[float]:
     """Generate a 768-dimension embedding via Vertex AI."""
     from api.genai_client import client
-    
+
     response = client.models.embed_content(
         model=EMBEDDING_MODEL,
         contents=text,
-        config=types.EmbedContentConfig(task_type="RETRIEVAL_QUERY")
+        config=types.EmbedContentConfig(task_type="RETRIEVAL_QUERY"),
     )
     return response.embeddings[0].values
 
@@ -103,7 +101,10 @@ class AlloyDBMemory:
                     INSERT INTO agent_logs (user_id, agent_name, question, response)
                     VALUES ($1, $2, $3, $4)
                     """,
-                    user_id, agent, question, response
+                    user_id,
+                    agent,
+                    question,
+                    response,
                 )
         except Exception as e:
             logger.error("[Memory] Failed to log interaction: %s", e)
@@ -116,8 +117,9 @@ class AlloyDBMemory:
                 "title": "Voter ID Clarification (Rural)",
                 "description": f"Historical precedent for {topic} in remote regions.",
                 "resolution": "Accept secondary verification (MGNREGA card) if EPIC is missing.",
-                "similarity": 0.89
+                "similarity": 0.89,
             }
         ]
+
 
 memory_service = AlloyDBMemory()

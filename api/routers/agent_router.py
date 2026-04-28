@@ -17,9 +17,9 @@ from pydantic import BaseModel, Field
 from sse_starlette.sse import EventSourceResponse
 
 from agents import runner
+from api.services.analytics_service import analytics_service
 from api.services.dlp_service import dlp_service
 from api.services.translation_service import translation_service
-from api.services.analytics_service import analytics_service
 
 logger = logging.getLogger(__name__)
 router = APIRouter()
@@ -105,7 +105,9 @@ async def _stream_agent_response(request: QueryRequest) -> AsyncIterator[dict[st
             if event.author:
                 yield {
                     "event": "agent_state",
-                    "data": json.dumps({"event": "agent_state", "agent": event.author, "state": "active"}),
+                    "data": json.dumps(
+                        {"event": "agent_state", "agent": event.author, "state": "active"}
+                    ),
                 }
 
         # If language is not English, translate the final summary or offer a translated event
@@ -115,11 +117,13 @@ async def _stream_agent_response(request: QueryRequest) -> AsyncIterator[dict[st
             )
             yield {
                 "event": "translated_done",
-                "data": json.dumps({
-                    "event": "translated_done",
-                    "content": translated_content,
-                    "language": request.language,
-                }),
+                "data": json.dumps(
+                    {
+                        "event": "translated_done",
+                        "content": translated_content,
+                        "language": request.language,
+                    }
+                ),
             }
 
         # Finalize Analytics Trace
@@ -128,7 +132,7 @@ async def _stream_agent_response(request: QueryRequest) -> AsyncIterator[dict[st
             user_id="default_user",
             input_str=request.question,
             output_str=full_content,
-            metadata={"region": request.region, "language": request.language, "mode": request.mode}
+            metadata={"region": request.region, "language": request.language, "mode": request.mode},
         )
 
         yield {"event": "done", "data": json.dumps({"status": "complete"})}
@@ -209,7 +213,7 @@ async def query(request: QueryRequest) -> QueryResponse:
             user_id="default_user",
             input_str=request.question,
             output_str=answer,
-            metadata={"region": request.region, "language": request.language, "mode": request.mode}
+            metadata={"region": request.region, "language": request.language, "mode": request.mode},
         )
 
         return QueryResponse(
