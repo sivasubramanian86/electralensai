@@ -21,7 +21,6 @@ import { useTranslation } from 'react-i18next';
 import type { TabId } from './Header';
 import { GamificationBar } from './GamificationBar';
 import type { UseGamificationResult } from '../../hooks/useGamification';
-import { LoginButton } from '../auth/LoginButton';
 
 interface SidebarProps {
   activeTab: TabId | 'dashboard' | 'settings';

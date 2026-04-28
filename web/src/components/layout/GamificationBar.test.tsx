@@ -10,12 +10,22 @@ const mockGamification = {
   streak: 7,
   levelTitle: 'Democracy Champion',
   badges: [
-    { id: '1', label: 'First Vote', desc: 'Cast your first vote', icon: '🗳️', unlocked: true },
-    { id: '2', label: 'Fact Checker', desc: 'Debunked a myth', icon: '🔍', unlocked: true },
-    { id: '3', label: 'Timeline Hero', desc: 'Explored all phases', icon: '⏳', unlocked: false },
+    { id: '1', label: 'First Vote', desc: 'Cast your first vote', icon: '🗳️', unlocked: true, xpReward: 100 },
+    { id: '2', label: 'Fact Checker', desc: 'Debunked a myth', icon: '🔍', unlocked: true, xpReward: 100 },
+    { id: '3', label: 'Timeline Hero', desc: 'Explored all phases', icon: '⏳', unlocked: false, xpReward: 100 },
   ],
   addXp: () => {},
   unlockBadge: () => {},
+  awardXP: () => {},
+  completeChapter: () => {},
+  recordQuizAnswer: () => {},
+  lastVisitDate: '',
+  chaptersCompleted: [],
+  completedChapters: [],
+  quizScores: {},
+  consecutiveDays: 7,
+  totalQuizCorrect: 0,
+  totalQuizAnswered: 0,
 };
 
 describe('GamificationBar Component', () => {
@@ -46,6 +56,7 @@ describe('GamificationBar Component', () => {
       desc: '',
       icon: '🎖️',
       unlocked: true,
+      xpReward: 100,
     }));
     const fullGami = { ...mockGamification, badges: manyBadges };
     render(<GamificationBar gamification={fullGami} />);

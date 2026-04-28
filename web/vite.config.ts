@@ -12,7 +12,6 @@ export default defineConfig({
     setupFiles: ['src/test/setup.tsx'],
     exclude: ['node_modules', 'tests/e2e/**', 'dist/**'],
     coverage: {
-      all: true,
       provider: 'v8',
       reporter: ['text', 'json', 'html'],
       exclude: [
