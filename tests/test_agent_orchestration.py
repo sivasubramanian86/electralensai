@@ -1,3 +1,9 @@
+"""Unit tests for the ElectraLensAI agent orchestration and execution.
+
+Validates that the Root Orchestrator correctly routes messages through
+the agent mesh and handles asynchronous response streaming.
+"""
+
 from unittest.mock import patch
 
 import pytest

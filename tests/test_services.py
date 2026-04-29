@@ -1,4 +1,8 @@
-"""Unit tests for ElectraLensAI services (DLP and Multimedia)."""
+"""Unit tests for ElectraLensAI services (DLP and Multimedia).
+
+This module contains class-based tests for the core business logic services,
+verifying their interaction with Google Cloud APIs and AI models.
+"""
 
 from unittest.mock import MagicMock, patch
 
@@ -15,8 +19,11 @@ with (
 
 
 class TestDlpService:
+    """Test suite for the Data Loss Prevention (DLP) service."""
+
     @patch("google.cloud.dlp_v2.DlpServiceClient")
     def test_mask_text_success(self, mock_dlp_client_class) -> None:
+        """Verifies that PII is correctly masked when the DLP API succeeds."""
         mock_client = mock_dlp_client_class.return_value
         mock_response = MagicMock()
         mock_response.item.value = "My name is [NAME]"
@@ -30,6 +37,7 @@ class TestDlpService:
 
     @patch("google.cloud.dlp_v2.DlpServiceClient")
     def test_mask_text_failure(self, mock_dlp_client_class) -> None:
+        """Verifies that a fallback message is returned when the DLP API fails."""
         mock_client = mock_dlp_client_class.return_value
         mock_client.deidentify_content.side_effect = Exception("DLP error")
 
@@ -41,6 +49,8 @@ class TestDlpService:
 
 
 class TestMultimediaService:
+    """Test suite for the Multimedia generation and storage service."""
+
     @patch("google.cloud.storage.Client")
     @patch("google.cloud.texttospeech.TextToSpeechClient")
     @patch("vertexai.preview.vision_models.ImageGenerationModel.from_pretrained")
@@ -48,6 +58,7 @@ class TestMultimediaService:
     def test_generate_infographic_success(
         self, mock_genai_client, mock_imagen_class, mock_tts_client, mock_storage_client
     ) -> None:
+        """Verifies successful infographic generation and GCS upload."""
         # Mock GenAI response for prompt enhancement
         mock_genai_response = MagicMock()
         mock_genai_response.text = "Enhanced prompt"
@@ -75,6 +86,7 @@ class TestMultimediaService:
     @patch("google.cloud.storage.Client")
     @patch("google.cloud.texttospeech.TextToSpeechClient")
     def test_generate_audio_guide_success(self, mock_tts_client_class, mock_storage_client) -> None:
+        """Verifies successful audio guide synthesis and GCS upload."""
         mock_tts_client = mock_tts_client_class.return_value
         mock_response = MagicMock()
         mock_response.audio_content = b"audio data"
@@ -101,6 +113,7 @@ class TestMultimediaService:
     def test_generate_multimodal_package(
         self, mock_genai_client, mock_imagen_class, mock_tts_client, mock_storage_client
     ) -> None:
+        """Verifies orchestration of a complete multimodal package (Image + Audio)."""
         service = MultimediaService()
         service.generate_infographic = MagicMock(return_value="http://image-url")
         service.generate_audio_guide = MagicMock(return_value="http://audio-url")
@@ -117,9 +130,12 @@ class TestMultimediaService:
 
 
 class TestAnalyticsService:
+    """Test suite for the Observability and Analytics service."""
+
     @patch("api.services.analytics_service.Langfuse")
     @patch("api.services.analytics_service.monitoring_v3.MetricServiceClient")
     def test_analytics_trace_success(self, mock_metrics_class, mock_langfuse_class) -> None:
+        """Verifies that agent calls are correctly traced to Langfuse."""
         from api.services.analytics_service import AnalyticsService
 
         with patch.dict(
@@ -137,6 +153,7 @@ class TestAnalyticsService:
 
     @patch("api.services.analytics_service.Langfuse")
     def test_analytics_trace_failure_silence(self, mock_langfuse_class) -> None:
+        """Verifies that trace failures are caught and don't crash the app."""
         from api.services.analytics_service import AnalyticsService
 
         mock_langfuse_class.return_value.trace.side_effect = Exception("Trace error")
@@ -150,6 +167,7 @@ class TestAnalyticsService:
 
     @patch("api.services.analytics_service.monitoring_v3.MetricServiceClient")
     def test_record_metric_success(self, mock_metrics_class) -> None:
+        """Verifies that metrics are correctly exported to Cloud Monitoring."""
         from api.services.analytics_service import AnalyticsService
 
         with patch.dict(
@@ -161,6 +179,7 @@ class TestAnalyticsService:
 
     @patch("api.services.analytics_service.monitoring_v3.MetricServiceClient")
     def test_record_metric_failure_silence(self, mock_metrics_class) -> None:
+        """Verifies that metric export failures are caught and don't crash the app."""
         from api.services.analytics_service import AnalyticsService
 
         mock_metrics_class.return_value.create_time_series.side_effect = Exception("Metric error")

@@ -24,7 +24,7 @@ class PubSubService:
         self._publisher = None
 
     @property
-    def publisher(self):
+    def publisher(self) -> pubsub_v1.PublisherClient | None:
         """Lazy initializer for Pub/Sub publisher client."""
         if not self._publisher and self.project_id:
             try:
@@ -34,6 +34,11 @@ class PubSubService:
             except Exception as e:
                 logger.warning("Pub/Sub initialization failed: %s", e)
         return self._publisher
+
+    @publisher.setter
+    def publisher(self, value: pubsub_v1.PublisherClient | None) -> None:
+        """Setter for testing/dependency injection."""
+        self._publisher = value
 
     def publish_alert(self, alert_type: str, data: dict[str, Any]) -> None:
         """Publish a high-priority alert to the topic.

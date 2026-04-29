@@ -29,26 +29,41 @@ class MultimediaService:
         self._imagen_model = None
 
     @property
-    def storage_client(self):
+    def storage_client(self) -> storage.Client:
         """Lazy initializer for GCS client."""
         if not self._storage_client:
             self._storage_client = storage.Client(project=self.project_id)
         return self._storage_client
 
+    @storage_client.setter
+    def storage_client(self, value: storage.Client) -> None:
+        """Setter for testing/dependency injection."""
+        self._storage_client = value
+
     @property
-    def tts_client(self):
+    def tts_client(self) -> texttospeech.TextToSpeechClient:
         """Lazy initializer for TTS client."""
         if not self._tts_client:
             self._tts_client = texttospeech.TextToSpeechClient()
         return self._tts_client
 
+    @tts_client.setter
+    def tts_client(self, value: texttospeech.TextToSpeechClient) -> None:
+        """Setter for testing/dependency injection."""
+        self._tts_client = value
+
     @property
-    def imagen_model(self):
+    def imagen_model(self) -> ImageGenerationModel:
         """Lazy initializer for Imagen model."""
         if not self._imagen_model:
             vertexai.init(project=self.project_id, location=self.location)
             self._imagen_model = ImageGenerationModel.from_pretrained("imagen-3.0-generate-001")
         return self._imagen_model
+
+    @imagen_model.setter
+    def imagen_model(self, value: ImageGenerationModel) -> None:
+        """Setter for testing/dependency injection."""
+        self._imagen_model = value
 
     def generate_infographic(self, prompt: str, aspect_ratio: str = "1:1") -> str:
         """Generates an infographic using Imagen 3 and uploads to GCS.

@@ -21,7 +21,7 @@ class CloudLoggingService:
         self._client = None
 
     @property
-    def client(self):
+    def client(self) -> cloud_logging.Client | None:
         """Lazy initializer for GCS Logging client."""
         if not self._client and self.project_id:
             try:
@@ -32,6 +32,11 @@ class CloudLoggingService:
             except Exception as e:
                 logger.warning("Cloud Logging initialization failed (falling back to local): %s", e)
         return self._client
+
+    @client.setter
+    def client(self, value: cloud_logging.Client | None) -> None:
+        """Setter for testing/dependency injection."""
+        self._client = value
 
     def log_agent_reasoning(self, agent_name: str, session_id: str, reasoning: str) -> None:
         """Log structured agent reasoning for audit trails.

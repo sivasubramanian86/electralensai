@@ -1,3 +1,10 @@
+"""Comprehensive coverage gap tests for ElectraLensAI.
+
+This module addresses untested code paths across the entire application,
+including services, routers, agents, and infrastructure components,
+aiming for 100% total code coverage.
+"""
+
 import asyncio
 
 # Mock GCP clients BEFORE importing the app to avoid initialization hangs
@@ -10,12 +17,15 @@ from fastapi.testclient import TestClient
 with (
     patch("google.cloud.storage.Client"),
     patch("google.cloud.texttospeech.TextToSpeechClient"),
+    patch("google.cloud.pubsub_v1.PublisherClient"),
+    patch("google.cloud.logging.Client"),
+    patch("google.auth.default", return_value=(MagicMock(), "test-project")),
     patch("vertexai.init"),
+    patch("api.genai_client.client") as mock_genai,
     patch("google.adk.agents.live_request_queue.LiveRequestQueue"),
     patch("vertexai.preview.vision_models.ImageGenerationModel.from_pretrained"),
 ):
     from api.app import create_app
-
     app = create_app()
 
 client = TestClient(app)
@@ -23,6 +33,10 @@ client = TestClient(app)
 
 # 1. Test Translation Service
 def test_translation_service_direct() -> None:
+    """Verifies the TranslationService handles successful and failed API calls.
+
+    Tests the direct integration with the Google Cloud Translate client.
+    """
     from api.services.translation_service import translation_service
 
     translation_service.client = MagicMock()
@@ -42,6 +56,10 @@ def test_translation_service_direct() -> None:
 
 # 2. Test DLP Service
 def test_dlp_service_direct() -> None:
+    """Verifies the DLPService correctly masks PII and handles service failures.
+
+    Tests de-identification logic using the Google Cloud DLP client.
+    """
     from api.services.dlp_service import dlp_service
 
     dlp_service.project_id = "test-project"
@@ -64,6 +82,11 @@ def test_dlp_service_direct() -> None:
 @patch("api.services.multimedia_service.client")
 @patch("api.services.multimedia_service.ImageGenerationModel.from_pretrained")
 def test_multimedia_service_multimodal(mock_from_pretrained, mock_genai_client) -> None:
+    """Tests the multimodal asset generation router with mocked Imagen and Gemini.
+
+    Verifies that the /v1/imagen/generate endpoint correctly handles prompt
+    enhancement and image generation.
+    """
     mock_model = mock_from_pretrained.return_value
     mock_img_response = MagicMock()
     mock_image = MagicMock()
@@ -109,6 +132,14 @@ def test_multimedia_job_flow(mock_gen_audio, mock_gen_info, mock_gen_package) ->
 @patch("api.routers.live_router.LiveRequestQueue")
 @patch("api.routers.live_router.live_runner.run_live")
 def test_live_websocket_full(mock_run_live, mock_queue_cls) -> None:
+    """Verifies the bidirectional WebSocket stream for the Live Agent.
+
+    Tests:
+    - Session ID assignment.
+    - Transcript streaming.
+    - Binary audio streaming.
+    - Activity message handling (start/end/finalize).
+    """
 
     async def mock_generator():
         # First event: Text
@@ -193,6 +224,11 @@ def test_caching_service() -> None:
 # 8. Test Memory Service (Real branch)
 @pytest.mark.asyncio
 async def test_memory_service_real() -> None:
+    """Tests the MemoryService integration with AlloyDB/PostgreSQL.
+
+    Verifies vector search result retrieval and interaction logging using
+    a mocked database pool and embedding service.
+    """
     from agents.memory import memory_service
 
     with (
@@ -502,10 +538,10 @@ async def test_memory_internal_pool() -> None:
 async def test_memory_internal_embed() -> None:
     from agents.memory import _embed
 
-    with patch("api.genai_client.client.models.embed_content") as mock_embed:
+    with patch("api.genai_client.client") as mock_client:
         mock_resp = MagicMock()
         mock_resp.embeddings = [MagicMock(values=[0.1, 0.2])]
-        mock_embed.return_value = mock_resp
+        mock_client.models.embed_content.return_value = mock_resp
 
         res = await _embed("test")
         assert res == [0.1, 0.2]
@@ -967,10 +1003,13 @@ def test_agent_query_success(mock_run_async) -> None:
 def test_multimedia_success_branch() -> None:
     from api.services.multimedia_service import multimedia_service
 
-    # Patch internal objects directly on the singleton
+    # Mock internal objects directly since they have setters
+    mock_storage = MagicMock()
+    mock_model = MagicMock()
+    multimedia_service.storage_client = mock_storage
+    multimedia_service.imagen_model = mock_model
+
     with (
-        patch.object(multimedia_service, "storage_client") as mock_storage,
-        patch.object(multimedia_service, "imagen_model") as mock_model,
         patch("api.services.multimedia_service.client") as mock_genai,
         patch("api.services.multimedia_service.os.remove") as mock_remove,
     ):
