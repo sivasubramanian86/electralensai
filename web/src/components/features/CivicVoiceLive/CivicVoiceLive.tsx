@@ -76,6 +76,7 @@ export function CivicVoiceLive() {
 
           <button 
             onClick={toggleRecording}
+            aria-label={isRecording ? 'Stop Recording' : 'Start Recording'}
             className={`group relative px-8 py-4 rounded-full font-bold text-lg transition-all duration-300 flex items-center gap-3 mx-auto ${
               isRecording 
                 ? 'bg-rose-500 text-white shadow-[0_0_40px_-10px_rgba(244,63,94,0.5)]' 

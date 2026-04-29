@@ -6,7 +6,7 @@ import { useAgentStream } from '../../../hooks/useAgentStream';
 // Mock dependencies
 vi.mock('react-i18next', () => ({
   useTranslation: () => ({
-    t: (key: string, def: string) => def,
+    t: (_key: string, def: string) => def,
     i18n: { language: 'en' }
   })
 }));
@@ -15,7 +15,7 @@ vi.mock('../../../hooks/useAgentStream', () => ({
   useAgentStream: vi.fn(() => ({
     output: '',
     status: 'idle',
-    activeAgent: null,
+    activeAgent: '',
     submit: vi.fn(),
     reset: vi.fn()
   }))
@@ -32,7 +32,7 @@ describe('RumorGuard', () => {
     vi.mocked(useAgentStream).mockReturnValue({
       output: '',
       status: 'idle',
-      activeAgent: null,
+      activeAgent: '',
       submit: mockSubmit,
       reset: vi.fn()
     });
@@ -52,7 +52,7 @@ describe('RumorGuard', () => {
     vi.mocked(useAgentStream).mockReturnValue({
       output: '',
       status: 'idle',
-      activeAgent: null,
+      activeAgent: '',
       submit: mockSubmit,
       reset: vi.fn()
     });
@@ -70,7 +70,7 @@ describe('RumorGuard', () => {
     vi.mocked(useAgentStream).mockReturnValue({
       output: '',
       status: 'idle',
-      activeAgent: null,
+      activeAgent: '',
       submit: mockSubmit,
       reset: vi.fn()
     });
@@ -88,7 +88,7 @@ describe('RumorGuard', () => {
     vi.mocked(useAgentStream).mockReturnValue({
       output: '',
       status: 'idle',
-      activeAgent: null,
+      activeAgent: '',
       submit: mockSubmit,
       reset: vi.fn()
     });

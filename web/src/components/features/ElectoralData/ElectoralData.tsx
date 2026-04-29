@@ -300,7 +300,7 @@ export function ElectoralData({ gamification }: ElectoralDataProps) {
                     <Cell key={index} fill={entry.color} stroke="transparent" />
                   ))}
                 </Pie>
-                <Tooltip formatter={(v: number) => [`${v} seats`]} />
+                <Tooltip formatter={(value: any) => [`${value} seats`, 'Seats']} />
               </PieChart>
             </ResponsiveContainer>
           </div>
