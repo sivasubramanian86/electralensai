@@ -16,18 +16,22 @@ class CloudLoggingService:
     """Service for managing Google Cloud Logging integration."""
 
     def __init__(self) -> None:
-        """Initialize the cloud logging client."""
+        """Initialize the cloud logging configuration."""
         self.project_id = os.getenv("GOOGLE_CLOUD_PROJECT")
-        self.client = None
+        self._client = None
 
-        if self.project_id:
+    @property
+    def client(self):
+        """Lazy initializer for GCS Logging client."""
+        if not self._client and self.project_id:
             try:
-                self.client = cloud_logging.Client(project=self.project_id)
+                self._client = cloud_logging.Client(project=self.project_id)
                 # Connect the standard Python logging to GCP
-                self.client.setup_logging()
+                self._client.setup_logging()
                 logger.info("Google Cloud Logging successfully initialized for %s", self.project_id)
             except Exception as e:
                 logger.warning("Cloud Logging initialization failed (falling back to local): %s", e)
+        return self._client
 
     def log_agent_reasoning(self, agent_name: str, session_id: str, reasoning: str) -> None:
         """Log structured agent reasoning for audit trails.

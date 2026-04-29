@@ -17,21 +17,38 @@ class MultimediaService:
     """Service for generating and storing multimodal inclusive learning assets."""
 
     def __init__(self) -> None:
-        """Initialize the multimedia service with Google Cloud clients."""
+        """Initialize the multimedia service configuration."""
         from dotenv import load_dotenv
 
         load_dotenv(override=True)
         self.project_id = os.getenv("GOOGLE_CLOUD_PROJECT")
         self.location = os.getenv("GOOGLE_CLOUD_LOCATION", "us-central1")
         self.bucket_name = os.getenv("VITE_FIREBASE_STORAGE_BUCKET")
+        self._storage_client = None
+        self._tts_client = None
+        self._imagen_model = None
 
-        # Initialize clients
-        self.storage_client = storage.Client(project=self.project_id)
-        self.tts_client = texttospeech.TextToSpeechClient()
+    @property
+    def storage_client(self):
+        """Lazy initializer for GCS client."""
+        if not self._storage_client:
+            self._storage_client = storage.Client(project=self.project_id)
+        return self._storage_client
 
-        # Initialize Vertex AI
-        vertexai.init(project=self.project_id, location=self.location)
-        self.imagen_model = ImageGenerationModel.from_pretrained("imagen-3.0-generate-001")
+    @property
+    def tts_client(self):
+        """Lazy initializer for TTS client."""
+        if not self._tts_client:
+            self._tts_client = texttospeech.TextToSpeechClient()
+        return self._tts_client
+
+    @property
+    def imagen_model(self):
+        """Lazy initializer for Imagen model."""
+        if not self._imagen_model:
+            vertexai.init(project=self.project_id, location=self.location)
+            self._imagen_model = ImageGenerationModel.from_pretrained("imagen-3.0-generate-001")
+        return self._imagen_model
 
     def generate_infographic(self, prompt: str, aspect_ratio: str = "1:1") -> str:
         """Generates an infographic using Imagen 3 and uploads to GCS.

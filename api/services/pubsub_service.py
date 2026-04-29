@@ -18,18 +18,22 @@ class PubSubService:
     """Service for managing Google Cloud Pub/Sub interactions."""
 
     def __init__(self) -> None:
-        """Initialize the Pub/Sub publisher client."""
+        """Initialize the Pub/Sub configuration."""
         self.project_id = os.getenv("GOOGLE_CLOUD_PROJECT")
         self.topic_id = os.getenv("PUBSUB_TOPIC_ALERTS", "electralens-alerts")
-        self.publisher = None
+        self._publisher = None
 
-        if self.project_id:
+    @property
+    def publisher(self):
+        """Lazy initializer for Pub/Sub publisher client."""
+        if not self._publisher and self.project_id:
             try:
-                self.publisher = pubsub_v1.PublisherClient()
-                self.topic_path = self.publisher.topic_path(self.project_id, self.topic_id)
+                self._publisher = pubsub_v1.PublisherClient()
+                self.topic_path = self._publisher.topic_path(self.project_id, self.topic_id)
                 logger.info("Pub/Sub initialized for topic: %s", self.topic_path)
             except Exception as e:
                 logger.warning("Pub/Sub initialization failed: %s", e)
+        return self._publisher
 
     def publish_alert(self, alert_type: str, data: dict[str, Any]) -> None:
         """Publish a high-priority alert to the topic.

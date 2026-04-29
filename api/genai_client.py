@@ -30,7 +30,8 @@ try:
     if os.getenv("GEMINI_API_KEY"):
         client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
     else:
-        client = genai.Client(vertexai=True, project=PROJECT_ID, location=LOCATION)  # pragma: no cover
+        # pragma: no cover
+        client = genai.Client(vertexai=True, project=PROJECT_ID, location=LOCATION)
 except Exception:  # pragma: no cover
     # Fallback for CI/local testing where credentials might be missing
     client = None  # type: ignore
