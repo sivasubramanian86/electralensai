@@ -1,0 +1,90 @@
+name: Deploy to Google Cloud
+
+on:
+  push:
+    branches: [ main ]
+
+env:
+  PROJECT_ID: electralensai
+  REGION: us-central1
+  GAR_REPO: electralensai-repo
+  SERVICE_NAME: electralensai-backend
+
+jobs:
+  deploy-backend:
+    name: Build and Deploy Backend
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Google Auth
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
+
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v2
+
+      - name: Configure Docker
+        run: gcloud auth configure-docker ${{ env.REGION }}-docker.pkg.dev
+
+      - name: Build and Push Container
+        run: |
+          IMAGE_URL="${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.GAR_REPO }}/${{ env.SERVICE_NAME }}:${{ github.sha }}"
+          docker build -t $IMAGE_URL .
+          docker push $IMAGE_URL
+          echo "IMAGE_URL=$IMAGE_URL" >> $GITHUB_ENV
+
+      - name: Deploy to Cloud Run
+        uses: google-github-actions/deploy-cloudrun@v2
+        with:
+          service: ${{ env.SERVICE_NAME }}
+          image: ${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.GAR_REPO }}/${{ env.SERVICE_NAME }}:${{ github.sha }}
+          region: ${{ env.REGION }}
+          env_vars: |
+            GOOGLE_CLOUD_PROJECT=electralensai
+            GOOGLE_CLOUD_LOCATION=us-central1
+          secrets: |
+            GEMINI_API_KEY=GEMINI_API_KEY:latest
+          flags: --allow-unauthenticated --memory=2Gi --cpu=1
+
+  deploy-frontend:
+    name: Build and Deploy Frontend
+    needs: deploy-backend
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: web/package-lock.json
+
+      - name: Install Dependencies
+        run: cd web && npm ci
+
+      - name: Build Frontend
+        run: |
+          # Discover Backend URL
+          BACKEND_URL=$(gcloud run services describe ${{ env.SERVICE_NAME }} --platform managed --region ${{ env.REGION }} --format 'value(status.url)')
+          cd web
+          VITE_API_URL=$BACKEND_URL npm run build
+        env:
+          VITE_FIREBASE_API_KEY: ${{ secrets.VITE_FIREBASE_API_KEY }}
+          VITE_FIREBASE_AUTH_DOMAIN: "electralensai.firebaseapp.com"
+          VITE_FIREBASE_PROJECT_ID: "electralensai"
+          VITE_FIREBASE_STORAGE_BUCKET: "electralensai-media"
+          VITE_FIREBASE_MESSAGING_SENDER_ID: "301947480687"
+          VITE_FIREBASE_APP_ID: "1:301947480687:web:a61c86929976eda4367b9a"
+
+      - name: Deploy to Firebase Hosting
+        uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: ${{ secrets.GITHUB_TOKEN }}
+          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+          channelId: live
+          projectId: electralensai
