@@ -295,11 +295,12 @@ def test_health_check() -> None:
 
 
 # 11. Test Multimedia Service - generate_multimodal_package
-@patch("api.services.multimedia_service.client.models.generate_content")
-def test_multimedia_service_package_real(mock_gen_content) -> None:
+@patch("api.services.multimedia_service.client")
+def test_multimedia_service_package_real(mock_client) -> None:
+    """Verifies orchestration of multimodal package with mocked GenAI client."""
     from api.services.multimedia_service import multimedia_service
 
-    mock_gen_content.return_value.text = "Mock Script"
+    mock_client.models.generate_content.return_value.text = "Mock Script"
 
     # Mock dependencies to avoid real GCP calls
     with (
@@ -1011,7 +1012,7 @@ def test_multimedia_success_branch() -> None:
 
     with (
         patch("api.services.multimedia_service.client") as mock_genai,
-        patch("api.services.multimedia_service.os.remove") as mock_remove,
+        patch("os.remove") as mock_remove,
     ):
         multimedia_service.bucket_name = "test-bucket"
 

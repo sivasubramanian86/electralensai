@@ -21,7 +21,7 @@ with (
 class TestDlpService:
     """Test suite for the Data Loss Prevention (DLP) service."""
 
-    @patch("google.cloud.dlp_v2.DlpServiceClient")
+    @patch("api.services.dlp_service.dlp_v2.DlpServiceClient")
     def test_mask_text_success(self, mock_dlp_client_class) -> None:
         """Verifies that PII is correctly masked when the DLP API succeeds."""
         mock_client = mock_dlp_client_class.return_value
@@ -29,19 +29,20 @@ class TestDlpService:
         mock_response.item.value = "My name is [NAME]"
         mock_client.deidentify_content.return_value = mock_response
 
-        service = DLPService()
+        # Force init with project ID to trigger client creation
+        service = DLPService(project_id="test-p")
         result = service.mask_text("My name is John Doe")
 
         assert result == "My name is [NAME]"
         mock_client.deidentify_content.assert_called_once()
 
-    @patch("google.cloud.dlp_v2.DlpServiceClient")
+    @patch("api.services.dlp_service.dlp_v2.DlpServiceClient")
     def test_mask_text_failure(self, mock_dlp_client_class) -> None:
         """Verifies that a fallback message is returned when the DLP API fails."""
         mock_client = mock_dlp_client_class.return_value
         mock_client.deidentify_content.side_effect = Exception("DLP error")
 
-        service = DLPService()
+        service = DLPService(project_id="test-p")
         result = service.mask_text("My name is John Doe")
 
         # Should return redacted message on failure
@@ -113,7 +114,7 @@ class TestMultimediaService:
     def test_generate_multimodal_package(
         self, mock_genai_client, mock_imagen_class, mock_tts_client, mock_storage_client
     ) -> None:
-        """Verifies orchestration of a complete multimodal package (Image + Audio)."""
+        """Verifies orchestration of a complete multimodal package (Image + Audio).."""
         service = MultimediaService()
         service.generate_infographic = MagicMock(return_value="http://image-url")
         service.generate_audio_guide = MagicMock(return_value="http://audio-url")

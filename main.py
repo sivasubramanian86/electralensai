@@ -46,7 +46,7 @@ app = create_app()
 if __name__ == "__main__":
     uvicorn.run(
         "main:app",
-        host="0.0.0.0",  # noqa: S104
+        host="0.0.0.0",  # nosec B104
         port=8082,
         ws_ping_interval=60,
         ws_ping_timeout=60,

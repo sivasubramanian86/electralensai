@@ -10,7 +10,7 @@ payload = {
 
 print(f"Sending request to {url}...")
 try:
-    response = requests.post(url, json=payload, stream=True)
+    response = requests.post(url, json=payload, stream=True, timeout=10)
     print(f"Response Status: {response.status_code}")
     for line in response.iter_lines():
         if line:
