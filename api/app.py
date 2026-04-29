@@ -36,19 +36,21 @@ def create_app() -> FastAPI:
     Returns:
         A fully configured FastAPI instance ready for ASGI serving.
     """
-    # Initialize Vertex AI for production if no API Key is provided
+    # Initialize Vertex AI for production if requested or if no API Key is provided
+    use_vertex = os.getenv("GOOGLE_GENAI_USE_VERTEXAI") == "1" or os.getenv("GOOGLE_APPLICATION_CREDENTIALS")
     api_key = os.getenv("GEMINI_API_KEY")
-    if not api_key:
-        project_id = os.getenv("GOOGLE_CLOUD_PROJECT")
-        if project_id:
-            logger.info(f"Initializing Vertex AI for project: {project_id}")
-            vertexai.init(
-                project=project_id, location=os.getenv("GOOGLE_CLOUD_LOCATION", "us-central1")
-            )
-        else:
-            logger.warning("Neither GEMINI_API_KEY nor GOOGLE_CLOUD_PROJECT found. Auth may fail.")
+    project_id = os.getenv("GOOGLE_CLOUD_PROJECT")
+
+    if use_vertex and project_id:
+        logger.info(f"Initializing Vertex AI Mode (Enterprise Auth) for project: {project_id}")
+        vertexai.init(
+            project=project_id, location=os.getenv("GOOGLE_CLOUD_LOCATION", "us-central1")
+        )
+    elif api_key:
+        logger.info("Initializing Developer API Mode (AI Studio Auth)")
     else:
-        logger.info("GEMINI_API_KEY found. Operating in Developer API (AI Studio) mode.")
+        logger.warning("Neither GEMINI_API_KEY nor GOOGLE_CLOUD_PROJECT found. Auth may fail.")
+
 
     app = FastAPI(
         title="ElectraLensAI API",

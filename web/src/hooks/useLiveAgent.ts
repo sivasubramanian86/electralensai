@@ -1,4 +1,5 @@
 import { useState, useRef, useCallback, useEffect } from 'react';
+import { API_BASE } from '../constants';
 
 export interface LiveMessage {
   type: 'text' | 'transcript' | 'session_id' | 'error';
@@ -99,7 +100,9 @@ export function useLiveAgent() {
       setTranscript('Connecting to ElectraLens Live...');
 
       // 1. Initialize WebSocket
-      const wsUrl = `ws://${window.location.hostname}:8082/ws/session`;
+      const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+      const host = API_BASE.replace(/^https?:\/\//, '');
+      const wsUrl = `${protocol}//${host}/ws/session`;
       console.log('Attempting WebSocket connection to:', wsUrl);
       
       const socket = new WebSocket(wsUrl);

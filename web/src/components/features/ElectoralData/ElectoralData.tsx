@@ -108,7 +108,7 @@ export function ElectoralData({ gamification }: ElectoralDataProps) {
 
   useEffect(() => {
     gamification.unlockBadge('data_detective');
-    gamification.awardXP(10, 'Opened Electoral Data panel');
+    gamification.awardXP(10);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -300,6 +300,7 @@ export function ElectoralData({ gamification }: ElectoralDataProps) {
                     <Cell key={index} fill={entry.color} stroke="transparent" />
                   ))}
                 </Pie>
+                {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
                 <Tooltip formatter={(value: any) => [`${value} seats`, 'Seats']} />
               </PieChart>
             </ResponsiveContainer>

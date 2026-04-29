@@ -281,7 +281,7 @@ export function Dashboard({ gamification, onNavigate }: DashboardProps) {
               aria-pressed={selectedPersona === p.id}
               onClick={() => {
                 setSelectedPersona(p.id);
-                gamification.awardXP(5, `Selected persona: ${p.name}`);
+                gamification.awardXP(5);
                 // Navigate to suggested start chapter
                 const chapter = journeyChapters.find(c => c.id === p.suggestedStart);
                 if (chapter) onNavigate(chapter.tab);
@@ -422,7 +422,7 @@ export function Dashboard({ gamification, onNavigate }: DashboardProps) {
                 </button>
                 <button
                   onClick={() => {
-                    gamification.awardXP(quest.xp, quest.title);
+                    gamification.awardXP(quest.xp);
                     onNavigate(quest.tab);
                   }}
                   aria-label={`Explore ${quest.title}`}

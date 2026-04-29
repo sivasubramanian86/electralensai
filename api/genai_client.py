@@ -25,13 +25,19 @@ LOCATION = os.getenv("GOOGLE_CLOUD_LOCATION", "us-central1")
 # Export the retry policy for use in agent runners
 RETRY_POLICY = _RETRY_CONFIG
 
-# Initialize the global GenAI client for Google Cloud
+# Initialize the global GenAI client
 try:
-    if os.getenv("GEMINI_API_KEY"):
+    # Prioritize Vertex AI if requested or if application default credentials path is set
+    use_vertex = os.getenv("GOOGLE_GENAI_USE_VERTEXAI") == "1" or os.getenv("GOOGLE_APPLICATION_CREDENTIALS")
+    
+    if use_vertex:
+        client = genai.Client(vertexai=True, project=PROJECT_ID, location=LOCATION)
+    elif os.getenv("GEMINI_API_KEY"):
         client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
     else:
-        # pragma: no cover
+        # Fallback to Vertex AI as the absolute default for GCP environments
         client = genai.Client(vertexai=True, project=PROJECT_ID, location=LOCATION)
 except Exception:  # pragma: no cover
     # Fallback for CI/local testing where credentials might be missing
     client = None  # type: ignore
+

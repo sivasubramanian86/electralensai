@@ -237,7 +237,7 @@ export function KnowledgeHub({ gamification }: KnowledgeHubProps) {
     if (!readArticles.includes(article.id)) {
       const newRead = [...readArticles, article.id];
       setReadArticles(newRead);
-      gamification.awardXP(15, `Read ${article.article}`);
+      gamification.awardXP(15);
       if (newRead.length >= 5) {
         gamification.unlockBadge('constitution_explorer');
       }
@@ -482,7 +482,7 @@ export function KnowledgeHub({ gamification }: KnowledgeHubProps) {
 
               <button
                 onClick={() => {
-                  gamification.awardXP(path.xp, `Started path: ${path.title}`);
+                  gamification.awardXP(path.xp);
                   setActiveTab('constitution');
                 }}
                 className={`w-full py-2.5 rounded-xl bg-${path.color}-600/10 border border-${path.color}-500/20 text-${path.color}-400 text-sm font-bold hover:bg-${path.color}-600/20 transition-all flex items-center justify-center gap-2`}
