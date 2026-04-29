@@ -27,13 +27,19 @@ RETRY_POLICY = _RETRY_CONFIG
 
 # Initialize the global GenAI client
 try:
-    # Prioritize Vertex AI if requested or if application default credentials path is set
-    use_vertex = os.getenv("GOOGLE_GENAI_USE_VERTEXAI") == "1" or os.getenv("GOOGLE_APPLICATION_CREDENTIALS")
-    
+    # Prioritize Vertex AI if requested, if credentials are set, or as a fallback
+    api_key = os.getenv("GEMINI_API_KEY")
+    use_vertex = (
+        os.getenv("GOOGLE_GENAI_USE_VERTEXAI") == "1"
+        or os.getenv("GOOGLE_APPLICATION_CREDENTIALS")
+        or not api_key
+    )
+
     if use_vertex:
         client = genai.Client(vertexai=True, project=PROJECT_ID, location=LOCATION)
-    elif os.getenv("GEMINI_API_KEY"):
-        client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
+    elif api_key:
+        client = genai.Client(api_key=api_key)
+
     else:
         # Fallback to Vertex AI as the absolute default for GCP environments
         client = genai.Client(vertexai=True, project=PROJECT_ID, location=LOCATION)

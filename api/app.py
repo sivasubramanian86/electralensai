@@ -37,9 +37,14 @@ def create_app() -> FastAPI:
         A fully configured FastAPI instance ready for ASGI serving.
     """
     # Initialize Vertex AI for production if requested or if no API Key is provided
-    use_vertex = os.getenv("GOOGLE_GENAI_USE_VERTEXAI") == "1" or os.getenv("GOOGLE_APPLICATION_CREDENTIALS")
     api_key = os.getenv("GEMINI_API_KEY")
+    use_vertex = (
+        os.getenv("GOOGLE_GENAI_USE_VERTEXAI") == "1"
+        or os.getenv("GOOGLE_APPLICATION_CREDENTIALS")
+        or not api_key
+    )
     project_id = os.getenv("GOOGLE_CLOUD_PROJECT")
+
 
     if use_vertex and project_id:
         logger.info(f"Initializing Vertex AI Mode (Enterprise Auth) for project: {project_id}")
