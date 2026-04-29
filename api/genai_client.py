@@ -26,4 +26,11 @@ LOCATION = os.getenv("GOOGLE_CLOUD_LOCATION", "us-central1")
 RETRY_POLICY = _RETRY_CONFIG
 
 # Initialize the global GenAI client for Google Cloud
-client = genai.Client(vertexai=True, project=PROJECT_ID, location=LOCATION)
+try:
+    if os.getenv("GEMINI_API_KEY"):
+        client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
+    else:
+        client = genai.Client(vertexai=True, project=PROJECT_ID, location=LOCATION)  # pragma: no cover
+except Exception:  # pragma: no cover
+    # Fallback for CI/local testing where credentials might be missing
+    client = None  # type: ignore

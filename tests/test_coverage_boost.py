@@ -1,40 +1,50 @@
 """Tests for boosting backend coverage to 100%."""
 
-import pytest
-from unittest.mock import MagicMock, patch
-from fastapi.testclient import TestClient
-from api.app import create_app
-from api.services.multimedia_service import multimedia_service
-from api.services.translation_service import translation_service
-from api.services.dlp_service import dlp_service
+from unittest.mock import patch
 
-client = TestClient(create_app())
+import pytest
+from fastapi.testclient import TestClient
+
+from api.app import create_app
+from api.services.dlp_service import dlp_service
+from api.services.translation_service import translation_service
+
+
+@pytest.fixture
+def client():
+    """Test client fixture."""
+    return TestClient(create_app())
+
 
 class TestMultimedia:
     @patch("api.routers.multimedia_router.multimedia_service.generate_multimodal_package")
-    def test_generate_multimodal_content(self, mock_gen):
+    def test_generate_multimodal_content(self, mock_gen, client):
         mock_gen.return_value = {"infographic_url": "http://test.com/img.png"}
-        response = client.post("/v1/multimedia/generate", json={"topic": "Testing", "language": "en"})
+        payload = {"topic": "Testing", "language": "en"}
+        response = client.post("/v1/multimedia/generate", json=payload)
         assert response.status_code == 200
         data = response.json()
         assert "job_id" in data
-        
-    def test_get_job_status_404(self):
+
+    def test_get_job_status_404(self, client):
         response = client.get("/v1/multimedia/jobs/nonexistent")
         assert response.status_code == 404
 
-    def test_list_jobs(self):
+    def test_list_jobs(self, client):
         response = client.get("/v1/multimedia/jobs")
         assert response.status_code == 200
         assert isinstance(response.json(), list)
 
+
 class TestImagen:
     @patch("api.routers.imagen_router.multimedia_service.generate_infographic")
-    def test_generate_image_endpoint(self, mock_gen):
+    def test_generate_image_endpoint(self, mock_gen, client):
         mock_gen.return_value = "http://test.com/gen.png"
-        response = client.post("/v1/imagen/generate", json={"concept": "election-phases", "prompt": "A test prompt"})
+        payload = {"concept": "election-phases", "prompt": "A test prompt"}
+        response = client.post("/v1/imagen/generate", json=payload)
         assert response.status_code == 200
         assert response.json()["imageUrl"] == "http://test.com/gen.png"
+
 
 class TestServices:
     def test_translation_service_same_lang(self):
@@ -48,16 +58,17 @@ class TestServices:
         assert result == "Hola"
 
     def test_dlp_service_noop(self):
-        # The method is mask_text, not mask_pii
         with patch.object(dlp_service, 'client', None):
             result = dlp_service.mask_text("test@test.com")
             assert result == "test@test.com"
 
+
 class TestLiveWebSocket:
-    def test_websocket_lifecycle(self):
+    def test_websocket_lifecycle(self, client):
         with client.websocket_connect("/ws/session") as websocket:
             websocket.send_json({"type": "audio_start"})
             websocket.close()
+
 
 class TestBackgroundTasks:
     @patch("api.routers.multimedia_router.multimedia_service.generate_multimodal_package")
