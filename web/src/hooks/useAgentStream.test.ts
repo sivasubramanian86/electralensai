@@ -78,7 +78,7 @@ describe('useAgentStream Hook', () => {
     });
 
     expect(result.current.status).toBe('error');
-    expect(result.current.output).toContain('[Connection error');
+    expect(result.current.output).toContain('[Server error: The agent pipeline');
     consoleSpy.mockRestore();
   });
 
@@ -110,7 +110,7 @@ describe('useAgentStream Hook', () => {
       await result.current.submit('test', 'IN', 'rumor_guard');
     });
     expect(result.current.status).toBe('error');
-    expect(result.current.output).toContain('[Connection error. Please try again.]');
+    expect(result.current.output).toContain('[Connection error: Please check your internet');
     consoleSpy.mockRestore();
   });
 
