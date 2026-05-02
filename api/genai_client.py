@@ -27,12 +27,16 @@ RETRY_POLICY = _RETRY_CONFIG
 
 # Initialize the global GenAI client
 try:
-    # Prioritize Vertex AI if requested, if credentials are set, or as a fallback
+    # Use Vertex AI only when explicitly requested OR when the ADC credentials
+    # file physically exists (not just because the env var string is set).
+    # This prevents Cloud Run from entering Vertex mode when .env contains a
+    # local Windows ADC path that doesn't exist inside the container.
     api_key = os.getenv("GEMINI_API_KEY")
+    adc_path = os.getenv("GOOGLE_APPLICATION_CREDENTIALS", "")
+    adc_present = bool(adc_path) and os.path.isfile(adc_path)
     use_vertex = (
         os.getenv("GOOGLE_GENAI_USE_VERTEXAI") == "1"
-        or os.getenv("GOOGLE_APPLICATION_CREDENTIALS")
-        or not api_key
+        or adc_present
     )
 
     if use_vertex:
