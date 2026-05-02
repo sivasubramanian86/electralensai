@@ -12,7 +12,7 @@ afterEach(() => {
 // Global mocks
 vi.mock('react-i18next', () => ({
   useTranslation: () => ({
-    t: (k: string, optionsOrVal?: any) => {
+    t: (k: string, optionsOrVal?: Record<string, unknown> | string) => {
       if (optionsOrVal && typeof optionsOrVal === 'object' && optionsOrVal.returnObjects) {
         if (k.includes('options')) return ['Option 1', 'Option 2', 'Option 3', 'Option 4'];
         return {};
