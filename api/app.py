@@ -37,17 +37,21 @@ def create_app() -> FastAPI:
     Returns:
         A fully configured FastAPI instance ready for ASGI serving.
     """
-    # Initialize Vertex AI for production if requested or if no API Key is provided
+    # Initialize Vertex AI for production only when explicitly requested.
+    # Do NOT fall back to Vertex mode just because an API key is absent —
+    # that causes failures in Cloud Run where ADC paths are local-only.
+    import os as _os
     api_key = os.getenv("GEMINI_API_KEY")
+    adc_path = os.getenv("GOOGLE_APPLICATION_CREDENTIALS", "")
+    adc_present = bool(adc_path) and _os.path.isfile(adc_path)
     use_vertex = (
         os.getenv("GOOGLE_GENAI_USE_VERTEXAI") == "1"
-        or os.getenv("GOOGLE_APPLICATION_CREDENTIALS")
-        or not api_key
+        or adc_present
     )
     project_id = os.getenv("GOOGLE_CLOUD_PROJECT")
 
     if use_vertex and project_id:
-        logger.info(f"Initializing Vertex AI Mode (Enterprise Auth) for project: {project_id}")
+        logger.info("Initializing Vertex AI Mode (Enterprise Auth) for project: %s", project_id)
         vertexai.init(
             project=project_id, location=os.getenv("GOOGLE_CLOUD_LOCATION", "us-central1")
         )
@@ -63,6 +67,12 @@ def create_app() -> FastAPI:
         docs_url="/docs",
         redoc_url="/redoc",
     )
+
+    @app.get("/", include_in_schema=False)
+    async def root_redirect():
+        """Redirect root to API documentation."""
+        from fastapi.responses import RedirectResponse
+        return RedirectResponse(url="/docs")
 
     @app.exception_handler(Exception)
     async def global_exception_handler(request: Request, exc: Exception) -> JSONResponse:
@@ -81,12 +91,12 @@ def create_app() -> FastAPI:
         )
 
     # Security Hardening: Restrict CORS origins in production
-    # Default to localhost for development, allow override via environment variable
-    allowed_origins = os.getenv("ALLOWED_ORIGINS", "http://localhost:5173").split(",")
+    # Default to * for development/hackathon, allow override via environment variable
+    cors_origins = os.getenv("CORS_ORIGINS", "*").split(",")
 
     app.add_middleware(
         CORSMiddleware,
-        allow_origins=allowed_origins,
+        allow_origins=cors_origins,
         allow_credentials=True,
         allow_methods=["*"],
         allow_headers=["*"],

@@ -11,7 +11,7 @@ class Config:
 
     PROJECT_ID = os.getenv("GOOGLE_CLOUD_PROJECT")
     LOCATION = os.getenv("GOOGLE_CLOUD_LOCATION", "us-central1")
-    MODEL_NAME = os.getenv("GOOGLE_MODEL", "gemini-1.5-flash")
+    MODEL_NAME = os.getenv("GOOGLE_MODEL", "gemini-2.5-flash")
 
     # Firebase (Optional: backend might need some keys if using admin SDK)
     FIREBASE_PROJECT_ID = os.getenv("VITE_FIREBASE_PROJECT_ID")
