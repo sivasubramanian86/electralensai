@@ -40,10 +40,9 @@ def create_app() -> FastAPI:
     # Initialize Vertex AI for production only when explicitly requested.
     # Do NOT fall back to Vertex mode just because an API key is absent —
     # that causes failures in Cloud Run where ADC paths are local-only.
-    import os as _os
     api_key = os.getenv("GEMINI_API_KEY")
     adc_path = os.getenv("GOOGLE_APPLICATION_CREDENTIALS", "")
-    adc_present = bool(adc_path) and _os.path.isfile(adc_path)
+    adc_present = bool(adc_path) and os.path.isfile(adc_path)
     use_vertex = (
         os.getenv("GOOGLE_GENAI_USE_VERTEXAI") == "1"
         or adc_present
@@ -68,12 +67,6 @@ def create_app() -> FastAPI:
         redoc_url="/redoc",
     )
 
-    @app.get("/", include_in_schema=False)
-    async def root_redirect():
-        """Redirect root to API documentation."""
-        from fastapi.responses import RedirectResponse
-        return RedirectResponse(url="/docs")
-
     @app.exception_handler(Exception)
     async def global_exception_handler(request: Request, exc: Exception) -> JSONResponse:
         """Catch-all for any unhandled backend exceptions."""
@@ -90,9 +83,9 @@ def create_app() -> FastAPI:
             },
         )
 
-    # Security Hardening: Restrict CORS origins in production
-    # Default to * for development/hackathon, allow override via environment variable
-    cors_origins = os.getenv("CORS_ORIGINS", "*").split(",")
+    # Security Hardening: Restrict CORS origins in production.
+    # Read from ALLOWED_ORIGINS env var; defaults to wildcard for hackathon dev mode.
+    cors_origins = os.getenv("ALLOWED_ORIGINS", "*").split(",")
 
     app.add_middleware(
         CORSMiddleware,
