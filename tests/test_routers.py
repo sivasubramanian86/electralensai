@@ -14,7 +14,7 @@ def mock_vertex_init():
 
 @pytest.fixture
 def client():
-    return TestClient(create_app())
+    return TestClient(create_app(), raise_server_exceptions=False)
 
 
 class TestMultimediaRouter:
@@ -51,6 +51,9 @@ class TestImagenRouter:
             "/v1/imagen/generate", json={"prompt": "Voter ID", "concept": "Identification"}
         )
         assert response.status_code == 500
+        data = response.json()
+        assert data["error"] == "Internal Server Error"
+        assert "unexpected condition" in data["message"]
 
 
 class TestLiveTools:
@@ -138,3 +141,6 @@ class TestAgentRouterStreaming:
         mock_run_async.side_effect = Exception("Agent failed")
         response = client.post("/v1/query", json={"question": "Hello", "region": "US"})
         assert response.status_code == 500
+        data = response.json()
+        assert data["error"] == "Internal Server Error"
+        assert "unexpected condition" in data["message"]

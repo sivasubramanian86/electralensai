@@ -5,10 +5,10 @@ Validates that all four specialist agents are correctly instantiated.
 
 from __future__ import annotations
 
-from agents.ballot_scribe import create_ballot_scribe_agent
-from agents.rumor_guard import create_rumor_guard_agent
-from agents.simulation_engine import create_simulation_engine_agent
-from agents.timeline_architect import create_timeline_architect_agent
+from electra_agents.ballot_scribe import create_ballot_scribe_agent
+from electra_agents.rumor_guard import create_rumor_guard_agent
+from electra_agents.simulation_engine import create_simulation_engine_agent
+from electra_agents.timeline_architect import create_timeline_architect_agent
 
 
 class TestTimelineArchitectAgent:

@@ -9,7 +9,7 @@ import os
 from google.adk import Runner
 from google.adk.sessions.in_memory_session_service import InMemorySessionService
 
-from agents.root_agent import create_root_agent
+from electra_agents.root_agent import create_root_agent
 
 # 1. Standard Runner (for generateContent / SSE / static assets)
 # Uses GOOGLE_MODEL_FLASH (gemini-2.5-flash)

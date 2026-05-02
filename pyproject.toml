@@ -31,7 +31,7 @@ dependencies = [
 ]
 
 [tool.hatch.build.targets.wheel]
-packages = ["agents", "api"]
+packages = ["electra_agents", "api"]
 
 [project.optional-dependencies]
 dev = [
@@ -97,7 +97,7 @@ skips = []
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
 testpaths = ["tests"]
-addopts = "--cov=agents --cov=api --cov-report=term-missing --cov-fail-under=100"
+addopts = "--cov=electra_agents --cov=api --cov-report=term-missing --cov-fail-under=100"
 
 [tool.coverage.run]
 omit = ["tests/*", "scripts/*", "**/__pyrefly_virtual__/**"]

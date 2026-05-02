@@ -37,10 +37,10 @@ class CachingService:
             # This is a placeholder for the actual GenAI Caching API call
             # In production: cache = client.caches.create(...)
             logger.info("[Caching] Simulated cache creation for model: %s", model)
-            project = os.getenv('GOOGLE_CLOUD_PROJECT')
+            project = os.getenv("GOOGLE_CLOUD_PROJECT")
             cache_id = f"mock-cache-{uuid.uuid4()}"
             return f"projects/{project}/locations/us-central1/cachedContents/{cache_id}"
-        except Exception as e:
+        except Exception as e:  # pragma: no cover
             logger.error("[Caching] Failed to create context cache: %s", e)
             return None
 

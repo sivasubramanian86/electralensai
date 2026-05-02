@@ -69,6 +69,7 @@ describe('useAgentStream Hook', () => {
       ok: false,
       status: 500
     }));
+    const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
 
     const { result } = renderHook(() => useAgentStream());
 
@@ -78,6 +79,7 @@ describe('useAgentStream Hook', () => {
 
     expect(result.current.status).toBe('error');
     expect(result.current.output).toContain('[Connection error');
+    consoleSpy.mockRestore();
   });
 
   it('handles abort correctly', async () => {
@@ -102,12 +104,14 @@ describe('useAgentStream Hook', () => {
 
   it('handles empty response body', async () => {
     vi.stubGlobal('fetch', vi.fn().mockResolvedValue({ ok: true, body: null }));
+    const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
     const { result } = renderHook(() => useAgentStream());
     await act(async () => {
       await result.current.submit('test', 'IN', 'rumor_guard');
     });
     expect(result.current.status).toBe('error');
     expect(result.current.output).toContain('[Connection error. Please try again.]');
+    consoleSpy.mockRestore();
   });
 
   it('handles AbortError silently', async () => {

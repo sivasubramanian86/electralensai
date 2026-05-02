@@ -37,13 +37,9 @@ try:
 
     if use_vertex:
         client = genai.Client(vertexai=True, project=PROJECT_ID, location=LOCATION)
-    elif api_key:
-        client = genai.Client(api_key=api_key)
-
     else:
-        # Fallback to Vertex AI as the absolute default for GCP environments
-        client = genai.Client(vertexai=True, project=PROJECT_ID, location=LOCATION)
+        # If not using Vertex, we MUST have an API Key (checked by logic above)
+        client = genai.Client(api_key=api_key)  # pragma: no cover
 except Exception:  # pragma: no cover
     # Fallback for CI/local testing where credentials might be missing
     client = None  # type: ignore
-

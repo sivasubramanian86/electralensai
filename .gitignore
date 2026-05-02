@@ -45,6 +45,11 @@ public/storage/
 # Project specific
 .pytest_cache/
 .coverage
+.coverage.*
+coverage/
+coverage_*/
+coverage.json
+coverage_full_report.txt
 htmlcov/
 *.log
 

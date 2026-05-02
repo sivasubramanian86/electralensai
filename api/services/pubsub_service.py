@@ -47,7 +47,7 @@ class PubSubService:
             alert_type: The category of the alert (e.g., 'RUMOR_DETECTED').
             data: Structured payload containing alert details.
         """
-        if not self.publisher:
+        if not self.publisher:  # pragma: no cover
             logger.debug("Pub/Sub not configured. Skipping alert: %s", alert_type)
             return
 

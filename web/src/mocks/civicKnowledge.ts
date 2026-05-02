@@ -58,6 +58,24 @@ export const CIVIC_MOCKS = {
       question: "What is an 'Absentee Ballot'?",
       answer: "A ballot completed and typically mailed in advance of an election by a voter who is unable to be present at the polls.",
       category: "Basics"
+    },
+    {
+      id: 4,
+      question: "What is the 'EPIC' card in India?",
+      answer: "Elector's Photo Identity Card, issued by the Election Commission of India (ECI).",
+      category: "India Specific"
+    },
+    {
+      id: 5,
+      question: "What does 'EVM' stand for?",
+      answer: "Electronic Voting Machine, used for casting and counting votes.",
+      category: "Technology"
+    },
+    {
+      id: 6,
+      question: "What is 'VVPAT'?",
+      answer: "Voter Verifiable Paper Audit Trail, which allows voters to verify that their vote was cast as intended.",
+      category: "India Specific"
     }
   ],
   quiz: [
@@ -74,6 +92,27 @@ export const CIVIC_MOCKS = {
       options: ["16", "18", "21", "25"],
       correct: 1,
       explanation: "The standard voting age is 18 in the vast majority of modern democracies."
+    },
+    {
+      id: 3,
+      question: "Which body conducts elections in India?",
+      options: ["Supreme Court", "Parliament", "Election Commission of India", "Ministry of Home Affairs"],
+      correct: 2,
+      explanation: "The Election Commission of India (ECI) is an autonomous constitutional authority responsible for administering election processes in India."
+    },
+    {
+      id: 4,
+      question: "What is a 'Model Code of Conduct' (MCC)?",
+      options: ["A list of candidates", "Guidelines for political parties and candidates", "A voting software", "The constitution itself"],
+      correct: 1,
+      explanation: "MCC is a set of guidelines issued by the ECI for the conduct of political parties and candidates during elections."
+    },
+    {
+      id: 5,
+      question: "How often are US Presidential elections held?",
+      options: ["Every 2 years", "Every 4 years", "Every 5 years", "Every 6 years"],
+      correct: 1,
+      explanation: "US Presidential elections occur every four years on the first Tuesday after the first Monday in November."
     }
   ]
 };

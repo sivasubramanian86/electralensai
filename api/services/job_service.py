@@ -31,7 +31,11 @@ class JobService:
         return job_id
 
     def update_job(
-        self, job_id: str, status: str, result: Any = None, error: str = None  # noqa: ANN401
+        self,
+        job_id: str,
+        status: str,
+        result: Any = None,  # noqa: ANN401
+        error: str | None = None,
     ) -> None:
         """Update the status and result of a job."""
         if job_id in self.jobs:

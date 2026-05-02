@@ -21,7 +21,16 @@
 ## Overview
 
 ElectraLensAI is a civic education platform that helps voters understand complex election
-processes through an AI-powered multi-agent assistant. It provides:
+processes through an AI-powered multi-agent assistant.
+
+### 🚩 Problem Statement
+Voters often face significant barriers in the democratic process:
+1. **Information Overload**: Election rules and deadlines are often buried in dense legal text.
+2. **Misinformation**: Viral rumors and deepfakes create confusion about when and how to vote.
+3. **Complexity**: Navigating registration, ID requirements, and ballot measures can be daunting.
+4. **Inaccessibility**: Information is rarely optimized for voice-first or visual-first learners.
+
+ElectraLensAI bridges this gap by providing a **centralized, multimodal, and agentic** interface for non-partisan civic engagement.
 
 - **Interactive Election Timelines** — Region-specific roadmaps with deadlines.
 - **Ballot & Registration Guidance** — Plain-language voter eligibility answers.

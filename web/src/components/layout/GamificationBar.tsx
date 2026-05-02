@@ -4,6 +4,7 @@
  */
 
 import { Flame, Star, Trophy, Zap } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import type { UseGamificationResult } from '../../hooks/useGamification';
 
 interface GamificationBarProps {
@@ -11,6 +12,7 @@ interface GamificationBarProps {
 }
 
 export function GamificationBar({ gamification }: GamificationBarProps) {
+  const { t } = useTranslation();
   const { xp, level, xpPercent, xpToNextLevel, streak, levelTitle, badges } = gamification;
   const unlockedBadges = badges.filter((b) => b.unlocked);
 
@@ -26,7 +28,7 @@ export function GamificationBar({ gamification }: GamificationBarProps) {
             </span>
           </div>
           <span className="text-[10px] font-mono text-blue-400">
-            Lv.{level}
+            {t('gamification.level_prefix', 'Lv.')}{level}
           </span>
         </div>
 
@@ -48,7 +50,7 @@ export function GamificationBar({ gamification }: GamificationBarProps) {
         <div className="flex items-center justify-between">
           <span className="text-[9px] font-mono text-slate-500">{xp} XP</span>
           <span className="text-[9px] font-mono text-slate-600">
-            {xpToNextLevel} XP next
+            {xpToNextLevel} {t('gamification.xp_next', 'XP next')}
           </span>
         </div>
       </div>
@@ -62,7 +64,7 @@ export function GamificationBar({ gamification }: GamificationBarProps) {
         <div className="flex items-center gap-1 px-2 py-1 rounded-lg bg-amber-500/10 border border-amber-500/20">
           <Star className="w-3 h-3 text-amber-400" />
           <span className="text-[10px] font-bold text-amber-400">
-            {unlockedBadges.length} Badges
+            {unlockedBadges.length} {t('gamification.badges_label', 'Badges')}
           </span>
         </div>
         {unlockedBadges.length > 0 && (
@@ -89,7 +91,7 @@ export function GamificationBar({ gamification }: GamificationBarProps) {
           ))}
           {unlockedBadges.length > 4 && (
             <span className="text-[9px] text-slate-500 self-center">
-              +{unlockedBadges.length - 4} more
+              +{unlockedBadges.length - 4} {t('gamification.more_label', 'more')}
             </span>
           )}
         </div>

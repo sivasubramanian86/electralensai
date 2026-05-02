@@ -188,8 +188,14 @@ const personas = [
 
 // ─── Component ────────────────────────────────────────────────────────────────
 
+/**
+ * Dashboard — The main cinematic journey hub.
+ * 
+ * Orchestrates persona selection, chapter progress tracking, and 
+ * gamified quests to guide users through the electoral storyline.
+ */
 export function Dashboard({ gamification, onNavigate }: DashboardProps) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [selectedPersona, setSelectedPersona] = useState<string | null>(null);
   const [expandedQuest, setExpandedQuest] = useState<string | null>(null);
   const [shownHint, setShownHint] = useState<string | null>(null);
@@ -214,8 +220,8 @@ export function Dashboard({ gamification, onNavigate }: DashboardProps) {
       {/* Welcome Header + Gamification Summary */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
-          <h2 className="text-3xl font-bold text-white tracking-tight">{t('dashboard.title', 'Voter Awareness Hub')}</h2>
-          <p className="text-slate-400 mt-1">{t('dashboard.subtitle', 'Your cinematic guide to understanding and participating in democracy.')}</p>
+          <h2 className="text-3xl font-bold text-white tracking-tight">{t('dashboard.welcome', 'Voter Awareness Hub')}</h2>
+          <p className="text-slate-400 mt-1">{t('dashboard.welcome_sub', 'Your cinematic guide to understanding and participating in democracy.')}</p>
         </div>
         <div className="flex items-center gap-3">
           {/* XP Badge */}
@@ -226,13 +232,13 @@ export function Dashboard({ gamification, onNavigate }: DashboardProps) {
           {/* Streak */}
           <div className="flex items-center gap-2 px-4 py-2 rounded-xl bg-orange-500/10 border border-orange-500/20">
             <Flame className="w-4 h-4 text-orange-400" />
-            <span className="text-sm font-bold text-orange-300">{gamification.streak} day streak</span>
+            <span className="text-sm font-bold text-orange-300">{gamification.streak} {t('dashboard.streak', 'day streak')}</span>
           </div>
           {/* Date */}
           <div className="flex items-center gap-2 bg-navy-900 border border-white/10 px-4 py-2 rounded-xl">
             <Calendar className="w-4 h-4 text-blue-400" />
             <span className="text-sm font-medium text-slate-300">
-              {new Date().toLocaleDateString('en-IN', { month: 'short', day: 'numeric', year: 'numeric' })}
+              {new Date().toLocaleDateString(i18n.language === 'en' ? 'en-IN' : i18n.language, { month: 'short', day: 'numeric', year: 'numeric' })}
             </span>
           </div>
         </div>
@@ -243,11 +249,15 @@ export function Dashboard({ gamification, onNavigate }: DashboardProps) {
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <Trophy className="w-5 h-5 text-amber-400" />
-            <span className="text-sm font-bold text-white">Civic Journey Progress</span>
+            <span className="text-sm font-bold text-white">{t('dashboard.progress_title', 'Civic Journey Progress')}</span>
           </div>
           <div className="flex items-center gap-3">
-            <span className="text-sm font-bold text-amber-400">{completedCount}/{totalChapters} Chapters</span>
-            <span className="text-[10px] font-mono text-slate-500">{progressPercent}% complete</span>
+            <span className="text-sm font-bold text-amber-400">
+              {t('dashboard.progress_count', { completed: completedCount, total: totalChapters })}
+            </span>
+            <span className="text-[10px] font-mono text-slate-500">
+              {t('dashboard.progress_complete', { percent: progressPercent })}
+            </span>
           </div>
         </div>
         <div className="relative h-2 w-full bg-white/5 rounded-full overflow-hidden">
@@ -261,7 +271,7 @@ export function Dashboard({ gamification, onNavigate }: DashboardProps) {
             <span key={b.id} title={b.label} className="text-base cursor-help">{b.icon}</span>
           ))}
           {gamification.badges.filter((b) => b.unlocked).length === 0 && (
-            <span className="text-[10px] text-slate-600">Complete chapters to unlock badges</span>
+            <span className="text-[10px] text-slate-600">{t('dashboard.badge_prompt', 'Complete chapters to unlock badges')}</span>
           )}
         </div>
       </div>
@@ -269,15 +279,15 @@ export function Dashboard({ gamification, onNavigate }: DashboardProps) {
       {/* Persona Selection */}
       <section className="space-y-5">
         <div className="flex items-center justify-between">
-          <h3 className="text-xl font-bold text-white">Choose Your Journey</h3>
-          <span className="text-xs font-mono text-blue-400 uppercase tracking-widest">Select a Persona</span>
+          <h3 className="text-xl font-bold text-white">{t('dashboard.persona_title', 'Choose Your Journey')}</h3>
+          <span className="text-xs font-mono text-blue-400 uppercase tracking-widest">{t('dashboard.persona_subtitle', 'Select a Persona')}</span>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5" role="list" aria-label="Persona selection">
           {personas.map((p) => (
             <button
               key={p.id}
               role="listitem"
-              aria-label={`Select ${p.name} journey: ${p.desc}`}
+              aria-label={t(`dashboard.personas.${p.id}.name`) + ": " + t(`dashboard.personas.${p.id}.desc`)}
               aria-pressed={selectedPersona === p.id}
               onClick={() => {
                 setSelectedPersona(p.id);
@@ -295,8 +305,12 @@ export function Dashboard({ gamification, onNavigate }: DashboardProps) {
               <div className={`p-3 rounded-2xl inline-block mb-4 transition-colors ${selectedPersona === p.id ? 'bg-white/20' : 'bg-blue-500/10'}`}>
                 <p.icon className={`w-6 h-6 ${selectedPersona === p.id ? 'text-white' : 'text-blue-400'}`} />
               </div>
-              <h4 className={`text-lg font-bold mb-2 transition-colors ${selectedPersona === p.id ? 'text-white' : 'text-slate-100'}`}>{p.name}</h4>
-              <p className={`text-sm leading-relaxed transition-colors ${selectedPersona === p.id ? 'text-blue-50/80' : 'text-slate-400'}`}>{p.desc}</p>
+              <h4 className={`text-lg font-bold mb-2 transition-colors ${selectedPersona === p.id ? 'text-white' : 'text-slate-100'}`}>
+                {t(`dashboard.personas.${p.id}.name`, p.name)}
+              </h4>
+              <p className={`text-sm leading-relaxed transition-colors ${selectedPersona === p.id ? 'text-blue-50/80' : 'text-slate-400'}`}>
+                {t(`dashboard.personas.${p.id}.desc`, p.desc)}
+              </p>
               <div className={`absolute bottom-6 right-6 transition-all duration-500 ${selectedPersona === p.id ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-4'}`}>
                 <ChevronRight className="w-5 h-5 text-white" />
               </div>
@@ -309,7 +323,7 @@ export function Dashboard({ gamification, onNavigate }: DashboardProps) {
       <section className="space-y-5">
         <div className="flex items-center gap-4">
           <div className="h-px flex-1 bg-gradient-to-r from-transparent via-white/10 to-transparent" />
-          <h3 className="text-sm font-bold text-slate-500 uppercase tracking-[0.2em]">The Election Storyline</h3>
+          <h3 className="text-sm font-bold text-slate-500 uppercase tracking-[0.2em]">{t('dashboard.storyline_title', 'The Election Storyline')}</h3>
           <div className="h-px flex-1 bg-gradient-to-r from-transparent via-white/10 to-transparent" />
         </div>
 
@@ -323,7 +337,7 @@ export function Dashboard({ gamification, onNavigate }: DashboardProps) {
               <button
                 key={chapter.id}
                 role="listitem"
-                aria-label={`Chapter ${chapter.chapterNum}: ${chapter.title}. ${chapter.desc}. ${isCompleted ? 'Completed' : isLocked ? 'Locked' : 'Available'}`}
+                aria-label={`${t('dashboard.chapter_prefix', 'Chapter')} ${chapter.chapterNum}: ${t(`dashboard.chapters.${chapter.id}.title`)}. ${t(`dashboard.chapters.${chapter.id}.desc`)}. ${isCompleted ? t('dashboard.actions.completed') : isLocked ? t('dashboard.status.locked', 'Locked') : t('dashboard.status.available', 'Available')}`}
                 onClick={() => {
                   if (!isLocked) {
                     gamification.completeChapter(chapter.id);
@@ -355,25 +369,29 @@ export function Dashboard({ gamification, onNavigate }: DashboardProps) {
                 <div className="space-y-1.5">
                   <div className="flex items-center justify-between">
                     <span className="text-[9px] font-bold text-slate-600 uppercase tracking-widest">
-                      Chapter {chapter.chapterNum}
+                      {t('dashboard.chapter_prefix', 'Chapter')} {chapter.chapterNum}
                     </span>
                     <span className={`text-[9px] font-bold text-${chapter.color}-400`}>+{chapter.xp} XP</span>
                   </div>
-                  <h4 className="text-sm font-bold text-white leading-tight">{chapter.title}</h4>
-                  <p className="text-[11px] text-slate-500 leading-relaxed">{chapter.desc}</p>
+                  <h4 className="text-sm font-bold text-white leading-tight">
+                    {t(`dashboard.chapters.${chapter.id}.title`, chapter.title)}
+                  </h4>
+                  <p className="text-[11px] text-slate-500 leading-relaxed">
+                    {t(`dashboard.chapters.${chapter.id}.desc`, chapter.desc)}
+                  </p>
                 </div>
 
                 {/* CTA */}
                 {!isLocked && !isCompleted && (
                   <div className="mt-3 flex items-center gap-1 text-[10px] font-bold text-blue-400 group-hover:text-blue-300 transition-colors">
                     <Play className="w-2.5 h-2.5 fill-current" />
-                    Start Chapter
+                    {t('dashboard.actions.start', 'Start Chapter')}
                   </div>
                 )}
                 {isCompleted && (
                   <div className="mt-3 flex items-center gap-1 text-[10px] font-bold text-emerald-400">
                     <CheckCircle2 className="w-2.5 h-2.5" />
-                    Completed
+                    {t('dashboard.actions.completed', 'Completed')}
                   </div>
                 )}
               </button>

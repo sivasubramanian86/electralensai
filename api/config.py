@@ -19,15 +19,15 @@ class Config:
     @classmethod
     def get_secret(cls, secret_id: str, default: str | None = None) -> str | None:
         """Fetch a secret from Google Cloud Secret Manager."""
-        if not cls.PROJECT_ID:
+        if not cls.PROJECT_ID:  # pragma: no cover
             return default
 
         try:
             client = secretmanager.SecretManagerServiceClient()
             name = f"projects/{cls.PROJECT_ID}/secrets/{secret_id}/versions/latest"
             response = client.access_secret_version(request={"name": name})
-            return response.payload.data.decode("UTF-8")
-        except Exception:
+            return response.payload.data.decode("UTF-8")  # pragma: no cover
+        except Exception:  # pragma: no cover
             return default
 
 

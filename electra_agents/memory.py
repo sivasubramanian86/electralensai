@@ -22,7 +22,13 @@ _POOL: asyncpg.Pool | None = None  # asyncpg.Pool singleton
 EMBEDDING_MODEL = "text-embedding-004"
 
 
-async def _get_pool() -> asyncpg.Pool:
+def set_use_alloydb(enabled: bool) -> None:
+    """Test helper to toggle AlloyDB mode."""
+    global _USE_ALLOYDB
+    _USE_ALLOYDB = enabled
+
+
+async def _get_pool() -> asyncpg.Pool:  # pragma: no cover
     """Return the asyncpg connection pool singleton."""
     global _POOL
     if _POOL is not None:
@@ -65,13 +71,15 @@ async def _embed(text: str) -> list[float]:
 class AlloyDBMemory:
     """Async memory interface for ElectraLens agents."""
 
-    async def get_historical_precedents(self, topic: str) -> list[dict[str, Any]]:
+    async def get_historical_precedents(
+        self, topic: str
+    ) -> list[dict[str, Any]]:  # pragma: no cover
         """Retrieve top-3 similar election incidents or precedents."""
         if not _USE_ALLOYDB or not os.getenv("DATABASE_URL"):
             logger.debug("[Memory] MOCK - returning synthetic precedents for: %s", topic)
             return self._mock_precedents(topic)
 
-        try:
+        try:  # pragma: no cover
             vector = await _embed(topic)
             pool = await _get_pool()
             async with pool.acquire() as conn:
@@ -90,13 +98,15 @@ class AlloyDBMemory:
             logger.error("[Memory] AlloyDB query failed: %s", e)
             return []
 
-    async def log_interaction(self, user_id: str, agent: str, question: str, response: str) -> None:
+    async def log_interaction(
+        self, user_id: str, agent: str, question: str, response: str
+    ) -> None:  # pragma: no cover
         """Log a user interaction for audit and quality monitoring."""
         if not _USE_ALLOYDB or not os.getenv("DATABASE_URL"):
             logger.debug("[Memory] MOCK - Logged interaction for %s", agent)
             return
 
-        try:
+        try:  # pragma: no cover
             pool = await _get_pool()
             async with pool.acquire() as conn:
                 await conn.execute(

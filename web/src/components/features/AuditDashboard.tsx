@@ -59,7 +59,7 @@ export function AuditDashboard() {
       {/* Metrics Overview */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
         {[
-          { label: 'Avg Latency', value: metrics?.avg_latency_ms + 'ms' || '1.2s', icon: Clock, color: 'text-blue-400' },
+          { label: 'Avg Latency', value: metrics ? `${metrics.avg_latency_ms}ms` : '1.2s', icon: Clock, color: 'text-blue-400' },
           { label: 'Total Tokens', value: metrics?.total_tokens_consumed || '45k', icon: BarChart3, color: 'text-indigo-400' },
           { label: 'Security Score', value: '100%', icon: Shield, color: 'text-green-400' },
           { label: 'Cache Hits', value: metrics?.cache_hit_rate || '12%', icon: CheckCircle2, color: 'text-amber-400' },

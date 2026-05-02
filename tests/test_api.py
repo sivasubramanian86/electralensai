@@ -18,7 +18,7 @@ from api.app import create_app
 @pytest.fixture
 def client():
     """Test client fixture."""
-    return TestClient(create_app())
+    return TestClient(create_app(), raise_server_exceptions=False)
 
 
 class TestHealthEndpoint:
@@ -117,13 +117,27 @@ class TestQueryEndpoint:
         )
         assert response.status_code == 422
 
+    @patch("api.routers.agent_router.runner.run_async")
+    def test_global_exception_handler_trigger(self, mock_run_async: MagicMock, client) -> None:
+        """Verify that unhandled exceptions are caught by the global handler."""
+        mock_run_async.side_effect = Exception("Sudden system failure")
+
+        response = client.post(
+            "/v1/query",
+            json={"question": "Trigger a crash?", "region": "US"},
+        )
+        assert response.status_code == 500
+        data = response.json()
+        assert data["error"] == "Internal Server Error"
+        assert "unexpected condition" in data["message"]
+
 
 @patch("os.getenv")
 def test_root_agent_live_audio_modality(mock_getenv: MagicMock) -> None:
     """Test that the root agent uses AUDIO modality when the live model is detected."""
     from google.genai import types
 
-    from agents.root_agent import create_root_agent
+    from electra_agents.root_agent import create_root_agent
 
     def side_effect(k: str, d: str | None = None) -> str | None:
         if k == "GOOGLE_MODEL_LIVE":

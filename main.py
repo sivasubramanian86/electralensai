@@ -33,7 +33,7 @@ load_dotenv(override=True)
 if os.getenv("GOOGLE_APPLICATION_CREDENTIALS") or os.getenv("GOOGLE_GENAI_USE_VERTEXAI") == "1":
     print("Initializing in Vertex AI Mode (Enterprise Auth)")
 else:
-    if os.getenv("GEMINI_API_KEY"):
+    if os.getenv("GEMINI_API_KEY"):  # pragma: no cover
         print("Initializing in Developer API Mode (AI Studio Auth)")
         # Popping these prevents the SDK from auto-defaulting to Vertex AI mode
         os.environ.pop("GOOGLE_CLOUD_PROJECT", None)

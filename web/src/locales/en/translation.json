@@ -2,19 +2,315 @@
   "app": {
     "title": "ElectraLensAI",
     "subtitle": "Your Civic AI Guide",
-    "description": "Understand elections, verify claims, simulate voting — powered by a multi-agent AI system."
+    "description": "Understand elections, verify claims, simulate voting — powered by a multi-agent AI system.",
+    "search_placeholder": "Search regulations, polling booths, or claims...",
+    "search_aria": "Search civic information",
+    "notifications": "Notifications",
+    "notifications_aria": "View notifications"
   },
   "nav": {
-    "timeline": "Election Timeline",
-    "ballot": "Registration & Ballot",
-    "rumor": "Rumor Guard",
-    "simulation": "Voter Simulation",
-    "voice": "CivicVoice Live"
+    "dashboard": "Awareness Hub",
+    "timeline": "Election Journey",
+    "ballot": "Voter Guide",
+    "simulation": "Play Democracy",
+    "rumor": "Myth-Buster",
+    "data": "Data Explorer",
+    "knowledge": "Knowledge Hub",
+    "learning_lab": "Learning Lab",
+    "inclusive": "Inclusive Learning",
+    "audit": "Audit & Transparency",
+    "settings": "Settings"
+  },
+  "dashboard": {
+    "welcome": "Voter Awareness Hub",
+    "welcome_sub": "Your cinematic guide to understanding and participating in democracy.",
+    "streak": "day streak",
+    "progress_title": "Civic Journey Progress",
+    "progress_count": "{{completed}}/{{total}} Chapters",
+    "progress_complete": "{{percent}}% complete",
+    "badge_prompt": "Complete chapters to unlock badges",
+    "persona_title": "Choose Your Journey",
+    "persona_subtitle": "Select a Persona",
+    "storyline_title": "The Election Storyline",
+    "chapter_prefix": "Chapter",
+    "status": {
+      "locked": "Locked",
+      "available": "Available"
+    },
+    "chapters": {
+      "ch1": { "title": "Get on the Voter List", "desc": "Understand registration, voter ID documents, and how to check your name on rolls." },
+      "ch2": { "title": "The Election Countdown", "desc": "Follow the 5 phases — Announcement → Nomination → Campaign → Polling → Results." },
+      "ch3": { "title": "Play Democracy", "desc": "Step into a polling booth simulation. Handle real scenarios as a Booth Officer." },
+      "ch4": { "title": "Myth-Buster Mission", "desc": "Fact-check 3 viral election claims and learn to verify them yourself." },
+      "ch5": { "title": "Constitution Explorer", "desc": "Read 5 constitutional articles and understand your rights and duties." },
+      "ch6": { "title": "Data Detective", "desc": "Explore electoral statistics: turnout trends, seat distribution, and demographics." },
+      "ch7": { "title": "Learning Lab", "desc": "Test your knowledge with interactive quizzes and civic flashcards." },
+      "ch8": { "title": "Inclusive Learning Hub", "desc": "Explore audio stories, visual mind maps, and accessibility-first civic content." }
+    },
+    "personas": {
+      "voter": { "name": "First-Time Voter", "desc": "Walk through your journey from registration to results." },
+      "student": { "name": "Student / Educator", "desc": "Explore deep civics, role-plays, and simulations." },
+      "official": { "name": "Civic Leader", "desc": "Run mock elections and test your decision-making skills." }
+    },
+    "actions": {
+      "start": "Start Chapter",
+      "completed": "Completed",
+      "reveal_hint": "Reveal Hint",
+      "go_explore": "Go Explore",
+      "hover_hint": "👆 Hover to reveal answer..."
+    }
+  },
+  "timeline": {
+    "title": "Election Journey Storyboard",
+    "subtitle": "Scrub through the 5 chapters of an election to understand the mechanics of democracy.",
+    "sync_calendar": "Sync to My Calendar",
+    "chapter_prefix": "Chapter",
+    "phase_heading": "What happens during",
+    "deep_dive": "Deep Dive with AI Guide",
+    "next_chapter": "Next Chapter",
+    "close_insights": "Close AI Insights",
+    "synthesizing": "Synthesizing granular chapter insights...",
+    "key_actors": "Key Actors",
+    "your_mission": "Your Mission",
+    "did_you_know": "Did You Know?",
+    "phases": {
+      "1": {
+        "title": "Announcement",
+        "desc": "The official dates are declared. The Model Code of Conduct (MCC) kicks in the moment the announcement is made. No new government schemes can be announced after this.",
+        "key_actors": "Election Commission of India, President/Governor",
+        "mission": "Watch for the official announcement and mark the Silence Period (48h before polling) on your calendar.",
+        "trivia": "The MCC has no statutory backing — it relies entirely on moral authority and voluntary compliance by political parties."
+      },
+      "2": {
+        "title": "Registration",
+        "desc": "This is your last window to get your name on the Electoral Roll. No name, no vote. Check the NVSP portal or visit your local ERO (Electoral Registration Officer).",
+        "key_actors": "Electoral Registration Officers, Local Governments, NVSP Portal",
+        "mission": "Search your name on voters.eci.gov.in. If missing, file Form 6 immediately.",
+        "trivia": "India has ~970 million registered voters — the largest democratic electorate on Earth."
+      },
+      "3": {
+        "title": "Campaigning",
+        "desc": "Candidates file nomination papers. After scrutiny and withdrawal windows, the final candidate list is published. Campaigns run until the Silence Period 48 hours before polls open.",
+        "key_actors": "Candidates, Political Parties, Returning Officers",
+        "mission": "Review candidate affidavits (assets, criminal cases) — they are public documents published by the ECI.",
+        "trivia": "The Silence Period was introduced to prevent last-minute voter influence and allow voters to decide independently."
+      },
+      "4": {
+        "title": "Polling Day",
+        "desc": "The moment of choice. Typically 7 AM to 6 PM. Bring your Voter ID or any of the 12 approved alternate IDs. Your vote is secret — no one can compel you to reveal your choice.",
+        "key_actors": "Presiding Officers, Polling Agents, EVM Technicians, CAPF Personnel",
+        "mission": "Locate your booth (via the Voter Helpline App), carry approved ID, and cast your VVPAT-backed vote.",
+        "trivia": "EVMs are not connected to any network. They are standalone devices — internet-based tampering is technically impossible."
+      },
+      "5": {
+        "title": "Counting & Results",
+        "desc": "Votes are counted in Counting Centres by Counting Supervisors and Assistants under strict ECI oversight. Results are declared Constituency by Constituency.",
+        "key_actors": "Returning Officers, Counting Agents, Election Observers",
+        "mission": "Watch the live results on the ECI's official results portal — not just media channels that may call premature trends.",
+        "trivia": "VVPAT slips from 5 randomly selected EVMs per constituency are now mandatorily cross-verified against the EVM count."
+      }
+    },
+    "milestones": {
+      "title": "Critical Milestones",
+      "m1": "Voter Roll Draft",
+      "m2": "Final List Public",
+      "m3": "Registration Ends",
+      "m4": "Nomination Deadline",
+      "m5": "Polling Day",
+      "m6": "Results Day"
+    }
+  },
+  "ballot": {
+    "title": "Voter Readiness Guide",
+    "subtitle": "Ensure you have everything ready before you head to the polling booth. No surprises, just a smooth voting experience.",
+    "readiness_score": "Your Readiness",
+    "ready_label": "Ready",
+    "select_step": "Select a Step",
+    "select_step_desc": "Choose a readiness item from the left to see detailed requirements verified by our AI Coach.",
+    "consulting_agent": "Consulting the ElectraLens agent for your personalized guide...",
+    "quick_tip": "Quick Tip",
+    "actions": {
+      "verify_online": "Verify Online",
+      "download_guide": "Download Guide"
+    },
+    "status": {
+      "compulsory": "compulsory",
+      "recommended": "recommended"
+    },
+    "steps": {
+      "s1": { "title": "Identity Proof", "desc": "Aadhaar, Voter ID, or other valid government photo ID." },
+      "s2": { "title": "Registration Status", "desc": "Check if your name is on the electoral roll." },
+      "s3": { "title": "Locate Booth", "desc": "Find your assigned polling station and serial number." },
+      "s4": { "title": "Forms & Affidavits", "desc": "Review candidate profiles and required declarations." }
+    }
+  },
+  "rumor": {
+    "title": "Myth-Buster Companion",
+    "subtitle": "Don't let rumors cloud your decision. We help you verify viral claims against official rules and teach you how to check for yourself.",
+    "placeholder": "Paste a viral forward or claim here...",
+    "verify_button": "Verify",
+    "analysis_title": "LIVE AI ANALYSIS",
+    "agent_label": "Agent",
+    "consulting": "Consulting official election guidelines...",
+    "grounded_note": "Grounded in Google Search & Official Sources",
+    "official_link": "Official Link",
+    "select_claim": "Enter a claim to begin analysis",
+    "select_claim_desc": "We use Gemini and live Search to cross-reference with actual election law.",
+    "deflection_title": "Safe Deflection",
+    "deflection_desc": "If a topic is too sensitive or results are inconclusive, we will always refer you to your local Election Authority. We prioritize accuracy over instant answers.",
+    "viral_title": "Viral Now",
+    "myths": {
+      "m1": { "claim": "You can vote using your digital Aadhaar card on Digilocker.", "verdict": "TRUE" },
+      "m2": { "claim": "Polling booths are closing 2 hours early due to unexpected rain.", "verdict": "FALSE" },
+      "m3": { "claim": "Voting age has been reduced to 16 for student elections.", "verdict": "MISLEADING" }
+    }
+  },
+  "simulation": {
+    "title": "Play Democracy",
+    "subtitle": "Experience the election process through immersive role-play and \"what-if\" scenarios powered by AI.",
+    "start_module": "Start AI Module",
+    "back_menu": "Back to Menu",
+    "game_master": "AI Game Master",
+    "generating": "Generating dynamic scenario...",
+    "input_placeholder": "Type your action or choice here...",
+    "go_button": "Go",
+    "footer_note": "Powered by Google Gemini — Actions influence the generated storyline.",
+    "modes": {
+      "training": { "title": "Booth Training", "desc": "A step-by-step walkthrough of voting day." },
+      "scenario": { "title": "Role-Play", "icon": "Dices", "desc": "Play as a Commissioner and handle real incidents." },
+      "whatif": { "title": "What-If Engine", "desc": "Change election rules and see what happens." }
+    }
+  },
+  "inclusive": {
+    "title": "Inclusive Learning Hub",
+    "subtitle": "Democracy is for everyone. Choose how you want to learn: listen to stories, watch simplified guides, or explore visual maps.",
+    "ai_assisted": "AI Assisted Learning",
+    "ready_learn": "Ready to Learn?",
+    "ready_learn_desc": "Select a module from the left to generate immersive, AI-powered civic content tailored to your language and persona.",
+    "narrated_by": "Narrated by ElectraLens AI",
+    "language_label": "Language",
+    "transcript": "Transcript",
+    "sign_language": "Sign Language",
+    "playing": "Playing...",
+    "educator_title": "Educator / Classroom Mode",
+    "educator_desc": "Sync audio narration with group-view mind maps and discussion pause points.",
+    "activate_group": "Activate Group Session",
+    "modules": {
+      "m1": { "title": "How to Vote (Audio Story)", "desc": "A radio-style walkthrough of your polling booth experience in simple language." },
+      "m2": { "title": "The Election Mind-Map", "desc": "A simplified visual journey from registration to results. Tap nodes to listen." },
+      "m3": { "title": "EVM Walkthrough", "desc": "Visual guide with audio description showing how to press the blue button." }
+    }
+  },
+  "learning_lab": {
+    "flashcards_title": "Civic Flashcards",
+    "flashcards_subtitle": "Master the basics of democracy, one card at a time.",
+    "flashcards": "Flashcards",
+    "quiz_title": "Civic Quiz",
+    "quiz_subtitle": "Quick Quiz",
+    "quiz": "Quick Quiz",
+    "badge_title": "Earn Your \"Civic Scholar\" Badge",
+    "badge_desc": "Complete 5 quizzes to unlock exclusive rewards and level up your democracy rank.",
+    "quiz_complete": "Quiz Complete!",
+    "score": "Your Score",
+    "reset": "Try Again",
+    "next": "Next Question",
+    "finish": "Finish Quiz",
+    "flip": "Click to Flip",
+    "question_label": "Question",
+    "of_label": "of",
+    "explanation_label": "Why this is correct:",
+    "questions": {
+      "q1": { 
+        "q": "Which of these is NOT a valid form of voter ID in most states?", 
+        "options": ["Passport", "Driver's License", "Library Card", "Military ID"],
+        "explanation": "In most jurisdictions, a library card is not considered a valid government-issued photo ID for voting."
+      },
+      "q2": { 
+        "q": "At what age are you eligible to register to vote in most regions?", 
+        "options": ["16", "18", "21", "25"],
+        "explanation": "The standard voting age is 18 in the vast majority of modern democracies."
+      },
+      "q3": { 
+        "q": "Which body conducts elections in India?", 
+        "options": ["Supreme Court", "Parliament", "Election Commission of India", "Ministry of Home Affairs"],
+        "explanation": "The Election Commission of India (ECI) is an autonomous constitutional authority responsible for administering election processes in India."
+      },
+      "q4": { 
+        "q": "What is a 'Model Code of Conduct' (MCC)?", 
+        "options": ["A list of candidates", "Guidelines for political parties and candidates", "A voting software", "The constitution itself"],
+        "explanation": "MCC is a set of guidelines issued by the ECI for the conduct of political parties and candidates during elections."
+      },
+      "q5": { 
+        "q": "How often are US Presidential elections held?", 
+        "options": ["Every 2 years", "Every 4 years", "Every 5 years", "Every 6 years"],
+        "explanation": "US Presidential elections occur every four years on the first Tuesday after the first Monday in November."
+      }
+    },
+    "cards": {
+      "c1": { "q": "What is a 'Voter ID'?", "a": "A government-issued document (like a driver's license or Aadhar card) used to verify your identity at the polls.", "cat": "Basics" },
+      "c2": { "q": "What does 'Gerrymandering' mean?", "a": "The practice of drawing electoral district boundaries to give one political party an unfair advantage.", "cat": "Advanced" },
+      "c3": { "q": "What is an 'Absentee Ballot'?", "a": "A ballot completed and typically mailed in advance of an election by a voter who is unable to be present at the polls.", "cat": "Basics" },
+      "c4": { "q": "What is the 'EPIC' card in India?", "a": "Elector's Photo Identity Card, issued by the Election Commission of India (ECI).", "cat": "India Specific" },
+      "c5": { "q": "What does 'EVM' stand for?", "a": "Electronic Voting Machine, used for casting and counting votes.", "cat": "Technology" },
+      "c6": { "q": "What is 'VVPAT'?", "a": "Voter Verifiable Paper Audit Trail, which allows voters to verify that their vote was cast as intended.", "cat": "India Specific" }
+    }
+  },
+  "gamification": {
+    "xp_next": "XP next",
+    "badges_label": "Badges",
+    "more_label": "more",
+    "level_prefix": "Lv.",
+    "titles": {
+      "t0": "Civic Newcomer",
+      "t1": "Ballot Beginner",
+      "t2": "Voter Aware",
+      "t3": "Democracy Apprentice",
+      "t4": "Constituency Scout",
+      "t5": "Election Insider",
+      "t6": "Constitution Reader",
+      "t7": "Democracy Champion",
+      "t8": "Civic Luminary",
+      "t9": "ElectraLens Master"
+    },
+    "badges": {
+      "first_step": { "label": "First Step", "desc": "Opened the ElectraLensAI dashboard for the first time." },
+      "voter_registration_pro": { "label": "Voter Registration Pro", "desc": "Completed the Voter Readiness Guide chapter." },
+      "timeline_explorer": { "label": "Timeline Explorer", "desc": "Explored all 5 election phases in the Journey Storyboard." },
+      "myth_buster": { "label": "Myth-Buster", "desc": "Fact-check 3 or more viral election claims." },
+      "counting_room_insider": { "label": "Counting Room Insider", "desc": "Completed the Vote Counting simulation module." },
+      "constitution_explorer": { "label": "Constitution Explorer", "desc": "Read 5 or more constitutional articles in the Knowledge Hub." },
+      "data_detective": { "label": "Data Detective", "desc": "Explored electoral data charts in the Data Explorer." },
+      "streak_3": { "label": "3-Day Streak", "desc": "Visited ElectraLensAI for 3 consecutive days." },
+      "quiz_ace": { "label": "Quiz Ace", "desc": "Answered 10 quiz questions correctly." },
+      "commissioner_sim": { "label": "Commissioner Simulator", "desc": "Completed the Election Commissioner Role-Play scenario." }
+    }
+  },
+  "multimodal": {
+    "title": "Inclusive Learning Experience",
+    "subtitle": "Generate infographics, audio guides, and videos for an accessible journey.",
+    "button": "Generate MultiModal Pack",
+    "generating": "Generating Assets...",
+    "visual": "Visual Infographic",
+    "visual_desc": "Click generate to build a custom visual guide for this phase.",
+    "audio": "Audio Walkthrough",
+    "audio_desc": "Listen to the story of this phase in your local language.",
+    "video": "Video Explainer",
+    "video_desc": "Cinematic video tutorials are generated on demand based on your persona.",
+    "bandwidth_note": "Videos are optimized for low-bandwidth mobile networks.",
+    "audio_tip": "Tip: Use headphones for an immersive spatial audio experience of the election process."
   },
   "language": {
     "en": "English",
     "hi": "हिन्दी (Hindi)",
     "ta": "தமிழ் (Tamil)",
-    "te": "తెలుగు (Telugu)"
+    "te": "తెలుగు (Telugu)",
+    "kn": "ಕನ್ನಡ (Kannada)",
+    "ml": "മലയാളം (Malayalam)",
+    "bn": "বাংলা (Bengali)",
+    "gu": "ગુજરાતી (Gujarati)",
+    "mr": "मराठी (Marathi)",
+    "es": "Español (Spanish)",
+    "fr": "Français (French)",
+    "de": "Deutsch (German)"
   }
 }

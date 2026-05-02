@@ -9,13 +9,13 @@ from unittest.mock import patch
 import pytest
 from google.genai import types
 
-from agents import runner
+from electra_agents import runner
 
 
 @pytest.mark.asyncio
 async def test_root_agent_routing() -> None:
     """Test that the root agent correctly routes queries to the orchestrator."""
-    with patch("agents.runner.run_async") as mock_run:
+    with patch("electra_agents.runner.run_async") as mock_run:
         # Mocking the async iterator returned by run_async
         async def mock_async_iterator(*args, **kwargs):
             class MockPart:

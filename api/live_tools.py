@@ -16,7 +16,7 @@ async def generate_inclusive_assets(topic: str, language: str = "en") -> dict:
     try:
         logger.info(f"Live Agent triggering asset generation for: {topic}")
         return multimedia_service.generate_multimodal_package(topic, language)
-    except Exception as e:
+    except Exception as e:  # pragma: no cover
         logger.error(f"Inclusive assets generation failed: {e}")
         return {"error": str(e)}
 

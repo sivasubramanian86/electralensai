@@ -11,8 +11,9 @@ import os
 
 import vertexai
 from dotenv import load_dotenv
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
 
 from api.routers import (
     agent_router,
@@ -45,7 +46,6 @@ def create_app() -> FastAPI:
     )
     project_id = os.getenv("GOOGLE_CLOUD_PROJECT")
 
-
     if use_vertex and project_id:
         logger.info(f"Initializing Vertex AI Mode (Enterprise Auth) for project: {project_id}")
         vertexai.init(
@@ -56,7 +56,6 @@ def create_app() -> FastAPI:
     else:
         logger.warning("Neither GEMINI_API_KEY nor GOOGLE_CLOUD_PROJECT found. Auth may fail.")
 
-
     app = FastAPI(
         title="ElectraLensAI API",
         description="Civic election education platform powered by Google ADK multi-agent system.",
@@ -65,9 +64,29 @@ def create_app() -> FastAPI:
         redoc_url="/redoc",
     )
 
+    @app.exception_handler(Exception)
+    async def global_exception_handler(request: Request, exc: Exception) -> JSONResponse:
+        """Catch-all for any unhandled backend exceptions."""
+        logger.exception("Unhandled server error: %s", exc)
+
+        return JSONResponse(
+            status_code=500,
+            content={
+                "error": "Internal Server Error",
+                "message": (
+                    "The ElectraLensAI backend encountered an unexpected condition. "
+                    "Our engineers have been notified."
+                ),
+            },
+        )
+
+    # Security Hardening: Restrict CORS origins in production
+    # Default to localhost for development, allow override via environment variable
+    allowed_origins = os.getenv("ALLOWED_ORIGINS", "http://localhost:5173").split(",")
+
     app.add_middleware(
         CORSMiddleware,
-        allow_origins=["*"],  # Restrict in production via Secret Manager config
+        allow_origins=allowed_origins,
         allow_credentials=True,
         allow_methods=["*"],
         allow_headers=["*"],

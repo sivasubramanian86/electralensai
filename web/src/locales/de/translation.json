@@ -1,0 +1,316 @@
+{
+  "app": {
+    "title": "ElectraLensAI",
+    "subtitle": "Ihr bürgerlicher KI-Guide",
+    "description": "Wahlen verstehen, Informationen prüfen, Wählen simulieren - unterstützt durch ein Multi-Agenten-KI-System.",
+    "search_placeholder": "Suche nach Regeln, Wahllokalen oder Fakten-Check...",
+    "search_aria": "Bürgerinformationen suchen",
+    "notifications": "Benachrichtigungen",
+    "notifications_aria": "Benachrichtigungen anzeigen"
+  },
+  "nav": {
+    "dashboard": "Bewusstseinszentrum",
+    "timeline": "Wahlreise",
+    "ballot": "Wähler-Leitfaden",
+    "simulation": "Demokratiespiel",
+    "rumor": "Mythen-Jäger",
+    "data": "Daten-Explorer",
+    "knowledge": "Wissenszentrum",
+    "learning_lab": "Lernlabor",
+    "inclusive": "Inklusives Lernen",
+    "audit": "Audit & Transparenz",
+    "settings": "Einstellungen"
+  },
+  "dashboard": {
+    "welcome": "Wähler-Bewusstseinszentrum",
+    "welcome_sub": "Ihr filmreifer Leitfaden zum Verständnis und zur Teilnahme an der Demokratie.",
+    "streak": "Tages-Serie",
+    "progress_title": "Fortschritt der Bürgerreise",
+    "progress_count": "{{completed}}/{{total}} Kapitel",
+    "progress_complete": "{{percent}}% abgeschlossen",
+    "badge_prompt": "Schließen Sie Kapitel ab, um Abzeichen freizuschalten",
+    "persona_title": "Wählen Sie Ihre Reise",
+    "persona_subtitle": "Wählen Sie ein Profil",
+    "storyline_title": "Wahlgeschichte",
+    "chapter_prefix": "Kapitel",
+    "status": {
+      "locked": "Gesperrt",
+      "available": "Verfügbar"
+    },
+    "chapters": {
+      "ch1": { "title": "In das Wählerverzeichnis eintragen", "desc": "Verstehen Sie Registrierung, Ausweisdokumente und prüfen Sie Ihren Namen." },
+      "ch2": { "title": "Wahl-Countdown", "desc": "Folgen Sie den 5 Phasen — Ankündigung → Nominierung → Wahlkampf → Abstimmung → Ergebnisse." },
+      "ch3": { "title": "Demokratiespiel", "desc": "Betreten Sie die Simulation eines Wahllokals. Meistern Sie reale Szenarien als Wahlhelfer." },
+      "ch4": { "title": "Mission Mythen-Jäger", "desc": "Prüfen Sie 3 virale Wahlnachrichten und lernen Sie, Fakten selbst zu checken." },
+      "ch5": { "title": "Verfassungs-Explorer", "desc": "Lesen Sie 5 Verfassungsartikel und verstehen Sie Ihre Rechte und Pflichten." },
+      "ch6": { "title": "Daten-Detektiv", "desc": "Erkunden Sie Wahlstatistiken: Wählertrends, Sitzverteilung und Demografie." },
+      "ch7": { "title": "Lernlabor", "desc": "Testen Sie Ihr Wissen mit interaktiven Quizfragen und Bürger-Flashcards." },
+      "ch8": { "title": "Inklusives Lernzentrum", "desc": "Entdecken Sie Hörgeschichten, visuelle Mind-Maps und barrierefreie Bürgerinhalte." }
+    },
+    "personas": {
+      "voter": { "name": "Erstwähler", "desc": "Gehen Sie Ihren Weg von der Registrierung bis zu den Ergebnissen." },
+      "student": { "name": "Student / Pädagoge", "desc": "Erkunden Sie tiefgehende politische Bildung, Rollenspiele und Simulationen." },
+      "official": { "name": "Bürgerführer", "desc": "Führen Sie Probewahlen durch und testen Sie Ihre Entscheidungsfähigkeit." }
+    },
+    "actions": {
+      "start": "Kapitel starten",
+      "completed": "Abgeschlossen",
+      "reveal_hint": "Hinweis anzeigen",
+      "go_explore": "Erkunden gehen",
+      "hover_hint": "👆 Hier schweben, um die Antwort zu sehen..."
+    }
+  },
+  "timeline": {
+    "title": "Storyboard der Wahlreise",
+    "subtitle": "Durchlaufen Sie die 5 Kapitel der Wahl, um die Mechanik der Demokratie zu verstehen.",
+    "sync_calendar": "Mit meinem Kalender synchronisieren",
+    "chapter_prefix": "Kapitel",
+    "phase_heading": "Was passiert wann",
+    "deep_dive": "Vertiefung mit KI-Guide",
+    "next_chapter": "Nächstes Kapitel",
+    "close_insights": "KI-Informationen schließen",
+    "synthesizing": "Synthetisierung der Kapitel-Informationen...",
+    "key_actors": "Hauptakteure",
+    "your_mission": "Ihre Mission",
+    "did_you_know": "Wussten Sie schon?",
+    "phases": {
+      "1": {
+        "title": "Ankündigung",
+        "desc": "Die offiziellen Termine werden bekannt gegeben. Mit der Bekanntgabe tritt sofort der Musterverhaltenskodex (MCC) in Kraft. Danach dürfen keine neuen Regierungsprojekte angekündigt werden.",
+        "key_actors": "Wahlkommission, Staatsoberhaupt/Regierung",
+        "mission": "Achten Sie auf die offizielle Ankündigung und markieren Sie die Ruhezeit (48 Std. vor der Wahl) in Ihrem Kalender.",
+        "trivia": "Der Verhaltenskodex hat oft keine gesetzliche Grundlage — er basiert auf der moralischen Autorität und der freiwilligen Einhaltung der Parteien."
+      },
+      "2": {
+        "title": "Registrierung",
+        "desc": "Ihre letzte Chance, Ihren Namen in das Wählerverzeichnis einzutragen. Kein Name, keine Stimme. Prüfen Sie das offizielle Portal oder kontaktieren Sie Ihr lokales Amt.",
+        "key_actors": "Wahlregistrierungsbeamte, Lokalregierungen, NVSP-Portal",
+        "mission": "Suchen Sie Ihren Namen im Wählerportal. Falls er fehlt, reichen Sie sofort das Registrierungsformular ein.",
+        "trivia": "In großen Demokratien registrieren sich Millionen von Menschen gleichzeitig — dies ist die größte Verwaltungsübung des Planeten."
+      },
+      "3": {
+        "title": "Wahlkampf",
+        "desc": "Kandidaten reichen ihre Nominierungen ein. Nach Ablauf der Prüfungsfristen wird die endgültige Kandidatenliste veröffentlicht. Wahlkämpfe dauern bis zur Ruhezeit vor der Wahl.",
+        "key_actors": "Kandidaten, politische Parteien, Wahlleiter",
+        "mission": "Prüfen Sie die eidesstattlichen Erklärungen der Kandidaten (Vermögen, Strafverfahren) — dies sind öffentliche Dokumente.",
+        "trivia": "Die Ruhezeit wurde eingeführt, damit Wähler ohne Beeinflussung in letzter Sekunde frei entscheiden können."
+      },
+      "4": {
+        "title": "Wahltag",
+        "desc": "Der Moment der Wahl. Meist von 7:00 bis 18:00 Uhr. Bringen Sie Ihren amtlichen Ausweis mit. Ihre Stimme ist geheim.",
+        "key_actors": "Wahlvorstände, Wahlbeobachter, Wahlurnen-Techniker, Sicherheitskräfte",
+        "mission": "Finden Sie Ihr Wahllokal, bringen Sie einen gültigen Ausweis mit und geben Sie Ihre Stimme ab.",
+        "trivia": "Moderne elektronische Wahlurnen sind mit keinem Netzwerk verbunden. Es sind isolierte Geräte — Internet-Hacking ist technisch unmöglich."
+      },
+      "5": {
+        "title": "Auszählung & Ergebnisse",
+        "desc": "Die Stimmen werden unter strenger offizieller Aufsicht in den Auszählungszentren gezählt. Die Ergebnisse werden pro Wahlkreis bekannt gegeben.",
+        "key_actors": "Wahlleiter, Wahlbeobachter, Wahlprüfer",
+        "mission": "Verfolgen Sie die Live-Ergebnisse im offiziellen Portal — vertrauen Sie nicht allein auf Medienprognosen.",
+        "trivia": "In vielen Ländern findet ein obligatorischer Abgleich von Papierbelegen mit der elektronischen Zählung statt, um Transparenz zu gewährleisten."
+      }
+    },
+    "milestones": {
+      "title": "Wichtige Meilensteine",
+      "m1": "Vorläufiges Wählerverzeichnis",
+      "m2": "Veröffentlichung der Endliste",
+      "m3": "Registrierungsschluss",
+      "m4": "Nominierungsfrist",
+      "m5": "Wahltag",
+      "m6": "Ergebnistag"
+    }
+  },
+  "ballot": {
+    "title": "Wähler-Vorbereitungsleitfaden",
+    "subtitle": "Stellen Sie sicher, dass alles bereit ist, bevor Sie ins Wahllokal gehen. Keine Überraschungen, nur ein reibungsloses Wahlerlebnis.",
+    "readiness_score": "Ihr Bereitschaftsgrad",
+    "ready_label": "Bereit",
+    "select_step": "Wählen Sie einen Schritt",
+    "select_step_desc": "Wählen Sie ein Element links aus, um detaillierte Anforderungen zu sehen, die von unserem KI-Coach geprüft wurden.",
+    "consulting_agent": "Beratung mit dem Electra-Lens-Agenten für Ihren persönlichen Leitfaden...",
+    "quick_tip": "Schneller Tipp",
+    "actions": {
+      "verify_online": "Online prüfen",
+      "download_guide": "Leitfaden herunterladen"
+    },
+    "status": {
+      "compulsory": "Erforderlich",
+      "recommended": "Empfohlen"
+    },
+    "steps": {
+      "s1": { "title": "Identifikation", "desc": "Gültiges amtliches Ausweisdokument mit Foto." },
+      "s2": { "title": "Registrierungsstatus", "desc": "Prüfen Sie, ob Ihr Name im Wählerverzeichnis steht." },
+      "s3": { "title": "Wahllokal finden", "desc": "Finden Sie Ihr zugewiesenes Wahllokal und die Tischnummer." },
+      "s4": { "title": "Formulare", "desc": "Prüfen Sie die Profile der Kandidaten und notwendige Erklärungen." }
+    }
+  },
+  "rumor": {
+    "title": "Mythen-Jäger-Begleiter",
+    "subtitle": "Lassen Sie nicht zu, dass Gerüchte Ihre Entscheidung trüben. Wir helfen dabei, virale Nachrichten mit offiziellen Regeln abzugleichen.",
+    "placeholder": "Fügen Sie eine virale Nachricht oder Behauptung hier ein...",
+    "verify_button": "Prüfen",
+    "analysis_title": "Live-KI-Analyse",
+    "agent_label": "Agent",
+    "consulting": "Beratung der offiziellen Wahlrichtlinien...",
+    "grounded_note": "Basierend auf Google-Suche & offiziellen Quellen",
+    "official_link": "Offizieller Link",
+    "select_claim": "Geben Sie eine Nachricht ein, um die Analyse zu starten",
+    "select_claim_desc": "Wir nutzen Gemini und Live-Suche zum Abgleich mit der echten Wahlgesetzgebung.",
+    "deflection_title": "Sicherer Hinweis",
+    "deflection_desc": "Falls ein Thema sehr sensibel ist oder Ergebnisse unklar sind, empfehlen wir immer den Kontakt zur lokalen Wahlbehörde.",
+    "viral_title": "Gerade Viral",
+    "myths": {
+      "m1": { "claim": "Sie können mit Ihrer digitalen Identität vom Handy aus wählen.", "verdict": "Wahr" },
+      "m2": { "claim": "Die Wahllokale schließen wegen Regen 2 Std. früher.", "verdict": "Falsch" },
+      "m3": { "claim": "Das Wahlalter für Studentenwahlen wurde auf 16 Jahre gesenkt.", "verdict": "Irreführend" }
+    }
+  },
+  "simulation": {
+    "title": "Demokratiespiel",
+    "subtitle": "Erleben Sie den Wahlprozess durch immersive Rollenspiele und KI-gestützte \"Was-Wäre-Wenn\"-Szenarien.",
+    "start_module": "KI-Modul starten",
+    "back_menu": "Zurück zum Menü",
+    "game_master": "KI-Spielmaster",
+    "generating": "Szenario wird generiert...",
+    "input_placeholder": "Geben Sie Ihre Aktion oder Wahl hier ein...",
+    "go_button": "Los",
+    "footer_note": "Unterstützt durch Google Gemini — Aktionen beeinflussen die generierte Geschichte.",
+    "modes": {
+      "training": { "title": "Wahllokal-Training", "desc": "Schritt-für-Schritt-Anleitung des Wahltags." },
+      "scenario": { "title": "Rollenspiel", "icon": "Dices", "desc": "Spielen Sie als Wahlkommissar und meistern Sie Vorfälle." },
+      "whatif": { "title": "Was-Wäre-Wenn-Maschine", "desc": "Ändern Sie Wahlregeln und sehen Sie, was passiert." }
+    }
+  },
+  "inclusive": {
+    "title": "Inklusives Lernzentrum",
+    "subtitle": "Demokratie ist für alle da. Wählen Sie, wie Sie lernen wollen: Geschichten hören, einfache Anleitungen ansehen.",
+    "ai_assisted": "KI-gestütztes Lernen",
+    "ready_learn": "Bereit zum Lernen?",
+    "ready_learn_desc": "Wählen Sie ein Modul, um KI-gestützte Bürgerinhalte zu generieren, die auf Ihre Sprache und Ihr Profil zugeschnitten sind.",
+    "narrated_by": "Erzählt von Electra-Lens AI",
+    "language_label": "Sprache",
+    "transcript": "Transkript",
+    "sign_language": "Gebärdensprache",
+    "playing": "Wird abgespielt...",
+    "educator_title": "Lehrer- / Klassenzimmer-Modus",
+    "educator_desc": "Synchronisieren Sie die Audio-Erzählung mit visuellen Gruppenkarten und Diskussionspausen.",
+    "activate_group": "Gruppensitzung aktivieren",
+    "modules": {
+      "m1": { "title": "Wie man wählt (Hörgeschichte)", "desc": "Erklärung Ihres Wahllokal-Erlebnisses im Radiostil." },
+      "m2": { "title": "Wahl-Mind-Map", "desc": "Eine einfache visuelle Reise von der Registrierung bis zum Ergebnis. Zum Hören auf Knoten tippen." },
+      "m3": { "title": "Wahlurnen-Tutorial", "desc": "Visuelle Anleitung mit Audio dazu, wie man korrekt wählt." }
+    }
+  },
+  "learning_lab": {
+    "flashcards_title": "Bürger-Flashcards",
+    "flashcards_subtitle": "Lernen Sie die Grundlagen der Demokratie Karte für Karte.",
+    "flashcards": "Flashcards",
+    "quiz_title": "Bürger-Quiz",
+    "quiz_subtitle": "Schnelle Herausforderung",
+    "quiz": "Quiz",
+    "badge_title": "Verdienen Sie Ihr Abzeichen \"Bürger-Gelehrter\"",
+    "badge_desc": "Schließen Sie 5 Quizze ab, um exklusive Belohnungen freizuschalten.",
+    "quiz_complete": "Quiz abgeschlossen!",
+    "score": "Ihre Punktzahl",
+    "reset": "Erneut versuchen",
+    "next": "Nächste Frage",
+    "finish": "Beenden",
+    "flip": "Klicken zum Umdrehen",
+    "question_label": "Frage",
+    "of_label": "von",
+    "explanation_label": "Warum das richtig ist:",
+    "questions": {
+      "q1": { 
+        "q": "Welches dieser Dokumente ist meist KEIN gültiger Wahlausweis?", 
+        "options": ["Reisepass", "Führerschein", "Bibliotheksausweis", "Militärausweis"],
+        "explanation": "An den meisten Orten wird ein Bibliotheksausweis nicht als gültiger amtlicher Lichtbildausweis für Wahlen anerkannt."
+      },
+      "q2": { 
+        "q": "Was ist das Mindestalter für die Wahlregistrierung in den meisten Ländern?", 
+        "options": ["16", "18", "21", "25"],
+        "explanation": "Das Standardwahlalter in den meisten modernen Demokratien liegt bei 18 Jahren."
+      },
+      "q3": { 
+        "q": "Welches Organ organisiert Wahlen in einer typischen Demokratie?", 
+        "options": ["Oberster Gerichtshof", "Parlament", "Wahlkommission", "Innenministerium"],
+        "explanation": "Die Wahlkommission ist das autonome Organ, das für die Verwaltung von Wahlprozessen zuständig ist."
+      },
+      "q4": { 
+        "q": "Was ist der Musterverhaltenskodex?", 
+        "options": ["Kandidatenliste", "Richtlinien für Parteien und Kandidaten", "Wahlsoftware", "Die Verfassung selbst"],
+        "explanation": "Dies ist die Menge an Richtlinien, denen Parteien und Kandidaten während der Wahlzeit folgen müssen."
+      },
+      "q5": { 
+        "q": "Alle wie viele Jahre finden in den USA Präsidentschaftswahlen statt?", 
+        "options": ["Alle 2 Jahre", "Alle 4 Jahre", "Alle 5 Jahre", "Alle 6 Jahre"],
+        "explanation": "Die US-Präsidentschaftswahlen finden alle vier Jahre im November statt."
+      }
+    },
+    "cards": {
+      "c1": { "q": "Was ist ein Wählerausweis?", "a": "Ein amtliches Dokument, das Ihre Identität im Wahllokal bestätigt.", "cat": "Grundlagen" },
+      "c2": { "q": "Was ist 'Gerrymandering'?", "a": "Die Manipulation von Wahlkreisgrenzen, um eine Partei zu bevorzugen.", "cat": "Fortgeschritten" },
+      "c3": { "q": "Was ist Briefwahl?", "a": "Stimmabgabe per Post durch jemanden, der am Wahltag nicht persönlich erscheinen kann.", "cat": "Grundlagen" },
+      "c4": { "q": "Was ist ein Wahlergebnis?", "a": "Die offizielle Zählung der bei einer Wahl abgegebenen Stimmen.", "cat": "Prozess" },
+      "c5": { "q": "Was bedeutet EVM?", "a": "Electronic Voting Machine (Wahlurne), die zum Erfassen und Zählen von Stimmen genutzt wird.", "cat": "Technologie" },
+      "c6": { "q": "Was ist VVPAT?", "a": "Voter Verifiable Paper Audit Trail, ermöglicht Wählern zu prüfen, ob ihre Stimme an den richtigen Kandidaten ging.", "cat": "Transparenz" }
+    }
+  },
+  "gamification": {
+    "xp_next": "XP bis zum nächsten Level",
+    "badges_label": "Abzeichen",
+    "more_label": "Mehr",
+    "level_prefix": "Level.",
+    "titles": {
+      "t0": "Bürger-Neuling",
+      "t1": "Wahl-Anfänger",
+      "t2": "Bewusster Wähler",
+      "t3": "Demokratie-Lehrling",
+      "t4": "Distrikt-Explorer",
+      "t5": "Wahl-Experte",
+      "t6": "Verfassungs-Leser",
+      "t7": "Demokratie-Champion",
+      "t8": "Bürger-Koryphäe",
+      "t9": "Master Electra-Lens"
+    },
+    "badges": {
+      "first_step": { "label": "Erster Schritt", "desc": "Sie haben das Electra-Lens-AI Dashboard zum ersten Mal gestartet." },
+      "voter_registration_pro": { "label": "Registrierungs-Pro", "desc": "Sie haben das Kapitel Wähler-Vorbereitungsleitfaden abgeschlossen." },
+      "timeline_explorer": { "label": "Reise-Explorer", "desc": "Sie haben alle 5 Phasen der Wahlreise erkundet." },
+      "myth_buster": { "label": "Mythen-Jäger", "desc": "Sie haben 3 oder mehr Wahlnachrichten geprüft." },
+      "counting_room_insider": { "label": "Auszählungs-Experte", "desc": "Sie haben das Modul zur Stimmauszählungs-Simulation abgeschlossen." },
+      "constitution_explorer": { "label": "Verfassungs-Explorer", "desc": "Sie haben 5 oder mehr Artikel im Wissenszentrum gelesen." },
+      "data_detective": { "label": "Daten-Detektiv", "desc": "Sie haben die Datendiagramme im Explorer untersucht." },
+      "streak_3": { "label": "3-Tage-Serie", "desc": "3 Tage hintereinander bei Electra-Lens-AI eingeloggt." },
+      "quiz_ace": { "label": "Quiz-Ass", "desc": "Sie haben 10 Quizfragen korrekt beantwortet." },
+      "commissioner_sim": { "label": "Kommissar-Simulator", "desc": "Sie haben das Wahlkommissar-Rollenspiel abgeschlossen." }
+    }
+  },
+  "multimodal": {
+    "title": "Inklusives Lernerlebnis",
+    "subtitle": "Generieren Sie Infografiken, Audio-Guides und Videos für eine barrierefreie Reise.",
+    "button": "Multimodales Paket generieren",
+    "generating": "Generiere...",
+    "visual": "Visuelle Infografik",
+    "visual_desc": "Klicken, um einen individuellen visuellen Leitfaden für diese Phase zu erstellen.",
+    "audio": "Audio-Leitfaden",
+    "audio_desc": "Hören Sie die Erklärung dieser Phase in Ihrer Landessprache.",
+    "video": "Video-Erklärung",
+    "video_desc": "Filmreife Video-Tutorials werden basierend auf Ihrem Profil erstellt.",
+    "bandwidth_note": "Videos sind für langsame Mobilfunkverbindungen optimiert.",
+    "audio_tip": "Tipp: Nutzen Sie Kopfhörer für ein immersives Audio-Erlebnis."
+  },
+  "language": {
+    "en": "English",
+    "hi": "Hindi",
+    "ta": "Tamil",
+    "te": "Telugu",
+    "kn": "Kannada",
+    "ml": "Malayalam",
+    "bn": "Bengalisch",
+    "gu": "Gujarati",
+    "mr": "Marathi",
+    "es": "Spanisch",
+    "fr": "Französisch",
+    "de": "Deutsch"
+  }
+}

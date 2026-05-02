@@ -19,8 +19,8 @@ export function Header() {
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500 group-focus-within:text-blue-400 transition-colors" />
           <input 
             type="text" 
-            placeholder="Search regulations, polling booths, or claims..."
-            aria-label="Search civic information"
+            placeholder={t('app.search_placeholder', 'Search regulations, polling booths, or claims...')}
+            aria-label={t('app.search_aria', 'Search civic information')}
             className="w-full bg-white/5 border border-white/5 rounded-xl py-2 pl-10 pr-12 text-sm focus:outline-none focus:border-blue-500/50 focus:bg-white/10 transition-all"
           />
           <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-1 px-1.5 py-0.5 rounded border border-white/10 bg-white/5 text-[10px] text-slate-500">
@@ -35,8 +35,8 @@ export function Header() {
         {/* Notifications */}
         <button 
           className="relative p-2 text-slate-400 hover:text-white transition-colors"
-          aria-label="View notifications"
-          title="Notifications"
+          aria-label={t('app.notifications_aria', 'View notifications')}
+          title={t('app.notifications', 'Notifications')}
         >
           <Bell className="w-5 h-5" />
           <span className="absolute top-2 right-2 w-2 h-2 bg-blue-500 rounded-full border-2 border-navy-950" aria-hidden="true" />
@@ -52,10 +52,18 @@ export function Header() {
             aria-label="Change language"
             title="Switch Language"
           >
-            <option value="en" className="bg-navy-900">{t('language.en')}</option>
-            <option value="hi" className="bg-navy-900">{t('language.hi')}</option>
-            <option value="ta" className="bg-navy-900">{t('language.ta')}</option>
-            <option value="te" className="bg-navy-900">{t('language.te')}</option>
+            <option value="en" className="bg-navy-900">{t('language.en', 'English')}</option>
+            <option value="hi" className="bg-navy-900">{t('language.hi', 'Hindi')}</option>
+            <option value="ta" className="bg-navy-900">{t('language.ta', 'Tamil')}</option>
+            <option value="te" className="bg-navy-900">{t('language.te', 'Telugu')}</option>
+            <option value="kn" className="bg-navy-900">{t('language.kn', 'Kannada')}</option>
+            <option value="ml" className="bg-navy-900">{t('language.ml', 'Malayalam')}</option>
+            <option value="bn" className="bg-navy-900">{t('language.bn', 'Bengali')}</option>
+            <option value="gu" className="bg-navy-900">{t('language.gu', 'Gujarati')}</option>
+            <option value="mr" className="bg-navy-900">{t('language.mr', 'Marathi')}</option>
+            <option value="es" className="bg-navy-900">{t('language.es', 'Spanish')}</option>
+            <option value="fr" className="bg-navy-900">{t('language.fr', 'French')}</option>
+            <option value="de" className="bg-navy-900">{t('language.de', 'German')}</option>
           </select>
         </div>
 

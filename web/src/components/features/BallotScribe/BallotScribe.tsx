@@ -20,8 +20,14 @@ const readinessSteps = [
   { id: 4, title: "Forms & Affidavits", icon: FileText, desc: "Review candidate profiles and required declarations.", status: "recommended" }
 ];
 
+/**
+ * BallotScribe — Voter Readiness and Document Verification Module.
+ * 
+ * Provides a step-by-step guide for voters to prepare identity proof,
+ * check registration status, and locate polling booths using AI coaching.
+ */
 export function BallotScribe() {
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [activeStep, setActiveStep] = useState<number | null>(null);
   const { output, activeAgent, submit } = useAgentStream();
   
@@ -44,17 +50,17 @@ export function BallotScribe() {
     <div className="max-w-6xl mx-auto h-full flex flex-col space-y-8 animate-in fade-in duration-1000">
       <div className="flex justify-between items-end">
         <div className="space-y-2">
-          <h2 className="text-4xl font-bold text-white tracking-tight">Voter Readiness Guide</h2>
+          <h2 className="text-4xl font-bold text-white tracking-tight">{t('ballot.title', 'Voter Readiness Guide')}</h2>
           <p className="text-slate-400 text-lg max-w-2xl">
-            Ensure you have everything ready before you head to the polling booth. No surprises, just a smooth voting experience.
+            {t('ballot.subtitle', 'Ensure you have everything ready before you head to the polling booth. No surprises, just a smooth voting experience.')}
           </p>
         </div>
         <div className="hidden md:flex gap-4">
            <div className="px-6 py-4 rounded-3xl bg-blue-600/10 border border-blue-500/20 flex flex-col">
-              <span className="text-[10px] font-bold text-blue-400 uppercase tracking-widest mb-1">Your Readiness</span>
+              <span className="text-[10px] font-bold text-blue-400 uppercase tracking-widest mb-1">{t('ballot.readiness_score', 'Your Readiness')}</span>
               <div className="flex items-end gap-2">
                  <span className="text-3xl font-bold text-white">75%</span>
-                 <span className="text-xs text-slate-500 mb-1">Ready</span>
+                 <span className="text-xs text-slate-500 mb-1">{t('ballot.ready_label', 'Ready')}</span>
               </div>
            </div>
         </div>
@@ -83,11 +89,11 @@ export function BallotScribe() {
                   <div className="flex justify-between items-center">
                      <span className={`text-[10px] font-bold uppercase tracking-widest ${
                       step.status === 'compulsory' ? 'text-red-400' : 'text-emerald-400'
-                     }`}>{step.status}</span>
+                     }`}>{t(`ballot.status.${step.status}`, step.status)}</span>
                      {activeStep === step.id && <CheckCircle2 className="w-5 h-5 text-blue-400 animate-in zoom-in" />}
                   </div>
-                  <h3 className="text-xl font-bold text-white">{step.title}</h3>
-                  <p className="text-slate-400 text-sm leading-relaxed">{step.desc}</p>
+                  <h3 className="text-xl font-bold text-white">{t(`ballot.steps.s${step.id}.title`, step.title)}</h3>
+                  <p className="text-slate-400 text-sm leading-relaxed">{t(`ballot.steps.s${step.id}.desc`, step.desc)}</p>
                 </div>
               </div>
               
@@ -108,7 +114,7 @@ export function BallotScribe() {
                      <div className="w-14 h-14 rounded-2xl bg-blue-600/20 border border-blue-500/30 flex items-center justify-center shadow-lg">
                         <ActiveIcon className="w-6 h-6 text-blue-400" />
                      </div>
-                     <h3 className="text-2xl font-bold text-white">{activeStepDetails?.title}</h3>
+                     <h3 className="text-2xl font-bold text-white">{t(`ballot.steps.s${activeStep}.title`, activeStepDetails?.title)}</h3>
                   </div>
                   {activeAgent && (
                     <span className="text-xs text-slate-500 flex items-center gap-1 bg-white/5 px-2 py-1 rounded-lg border border-white/5">
@@ -124,12 +130,12 @@ export function BallotScribe() {
                   ) : (
                      <div className="space-y-4 animate-pulse">
                         <div className="p-4 bg-blue-500/10 border border-blue-500/20 rounded-xl">
-                          <p className="text-blue-400 font-bold mb-1">Quick Tip:</p>
-                          <p className="text-slate-300 italic">{activeStepDetails?.desc}</p>
+                          <p className="text-blue-400 font-bold mb-1">{t('ballot.quick_tip', 'Quick Tip')}:</p>
+                          <p className="text-slate-300 italic">{t(`ballot.steps.s${activeStep}.desc`, activeStepDetails?.desc)}</p>
                         </div>
                         <div className="flex items-center gap-2 text-slate-500 text-sm italic">
                           <Loader2 className="w-4 h-4 animate-spin" /> 
-                          Consulting the ElectraLens agent for your personalized guide...
+                          {t('ballot.consulting_agent', 'Consulting the ElectraLens agent for your personalized guide...')}
                         </div>
                      </div>
                   )}
@@ -137,10 +143,10 @@ export function BallotScribe() {
 
                <div className="pt-4 grid grid-cols-2 gap-4">
                   <button className="w-full py-3 rounded-xl bg-blue-600 text-white font-bold text-sm hover:bg-blue-500 transition-all shadow-lg flex items-center justify-center gap-2">
-                     Verify Online <ExternalLink className="w-4 h-4" />
+                     {t('ballot.actions.verify_online', 'Verify Online')} <ExternalLink className="w-4 h-4" />
                   </button>
                   <button className="w-full py-3 rounded-xl bg-white/5 border border-white/10 text-slate-300 font-bold text-sm hover:bg-white/10 transition-all">
-                     Download Guide
+                     {t('ballot.actions.download_guide', 'Download Guide')}
                   </button>
                </div>
             </div>
@@ -150,8 +156,8 @@ export function BallotScribe() {
                  <HelpCircle className="w-8 h-8 text-slate-600" />
               </div>
               <div className="space-y-2">
-                <h3 className="text-2xl font-bold text-slate-400">Select a Step</h3>
-                <p className="text-slate-500 max-w-xs mx-auto">Choose a readiness item from the left to see detailed requirements verified by our AI Coach.</p>
+                <h3 className="text-2xl font-bold text-slate-400">{t('ballot.select_step', 'Select a Step')}</h3>
+                <p className="text-slate-500 max-w-xs mx-auto">{t('ballot.select_step_desc', 'Choose a readiness item from the left to see detailed requirements verified by our AI Coach.')}</p>
               </div>
             </div>
           )}

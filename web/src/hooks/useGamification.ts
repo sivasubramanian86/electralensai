@@ -6,6 +6,7 @@
  */
 
 import { useState, useCallback, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -46,100 +47,17 @@ const STORAGE_KEY = 'electralens_gamification_v1';
 
 const XP_PER_LEVEL = [0, 100, 250, 500, 900, 1400, 2100, 3000, 4200, 6000, 10000];
 
-const LEVEL_TITLES = [
-  'Civic Newcomer',
-  'Ballot Beginner',
-  'Voter Aware',
-  'Democracy Apprentice',
-  'Constituency Scout',
-  'Election Insider',
-  'Constitution Reader',
-  'Democracy Champion',
-  'Civic Luminary',
-  'ElectraLens Master',
-];
-
 const INITIAL_BADGES: Badge[] = [
-  {
-    id: 'first_step',
-    label: 'First Step',
-    icon: '👣',
-    desc: 'Opened the ElectraLensAI dashboard for the first time.',
-    xpReward: 10,
-    unlocked: false,
-  },
-  {
-    id: 'voter_registration_pro',
-    label: 'Voter Registration Pro',
-    icon: '📋',
-    desc: 'Completed the Voter Readiness Guide chapter.',
-    xpReward: 50,
-    unlocked: false,
-  },
-  {
-    id: 'timeline_explorer',
-    label: 'Timeline Explorer',
-    icon: '🗓️',
-    desc: 'Explored all 5 election phases in the Journey Storyboard.',
-    xpReward: 75,
-    unlocked: false,
-  },
-  {
-    id: 'myth_buster',
-    label: 'Myth-Buster',
-    icon: '🛡️',
-    desc: 'Fact-checked 3 or more viral election claims.',
-    xpReward: 60,
-    unlocked: false,
-  },
-  {
-    id: 'counting_room_insider',
-    label: 'Counting Room Insider',
-    icon: '🔢',
-    desc: 'Completed the Vote Counting simulation module.',
-    xpReward: 80,
-    unlocked: false,
-  },
-  {
-    id: 'constitution_explorer',
-    label: 'Constitution Explorer',
-    icon: '📜',
-    desc: 'Read 5 or more constitutional articles in the Knowledge Hub.',
-    xpReward: 100,
-    unlocked: false,
-  },
-  {
-    id: 'data_detective',
-    label: 'Data Detective',
-    icon: '📊',
-    desc: 'Explored electoral data charts in the Data Explorer.',
-    xpReward: 60,
-    unlocked: false,
-  },
-  {
-    id: 'streak_3',
-    label: '3-Day Streak',
-    icon: '🔥',
-    desc: 'Visited ElectraLensAI for 3 consecutive days.',
-    xpReward: 90,
-    unlocked: false,
-  },
-  {
-    id: 'quiz_ace',
-    label: 'Quiz Ace',
-    icon: '🎯',
-    desc: 'Answered 10 quiz questions correctly.',
-    xpReward: 120,
-    unlocked: false,
-  },
-  {
-    id: 'commissioner_sim',
-    label: 'Commissioner Simulator',
-    icon: '⚖️',
-    desc: 'Completed the Election Commissioner Role-Play scenario.',
-    xpReward: 150,
-    unlocked: false,
-  },
+  { id: 'first_step', label: 'First Step', icon: '👣', desc: 'Opened the ElectraLensAI dashboard for the first time.', xpReward: 10, unlocked: false },
+  { id: 'voter_registration_pro', label: 'Voter Registration Pro', icon: '📋', desc: 'Completed the Voter Readiness Guide chapter.', xpReward: 50, unlocked: false },
+  { id: 'timeline_explorer', label: 'Timeline Explorer', icon: '🗓️', desc: 'Explored all 5 election phases in the Journey Storyboard.', xpReward: 75, unlocked: false },
+  { id: 'myth_buster', label: 'Myth-Buster', icon: '🛡️', desc: 'Fact-checked 3 or more viral election claims.', xpReward: 60, unlocked: false },
+  { id: 'counting_room_insider', label: 'Counting Room Insider', icon: '🔢', desc: 'Completed the Vote Counting simulation module.', xpReward: 80, unlocked: false },
+  { id: 'constitution_explorer', label: 'Constitution Explorer', icon: '📜', desc: 'Read 5 or more constitutional articles in the Knowledge Hub.', xpReward: 100, unlocked: false },
+  { id: 'data_detective', label: 'Data Detective', icon: '📊', desc: 'Explored electoral data charts in the Data Explorer.', xpReward: 60, unlocked: false },
+  { id: 'streak_3', label: '3-Day Streak', icon: '🔥', desc: 'Visited ElectraLensAI for 3 consecutive days.', xpReward: 90, unlocked: false },
+  { id: 'quiz_ace', label: 'Quiz Ace', icon: '🎯', desc: 'Answered 10 quiz questions correctly.', xpReward: 120, unlocked: false },
+  { id: 'commissioner_sim', label: 'Commissioner Simulator', icon: '⚖️', desc: 'Completed the Election Commissioner Role-Play scenario.', xpReward: 150, unlocked: false },
 ];
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
@@ -189,13 +107,12 @@ function saveState(state: GamificationState): void {
 // ─── Hook ─────────────────────────────────────────────────────────────────────
 
 export function useGamification(): UseGamificationResult {
+  const { t } = useTranslation();
   const [state, setState] = useState<GamificationState>(() => {
     const loaded = loadState();
-    // Streak logic
     const today = todayDateStr();
     const last = loaded.lastVisitDate;
-    const diffDays =
-      (new Date(today).getTime() - new Date(last).getTime()) / 86_400_000;
+    const diffDays = (new Date(today).getTime() - new Date(last).getTime()) / 86_400_000;
     let streak = loaded.streak;
     if (diffDays === 1) {
       streak = (loaded.streak || 0) + 1;
@@ -205,7 +122,7 @@ export function useGamification(): UseGamificationResult {
 
     let finalState = { ...loaded, streak, lastVisitDate: today };
 
-    // Award "First Step" badge if not already unlocked
+    // Award "First Step" badge
     const hasFirst = finalState.badges.find((b) => b.id === 'first_step');
     if (hasFirst && !hasFirst.unlocked) {
       const newBadges = finalState.badges.map((b) =>
@@ -236,7 +153,6 @@ export function useGamification(): UseGamificationResult {
     return finalState;
   });
 
-  // Persist on every state change
   useEffect(() => {
     saveState(state);
   }, [state]);
@@ -249,24 +165,15 @@ export function useGamification(): UseGamificationResult {
     });
   }, []);
 
-  const completeChapter = useCallback(
-    (chapterId: string) => {
-      setState((prev) => {
-        if (prev.completedChapters.includes(chapterId)) return prev;
-        const newChapters = [...prev.completedChapters, chapterId];
-        const newXP = prev.xp + 30;
-        const { level, xpToNextLevel } = computeLevel(newXP);
-        return {
-          ...prev,
-          xp: newXP,
-          level,
-          xpToNextLevel,
-          completedChapters: newChapters,
-        };
-      });
-    },
-    [],
-  );
+  const completeChapter = useCallback((chapterId: string) => {
+    setState((prev) => {
+      if (prev.completedChapters.includes(chapterId)) return prev;
+      const newChapters = [...prev.completedChapters, chapterId];
+      const newXP = prev.xp + 30;
+      const { level, xpToNextLevel } = computeLevel(newXP);
+      return { ...prev, xp: newXP, level, xpToNextLevel, completedChapters: newChapters };
+    });
+  }, []);
 
   const recordQuizAnswer = useCallback((correct: boolean) => {
     setState((prev) => {
@@ -275,14 +182,7 @@ export function useGamification(): UseGamificationResult {
       const xpGain = correct ? 20 : 5;
       const newXP = prev.xp + xpGain;
       const { level, xpToNextLevel } = computeLevel(newXP);
-      return {
-        ...prev,
-        xp: newXP,
-        level,
-        xpToNextLevel,
-        totalQuizCorrect,
-        totalQuizAnswered,
-      };
+      return { ...prev, xp: newXP, level, xpToNextLevel, totalQuizCorrect, totalQuizAnswered };
     });
   }, []);
 
@@ -306,13 +206,21 @@ export function useGamification(): UseGamificationResult {
   const xpRangeForLevel = state.xpToNextLevel - currentThreshold;
   const xpPercent = Math.min(100, Math.round((xpInLevel / Math.max(1, xpRangeForLevel)) * 100));
 
+  // Localize badge dynamic labels/descriptions
+  const localizedBadges = state.badges.map(badge => ({
+    ...badge,
+    label: t(`gamification.badges.${badge.id}.label`, badge.label),
+    desc: t(`gamification.badges.${badge.id}.desc`, badge.desc)
+  }));
+
   return {
     ...state,
+    badges: localizedBadges,
     awardXP,
     completeChapter,
     recordQuizAnswer,
     unlockBadge,
     xpPercent,
-    levelTitle: LEVEL_TITLES[Math.min(state.level, LEVEL_TITLES.length - 1)],
+    levelTitle: t(`gamification.titles.t${Math.min(state.level, 9)}`, 'Civic Newcomer'),
   };
 }

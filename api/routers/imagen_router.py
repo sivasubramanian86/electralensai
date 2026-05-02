@@ -2,7 +2,7 @@
 
 import logging
 
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter
 from pydantic import BaseModel
 
 from api.services.multimedia_service import multimedia_service
@@ -22,9 +22,5 @@ class ImagenRequest(BaseModel):
 @router.post("/generate")
 async def generate_image(request: ImagenRequest) -> dict:
     """Bridge for the frontend imagenService to Vertex AI Imagen 3."""
-    try:
-        url = multimedia_service.generate_infographic(request.prompt)
-        return {"imageUrl": url, "concept": request.concept}
-    except Exception as e:
-        logger.error("Imagen generation endpoint failed: %s", e)
-        raise HTTPException(status_code=500, detail=str(e)) from e
+    url = multimedia_service.generate_infographic(request.prompt)
+    return {"imageUrl": url, "concept": request.concept}

@@ -1,0 +1,316 @@
+{
+  "app": {
+    "title": "ElectraLensAI",
+    "subtitle": "Votre guide civique IA",
+    "description": "Comprenez les élections, vérifiez les informations, simulez le vote - propulsé par un système d'IA multi-agents.",
+    "search_placeholder": "Recherchez des règles, des bureaux de vote ou vérifiez des faits...",
+    "search_aria": "Rechercher des informations civiques",
+    "notifications": "Notifications",
+    "notifications_aria": "Voir les notifications"
+  },
+  "nav": {
+    "dashboard": "Centre de Sensibilisation",
+    "timeline": "Parcours Électoral",
+    "ballot": "Guide de l'Électeur",
+    "simulation": "Jeu de la Démocratie",
+    "rumor": "Chasseur de Mythes",
+    "data": "Explorateur de Données",
+    "knowledge": "Base de Connaissances",
+    "learning_lab": "Lab d'Apprentissage",
+    "inclusive": "Apprentissage Inclusif",
+    "audit": "Audit & Transparence",
+    "settings": "Paramètres"
+  },
+  "dashboard": {
+    "welcome": "Centre de Sensibilisation des Électeurs",
+    "welcome_sub": "Votre guide cinématographique pour comprendre et participer à la démocratie.",
+    "streak": "Série de jours",
+    "progress_title": "Progression du Parcours Civique",
+    "progress_count": "{{completed}}/{{total}} chapitres",
+    "progress_complete": "{{percent}}% terminé",
+    "badge_prompt": "Terminez des chapitres pour débloquer des badges",
+    "persona_title": "Choisissez votre parcours",
+    "persona_subtitle": "Sélectionnez un profil",
+    "storyline_title": "Histoire Électorale",
+    "chapter_prefix": "Chapitre",
+    "status": {
+      "locked": "Verrouillé",
+      "available": "Disponible"
+    },
+    "chapters": {
+      "ch1": { "title": "Inscrivez-vous sur les Listes", "desc": "Comprenez l'inscription, les documents d'identité et vérifiez votre nom." },
+      "ch2": { "title": "Compte à Rebours Électoral", "desc": "Suivez les 5 phases — Annonce → Nomination → Campagne → Vote → Résultats." },
+      "ch3": { "title": "Jeu de la Démocratie", "desc": "Entrez dans la simulation d'un bureau de vote. Gérez des scénarios réels en tant qu'officier." },
+      "ch4": { "title": "Mission Chasseur de Mythes", "desc": "Vérifiez 3 actualités virales et apprenez à vérifier les faits vous-même." },
+      "ch5": { "title": "Explorateur Constitutionnel", "desc": "Lisez 5 articles constitutionnels et comprenez vos droits et devoirs." },
+      "ch6": { "title": "Détective de Données", "desc": "Explorez les statistiques électorales : tendances de vote, répartition des sièges et démographie." },
+      "ch7": { "title": "Lab d'Apprentissage", "desc": "Testez vos connaissances avec des quiz interactifs et des fiches civiques." },
+      "ch8": { "title": "Hub d'Apprentissage Inclusif", "desc": "Explorez des histoires audio, des cartes visuelles et du contenu civique accessible." }
+    },
+    "personas": {
+      "voter": { "name": "Premier Votant", "desc": "Suivez votre chemin, de l'inscription aux résultats." },
+      "student": { "name": "Étudiant / Éducateur", "desc": "Explorez l'éducation civique approfondie, les jeux de rôle et les simulations." },
+      "official": { "name": "Leader Civique", "desc": "Réalisez des simulations d'élections et testez vos capacités de décision." }
+    },
+    "actions": {
+      "start": "Démarrer le Chapitre",
+      "completed": "Terminé",
+      "reveal_hint": "Révéler l'Indice",
+      "go_explore": "Aller Explorer",
+      "hover_hint": "👆 Passez la souris ici pour voir la réponse..."
+    }
+  },
+  "timeline": {
+    "title": "Storyboard du Parcours Électoral",
+    "subtitle": "Traversez les 5 chapitres de l'élection pour comprendre les rouages de la démocratie.",
+    "sync_calendar": "Synchroniser avec mon calendrier",
+    "chapter_prefix": "Chapitre",
+    "phase_heading": "Quoi et quand",
+    "deep_dive": "Immersion profonde avec Guide IA",
+    "next_chapter": "Chapitre Suivant",
+    "close_insights": "Fermer les Infos IA",
+    "synthesizing": "Synthèse des informations du chapitre...",
+    "key_actors": "Acteurs Clés",
+    "your_mission": "Votre Mission",
+    "did_you_know": "Le saviez-vous ?",
+    "phases": {
+      "1": {
+        "title": "Annonce",
+        "desc": "Les dates officielles sont annoncées. Le Code de Conduite Modèle (MCC) entre en vigueur immédiatement. Aucun nouveau projet gouvernemental ne peut être annoncé après cela.",
+        "key_actors": "Commission Électorale, Chef d'État/Gouvernement",
+        "mission": "Surveillez l'annonce officielle et marquez la période de silence (48h avant le vote) dans votre calendrier.",
+        "trivia": "Le code de conduite n'a souvent pas de fondement légal — il repose sur l'autorité morale et le respect volontaire des partis."
+      },
+      "2": {
+        "title": "Inscription",
+        "desc": "Votre dernière chance d'inscrire votre nom sur la liste électorale. Pas de nom, pas de vote. Vérifiez le portail officiel ou contactez votre bureau local.",
+        "key_actors": "Officiers d'Enregistrement Électoral, Gouvernements Locaux, Portail NVSP",
+        "mission": "Cherchez votre nom sur le portail des électeurs. S'il manque, déposez le formulaire d'inscription immédiatement.",
+        "trivia": "Dans les grandes démocraties, des millions de personnes s'inscrivent simultanément — c'est le plus grand exercice administratif de la planète."
+      },
+      "3": {
+        "title": "Campagne",
+        "desc": "Les candidats déposent leurs candidatures. Après les délais de révision, la liste finale est publiée. Les campagnes durent jusqu'à la période de silence avant le vote.",
+        "key_actors": "Candidats, Partis Politiques, Officiers de Scrutin",
+        "mission": "Examinez les déclarations des candidats (biens, casiers judiciaires) — ce sont des documents publics officiels.",
+        "trivia": "La période de silence a été introduite pour que les électeurs puissent décider librement sans influence de dernière minute."
+      },
+      "4": {
+        "title": "Jour du Vote",
+        "desc": "Le moment du choix. Généralement de 7h à 18h. Apportez votre pièce d'identité officielle. Votre vote est secret.",
+        "key_actors": "Officiers de Bureau, Délégués, Techniciens d'Urnes, Forces de Sécurité",
+        "mission": "Localisez votre bureau de vote, apportez une pièce d'identité valide et exercez votre droit de vote.",
+        "trivia": "Les urnes électroniques modernes ne sont connectées à aucun réseau. Ce sont des appareils isolés — le piratage par internet est techniquement impossible."
+      },
+      "5": {
+        "title": "Comptage & Résultats",
+        "desc": "Les votes sont comptés sous stricte surveillance officielle dans les centres de dépouillement. Les résultats sont annoncés par circonscription.",
+        "key_actors": "Officiers de Scrutin, Délégués, Observateurs Électoraux",
+        "mission": "Suivez les résultats en direct sur le portail officiel — ne vous fiez pas uniquement aux projections des médias.",
+        "trivia": "Dans de nombreux pays, une comparaison obligatoire des reçus papier avec le comptage électronique est effectuée pour garantir la transparence."
+      }
+    },
+    "milestones": {
+      "title": "Jalons Clés",
+      "m1": "Liste Électorale Provisoire",
+      "m2": "Publication de la Liste Finale",
+      "m3": "Clôture des Inscriptions",
+      "m4": "Limite des Candidatures",
+      "m5": "Jour de l'Élection",
+      "m6": "Jour des Résultats"
+    }
+  },
+  "ballot": {
+    "title": "Guide de Préparation de l'Électeur",
+    "subtitle": "Assurez-vous d'avoir tout prêt avant d'aller au bureau de vote. Pas de surprises, juste une expérience de vote fluide.",
+    "readiness_score": "Votre État de Préparation",
+    "ready_label": "Prêt",
+    "select_step": "Choisissez une étape",
+    "select_step_desc": "Sélectionnez un élément à gauche pour voir les exigences détaillées vérifiées par notre coach IA.",
+    "consulting_agent": "Consultation de l'Agent Electra-Lens pour votre guide personnalisé...",
+    "quick_tip": "Conseil Rapide",
+    "actions": {
+      "verify_online": "Vérifier en Ligne",
+      "download_guide": "Télécharger le Guide"
+    },
+    "status": {
+      "compulsory": "Obligatoire",
+      "recommended": "Recommandé"
+    },
+    "steps": {
+      "s1": { "title": "Pièce d'Identité", "desc": "Document officiel d'identité avec photo valide." },
+      "s2": { "title": "État d'Inscription", "desc": "Vérifiez que votre nom figure sur la liste électorale." },
+      "s3": { "title": "Localiser le Bureau", "desc": "Trouvez votre bureau de vote assigné et votre numéro de table." },
+      "s4": { "title": "Formulaires", "desc": "Consultez les profils des candidats et les déclarations nécessaires." }
+    }
+  },
+  "rumor": {
+    "title": "Compagnon Chasseur de Mythes",
+    "subtitle": "Ne laissez pas les rumeurs obscurcir votre décision. Nous aidons à vérifier les actualités virales par rapport aux règles officielles.",
+    "placeholder": "Collez un message viral ou une info ici...",
+    "verify_button": "Vérifier",
+    "analysis_title": "Analyse IA en Direct",
+    "agent_label": "Agent",
+    "consulting": "Consultation des directives électorales officielles...",
+    "grounded_note": "Basé sur les recherches Google & sources officielles",
+    "official_link": "Lien Officiel",
+    "select_claim": "Entrez une info pour démarrer l'analyse",
+    "select_claim_desc": "Nous utilisons Gemini et la recherche en direct pour comparer avec la législation électorale réelle.",
+    "deflection_title": "Redirection Sécurisée",
+    "deflection_desc": "Si un sujet est très sensible ou si les résultats ne sont pas clairs, nous vous recommanderons toujours de consulter l'autorité électorale locale.",
+    "viral_title": "Viral Actuellement",
+    "myths": {
+      "m1": { "claim": "Vous pouvez voter en utilisant votre identité numérique sur mobile.", "verdict": "Vrai" },
+      "m2": { "claim": "Les bureaux de vote ferment 2h plus tôt à cause de la pluie.", "verdict": "Faux" },
+      "m3": { "claim": "L'âge du vote pour les élections étudiantes a été abaissé à 16 ans.", "verdict": "Trompeur" }
+    }
+  },
+  "simulation": {
+    "title": "Jeu de la Démocratie",
+    "subtitle": "Vivez le processus électoral à travers des jeux de rôle immersifs et des scénarios \"et si\" propulsés par l'IA.",
+    "start_module": "Lancer le Module IA",
+    "back_menu": "Retour au Menu",
+    "game_master": "Maître de Jeu IA",
+    "generating": "Génération du scénario...",
+    "input_placeholder": "Tapez votre action ou choix ici...",
+    "go_button": "Aller",
+    "footer_note": "Propulsé par Google Gemini — les actions influencent l'histoire générée.",
+    "modes": {
+      "training": { "title": "Entraînement de Bureau", "desc": "Tutoriel étape par étape du jour du vote." },
+      "scenario": { "title": "Jeu de Rôle", "icon": "Dices", "desc": "Jouez le rôle d'un commissaire et gérez des incidents réels." },
+      "whatif": { "title": "Moteur 'Et si'", "desc": "Changez les règles électorales et voyez ce qui se passe." }
+    }
+  },
+  "inclusive": {
+    "title": "Hub d'Apprentissage Inclusif",
+    "subtitle": "La démocratie est pour tous. Choisissez comment vous voulez apprendre : écoutez des histoires, regardez des guides simples.",
+    "ai_assisted": "Apprentissage assisté par IA",
+    "ready_learn": "Prêt à apprendre ?",
+    "ready_learn_desc": "Sélectionnez un module pour générer du contenu civique adapté à votre langue et profil via l'IA.",
+    "narrated_by": "Narré par Electra-Lens AI",
+    "language_label": "Langue",
+    "transcript": "Transcription",
+    "sign_language": "Langue des Signes",
+    "playing": "Lecture en cours...",
+    "educator_title": "Mode Éducateur / Classe",
+    "educator_desc": "Synchronisez la narration audio avec des cartes visuelles groupées et des pauses pour discussion.",
+    "activate_group": "Activer Session de Groupe",
+    "modules": {
+      "m1": { "title": "Comment Voter (Histoire Audio)", "desc": "Explication style radio de votre expérience au bureau de vote." },
+      "m2": { "title": "Carte Mentale Électorale", "desc": "Un voyage visuel simple de l'inscription aux résultats. Appuyez pour écouter." },
+      "m3": { "title": "Tutoriel Urne Électronique", "desc": "Guide visuel avec audio sur comment exercer son vote correctement." }
+    }
+  },
+  "learning_lab": {
+    "flashcards_title": "Fiches Civiques",
+    "flashcards_subtitle": "Apprenez les bases de la démocratie une fiche à la fois.",
+    "flashcards": "Fiches",
+    "quiz_title": "Quiz Civique",
+    "quiz_subtitle": "Défi Rapide",
+    "quiz": "Quiz",
+    "badge_title": "Gagnez votre badge de \"Érudit Civique\"",
+    "badge_desc": "Complétez 5 quiz pour débloquer des récompenses exclusives.",
+    "quiz_complete": "Quiz Terminé !",
+    "score": "Votre score",
+    "reset": "Réessayer",
+    "next": "Question Suivante",
+    "finish": "Terminer",
+    "flip": "Cliquer pour retourner",
+    "question_label": "Question",
+    "of_label": "sur",
+    "explanation_label": "Pourquoi c'est correct :",
+    "questions": {
+      "q1": { 
+        "q": "Lequel de ces documents n'est PAS une pièce d'identité valide pour voter ?", 
+        "options": ["Passeport", "Permis de Conduire", "Carte de Bibliothèque", "Carte Militaire"],
+        "explanation": "Dans la plupart des endroits, la carte de bibliothèque n'est pas considérée comme une pièce d'identité officielle avec photo valide pour voter."
+      },
+      "q2": { 
+        "q": "Quel est l'âge minimum pour s'inscrire sur les listes électorales dans la plupart des pays ?", 
+        "options": ["16", "18", "21", "25"],
+        "explanation": "L'âge standard pour voter dans la plupart des démocraties modernes est de 18 ans."
+      },
+      "q3": { 
+        "q": "Quel organisme organise les élections dans une démocratie typique ?", 
+        "options": ["Cour Suprême", "Parlement", "Commission Électorale", "Ministère de l'Intérieur"],
+        "explanation": "La Commission Électorale est l'organisme autonome chargé de gérer les processus électoraux."
+      },
+      "q4": { 
+        "q": "Qu'est-ce que le Code de Conduite Modèle ?", 
+        "options": ["Liste des candidats", "Directives pour les partis et candidats", "Logiciel de vote", "La Constitution elle-même"],
+        "explanation": "C'est l'ensemble des directives que les partis et candidats doivent suivre pendant la période électorale."
+      },
+      "q5": { 
+        "q": "Tous les combien d'années ont lieu les élections présidentielles aux États-Unis ?", 
+        "options": ["Tous les 2 ans", "Tous les 4 ans", "Tous les 5 ans", "Tous les 6 ans"],
+        "explanation": "Les élections présidentielles américaines ont lieu tous les quatre ans au mois de novembre."
+      }
+    },
+    "cards": {
+      "c1": { "q": "Qu'est-ce qu'une pièce d'identité d'électeur ?", "a": "Un document officiel qui vérifie votre identité au bureau de vote.", "cat": "Bases" },
+      "c2": { "q": "Qu'est-ce que le 'Gerrymandering' ?", "a": "La manipulation des limites des circonscriptions pour favoriser un parti.", "cat": "Avancé" },
+      "c3": { "q": "Qu'est-ce que le vote par correspondance ?", "a": "Un vote émis par courrier par quelqu'un qui ne peut se rendre au bureau de vote le jour J.", "cat": "Bases" },
+      "c4": { "q": "Qu'est-ce qu'un scrutin ?", "a": "Le comptage officiel des votes émis lors d'une élection.", "cat": "Processus" },
+      "c5": { "q": "Que signifie EVM ?", "a": "Electronic Voting Machine (Urne Électronique), utilisée pour enregistrer et compter les votes.", "cat": "Technologie" },
+      "c6": { "q": "Qu'est-ce que le VVPAT ?", "a": "Voter Verifiable Paper Audit Trail, permet à l'électeur de vérifier que son vote est allé au bon candidat.", "cat": "Transparence" }
+    }
+  },
+  "gamification": {
+    "xp_next": "XP pour le niveau suivant",
+    "badges_label": "Badges",
+    "more_label": "Plus",
+    "level_prefix": "Niveau.",
+    "titles": {
+      "t0": "Nouveau Venu",
+      "t1": "Débutant Électoral",
+      "t2": "Votant Conscient",
+      "t3": "Apprenti Démocratie",
+      "t4": "Explorateur de District",
+      "t5": "Expert Électoral",
+      "t6": "Lecteur Constitutionnel",
+      "t7": "Champion de la Démocratie",
+      "t8": "Lumière Civique",
+      "t9": "Maître Electra-Lens"
+    },
+    "badges": {
+      "first_step": { "label": "Premier Pas", "desc": "Vous avez lancé le tableau de bord Electra-Lens-AI pour la première fois." },
+      "voter_registration_pro": { "label": "Pro de l'Inscription", "desc": "Vous avez terminé le chapitre Guide de Préparation de l'Électeur." },
+      "timeline_explorer": { "label": "Explorateur de Parcours", "desc": "Vous avez exploré les 5 phases du parcours électoral." },
+      "myth_buster": { "label": "Chasseur de Mythes", "desc": "Vous avez vérifié 3 actualités électorales ou plus." },
+      "counting_room_insider": { "label": "Expert en Dépouillement", "desc": "Vous avez terminé le module de simulation de comptage des voix." },
+      "constitution_explorer": { "label": "Explorateur Constitutionnel", "desc": "Vous avez lu 5 articles ou plus dans la Base de Connaissances." },
+      "data_detective": { "label": "Détective de Données", "desc": "Vous avez exploré les graphiques de données dans l'explorateur." },
+      "streak_3": { "label": "Série de 3 Jours", "desc": "Connecté à Electra-Lens-AI pendant 3 jours consécutifs." },
+      "quiz_ace": { "label": "As du Quiz", "desc": "Vous avez répondu correctement à 10 questions." },
+      "commissioner_sim": { "label": "Simulateur de Commissaire", "desc": "Vous avez terminé le scénario de jeu de rôle de commissaire électoral." }
+    }
+  },
+  "multimodal": {
+    "title": "Expérience d'Apprentissage Inclusive",
+    "subtitle": "Générez des infographies, des guides audio et des vidéos pour un parcours accessible.",
+    "button": "Générer Pack Multimodal",
+    "generating": "Génération...",
+    "visual": "Infographie Visuelle",
+    "visual_desc": "Cliquez pour générer un guide visuel personnalisé pour cette phase.",
+    "audio": "Guide Audio",
+    "audio_desc": "Écoutez l'explication de cette phase dans votre langue locale.",
+    "video": "Explication Vidéo",
+    "video_desc": "Des tutoriels vidéo cinématographiques sont créés en fonction de votre profil.",
+    "bandwidth_note": "Vidéos optimisées pour les connexions mobiles à faible débit.",
+    "audio_tip": "Conseil : Utilisez des écouteurs pour une expérience audio immersive."
+  },
+  "language": {
+    "en": "English",
+    "hi": "Hindi",
+    "ta": "Tamil",
+    "te": "Telugu",
+    "kn": "Kannada",
+    "ml": "Malayalam",
+    "bn": "Bengali",
+    "gu": "Gujarati",
+    "mr": "Marathi",
+    "es": "Español",
+    "fr": "Français",
+    "de": "Deutsch"
+  }
+}

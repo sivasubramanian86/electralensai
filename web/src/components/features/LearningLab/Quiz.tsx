@@ -1,15 +1,23 @@
 import { useState } from 'react';
-import { CIVIC_MOCKS } from '../../../mocks/civicKnowledge';
+import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
 
 export function Quiz() {
+  const { t } = useTranslation();
   const [currentStep, setCurrentStep] = useState(0);
   const [selectedOption, setSelectedOption] = useState<number | null>(null);
   const [score, setScore] = useState(0);
   const [showResult, setShowResult] = useState(false);
 
-  const quizData = CIVIC_MOCKS.quiz;
-  const currentQuestion = quizData[currentStep];
+  const quizCount = 5; 
+  const qKey = `learning_lab.questions.q${currentStep + 1}`;
+  
+  const currentQuestion = {
+    question: t(`${qKey}.q`),
+    options: t(`${qKey}.options`, { returnObjects: true }) as string[] || [],
+    correct: [2, 1, 2, 1, 1][currentStep], 
+    explanation: t(`${qKey}.explanation`)
+  };
 
   const handleOptionClick = (idx: number) => {
     setSelectedOption(idx);
@@ -18,7 +26,7 @@ export function Quiz() {
   };
 
   const nextQuestion = () => {
-    if (currentStep < quizData.length - 1) {
+    if (currentStep < quizCount - 1) {
       setCurrentStep(currentStep + 1);
       setSelectedOption(null);
     } else {
@@ -29,8 +37,8 @@ export function Quiz() {
   if (showResult) {
     return (
       <div className="text-center py-12">
-        <h3 className="text-3xl font-bold text-white mb-4">Quiz Complete!</h3>
-        <p className="text-5xl font-black text-blue-500 mb-6">{score} / {quizData.length}</p>
+        <h3 className="text-3xl font-bold text-white mb-4">{t('learning_lab.quiz_complete', 'Quiz Complete!')}</h3>
+        <p className="text-5xl font-black text-blue-500 mb-6">{score} / {quizCount}</p>
         <button 
           onClick={() => {
             setCurrentStep(0);
@@ -40,7 +48,7 @@ export function Quiz() {
           }}
           className="px-8 py-3 bg-blue-600 hover:bg-blue-500 text-white rounded-xl font-bold transition-all"
         >
-          Try Again
+          {t('learning_lab.reset', 'Try Again')}
         </button>
       </div>
     );
@@ -50,13 +58,13 @@ export function Quiz() {
     <div className="max-w-2xl mx-auto py-8">
       <div className="mb-8">
         <div className="flex justify-between items-end mb-4">
-          <h3 className="text-xl font-bold text-white">Civic Quiz</h3>
-          <span className="text-slate-400 font-mono text-sm">Question {currentStep + 1} of {quizData.length}</span>
+          <h3 className="text-xl font-bold text-white">{t('learning_lab.quiz_title', 'Civic Quiz')}</h3>
+          <span className="text-slate-400 font-mono text-sm">{t('learning_lab.question_label', 'Question')} {currentStep + 1} {t('learning_lab.of_label', 'of')} {quizCount}</span>
         </div>
         <div className="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden">
           <motion.div 
             initial={{ width: 0 }}
-            animate={{ width: `${((currentStep + 1) / quizData.length) * 100}%` }}
+            animate={{ width: `${((currentStep + 1) / quizCount) * 100}%` }}
             className="h-full bg-blue-500"
           />
         </div>
@@ -104,14 +112,14 @@ export function Quiz() {
             className="mt-8 p-6 bg-slate-800/50 rounded-2xl border border-slate-700/50"
             aria-live="polite"
           >
-            <p className="text-sm font-bold text-blue-400 mb-2 uppercase tracking-widest">Why this is correct:</p>
+            <p className="text-sm font-bold text-blue-400 mb-2 uppercase tracking-widest">{t('learning_lab.explanation_label', 'Why this is correct:')}</p>
             <p className="text-slate-300 text-sm leading-relaxed">{currentQuestion.explanation}</p>
             
             <button 
               onClick={nextQuestion}
               className="mt-6 w-full py-3 bg-slate-100 hover:bg-white text-navy-950 font-bold rounded-xl transition-all"
             >
-              {currentStep < quizData.length - 1 ? 'Next Question' : 'Finish Quiz'}
+              {currentStep < quizCount - 1 ? t('learning_lab.next', 'Next Question') : t('learning_lab.finish', 'Finish Quiz')}
             </button>
           </motion.div>
         )}

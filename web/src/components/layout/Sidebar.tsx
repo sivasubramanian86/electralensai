@@ -55,30 +55,38 @@ export function Sidebar({ activeTab, onTabChange, gamification }: SidebarProps) 
           <h1 className="text-xl font-bold bg-gradient-to-r from-blue-400 to-violet-400 bg-clip-text text-transparent">
             ElectraLens <span className="text-blue-500">AI</span>
           </h1>
-          <span className="text-[10px] text-slate-500 font-bold tracking-[0.2em] uppercase">Voter Education Portal</span>
+          <span className="text-[10px] text-slate-500 font-bold tracking-[0.2em] uppercase">{t('app.subtitle', 'Voter Education Portal')}</span>
         </div>
       </div>
 
       {/* Navigation */}
-      <nav className="flex-1 px-4 py-2 space-y-1 overflow-y-auto hide-scrollbar">
+      <nav 
+        className="flex-1 px-4 py-2 space-y-1 overflow-y-auto hide-scrollbar"
+        role="tablist"
+        aria-label="Primary Navigation"
+      >
         {menuItems.map((item) => (
           <button
             key={item.id}
             onClick={() => onTabChange(item.id as TabId | 'dashboard')}
-            aria-current={activeTab === item.id ? 'page' : undefined}
+            role="tab"
+            aria-selected={activeTab === item.id}
             aria-label={item.label}
-            className={`w-full flex items-center justify-between px-4 py-2.5 rounded-xl transition-all duration-200 group ${
+            className={`w-full flex items-center justify-between px-4 py-2.5 rounded-xl transition-all duration-200 group focus:ring-2 focus:ring-blue-500/50 focus:outline-none ${
               activeTab === item.id
                 ? 'bg-blue-600/10 text-blue-400 border border-blue-500/20'
                 : 'text-slate-400 hover:text-white hover:bg-white/5 border border-transparent'
             }`}
           >
             <div className="flex items-center gap-3">
-              <item.icon className={`w-4 h-4 ${activeTab === item.id ? 'text-blue-400' : 'text-slate-500 group-hover:text-slate-300'}`} />
+              <item.icon 
+                className={`w-4 h-4 ${activeTab === item.id ? 'text-blue-400' : 'text-slate-500 group-hover:text-slate-300'}`} 
+                aria-hidden="true"
+              />
               <span className="text-sm font-medium">{t(item.key, item.label)}</span>
             </div>
             {activeTab === item.id && (
-              <ChevronRight className="w-3.5 h-3.5 animate-in slide-in-from-left-1" />
+              <ChevronRight className="w-3.5 h-3.5 animate-in slide-in-from-left-1" aria-hidden="true" />
             )}
           </button>
         ))}
@@ -98,7 +106,7 @@ export function Sidebar({ activeTab, onTabChange, gamification }: SidebarProps) 
           }`}
         >
           <Settings className={`w-4 h-4 ${activeTab === 'settings' ? 'text-blue-400' : 'text-slate-500'}`} />
-          <span className="text-sm font-medium">Settings</span>
+          <span className="text-sm font-medium">{t('nav.settings', 'Settings')}</span>
         </button>
       </div>
     </aside>

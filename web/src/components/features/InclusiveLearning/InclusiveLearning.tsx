@@ -51,8 +51,15 @@ const multimodalModules = [
   }
 ];
 
+/**
+ * InclusiveLearning — Multimodal Learning Hub for Accessible Civics.
+ * 
+ * Offers AI-generated audio stories, visual mind maps, and video walkthroughs
+ * to ensure civic education is accessible to all citizens, including those
+ * with visual or auditory impairments.
+ */
 export function InclusiveLearning() {
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [activeModule, setActiveModule] = useState<typeof multimodalModules[0] | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const { generateContent, content, loading, error } = useMultimedia();
@@ -69,16 +76,16 @@ export function InclusiveLearning() {
         <div className="space-y-2">
           <h2 className="text-4xl font-bold flex items-center gap-4 text-white">
             <Accessibility className="text-blue-400 w-12 h-12" />
-            Inclusive Learning Hub
+            {t('inclusive.title', 'Inclusive Learning Hub')}
           </h2>
           <p className="text-slate-400 text-lg max-w-2xl leading-relaxed">
-            Democracy is for everyone. Choose how you want to learn: listen to stories, watch simplified guides, or explore visual maps.
+            {t('inclusive.subtitle', 'Democracy is for everyone. Choose how you want to learn: listen to stories, watch simplified guides, or explore visual maps.')}
           </p>
         </div>
         <div className="flex gap-4">
            <div className="px-4 py-2 rounded-2xl bg-white/5 border border-white/10 flex items-center gap-2 backdrop-blur-sm">
               <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-              <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">AI Assisted Learning</span>
+              <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{t('inclusive.ai_assisted', 'AI Assisted Learning')}</span>
            </div>
         </div>
       </div>
@@ -104,8 +111,8 @@ export function InclusiveLearning() {
                   <span className={`text-[10px] font-bold uppercase tracking-widest text-${mod.color}-400`}>{mod.type}</span>
                   <span className="text-[10px] text-slate-500 font-mono">{mod.duration}</span>
                 </div>
-                <h3 className="text-lg font-bold text-white">{mod.title}</h3>
-                <p className="text-sm text-slate-400 line-clamp-2 leading-relaxed">{mod.desc}</p>
+                <h3 className="text-lg font-bold text-white">{t(`inclusive.modules.m${mod.id === 'audio-story' ? '1' : mod.id === 'mind-map' ? '2' : '3'}.title`, mod.title)}</h3>
+                <p className="text-sm text-slate-400 line-clamp-2 leading-relaxed">{t(`inclusive.modules.m${mod.id === 'audio-story' ? '1' : mod.id === 'mind-map' ? '2' : '3'}.desc`, mod.desc)}</p>
               </div>
             </button>
           ))}
@@ -120,7 +127,7 @@ export function InclusiveLearning() {
                 {loading ? (
                    <div className="flex flex-col items-center gap-4 text-blue-400">
                       <Loader2 className="w-12 h-12 animate-spin" />
-                      <p className="text-sm font-bold animate-pulse">Generating Inclusive Assets for {i18n.language.toUpperCase()}...</p>
+                      <p className="text-sm font-bold animate-pulse">{t('multimodal.generating', 'Generating Inclusive Assets')} for {i18n.language.toUpperCase()}...</p>
                    </div>
                 ) : error ? (
                    <div className="p-8 text-center space-y-4">
@@ -176,9 +183,9 @@ export function InclusiveLearning() {
                             ))}
                          </div>
                          <div className="text-center space-y-2">
-                            <h4 className="text-2xl font-bold text-white">Narrated by ElectraLens AI</h4>
+                            <h4 className="text-2xl font-bold text-white">{t('inclusive.narrated_by', 'Narrated by ElectraLens AI')}</h4>
                             <p className="text-slate-400 font-mono text-sm uppercase tracking-widest">
-                              Language: {i18n.language === 'en' ? 'English' : i18n.language.toUpperCase()}
+                               {t('inclusive.language_label', 'Language')}: {i18n.language === 'en' ? 'English' : i18n.language.toUpperCase()}
                             </p>
                          </div>
                       </div>
@@ -209,10 +216,10 @@ export function InclusiveLearning() {
                   </div>
                   <div className="flex gap-2">
                     <button className="px-4 py-2 rounded-xl bg-white/5 border border-white/10 text-[10px] font-bold uppercase tracking-widest text-slate-400 hover:text-white transition-all flex items-center gap-2">
-                      <Download className="w-3 h-3" /> Transcript
+                      <Download className="w-3 h-3" /> {t('inclusive.transcript', 'Transcript')}
                     </button>
                     <button className="px-4 py-2 rounded-xl bg-white/5 border border-white/10 text-[10px] font-bold uppercase tracking-widest text-slate-400 hover:text-white transition-all flex items-center gap-2">
-                      <Captions className="w-3 h-3" /> Sign Language
+                      <Captions className="w-3 h-3" /> {t('inclusive.sign_language', 'Sign Language')}
                     </button>
                   </div>
                 </div>
@@ -222,7 +229,7 @@ export function InclusiveLearning() {
                     <div className={`h-full bg-blue-500 transition-all duration-[2000ms] ${isPlaying ? 'w-full' : 'w-0'}`} />
                   </div>
                   <div className="flex justify-between text-[10px] font-mono text-slate-500">
-                    <span>{isPlaying ? 'Playing...' : '0:00'}</span>
+                    <span>{isPlaying ? t('inclusive.playing', 'Playing...') : '0:00'}</span>
                     <span>{activeModule.duration}</span>
                   </div>
                 </div>
@@ -234,8 +241,8 @@ export function InclusiveLearning() {
                   <Eye className="w-10 h-10 opacity-20" />
                </div>
                <div>
-                 <p className="text-xl font-bold text-slate-400">Ready to Learn?</p>
-                 <p className="max-w-sm mx-auto mt-2 text-balance">Select a module from the left to generate immersive, AI-powered civic content tailored to your language and persona.</p>
+                 <p className="text-xl font-bold text-slate-400">{t('inclusive.ready_learn', 'Ready to Learn?')}</p>
+                 <p className="max-w-sm mx-auto mt-2 text-balance">{t('inclusive.ready_learn_desc', 'Select a module from the left to generate immersive, AI-powered civic content tailored to your language and persona.')}</p>
                </div>
             </div>
           )}
@@ -249,12 +256,12 @@ export function InclusiveLearning() {
               <MessageCircle className="w-6 h-6 text-blue-400" />
            </div>
            <div>
-              <h4 className="font-bold text-white">Educator / Classroom Mode</h4>
-              <p className="text-sm text-slate-400">Sync audio narration with group-view mind maps and discussion pause points.</p>
+              <h4 className="font-bold text-white">{t('inclusive.educator_title', 'Educator / Classroom Mode')}</h4>
+              <p className="text-sm text-slate-400">{t('inclusive.educator_desc', 'Sync audio narration with group-view mind maps and discussion pause points.')}</p>
            </div>
         </div>
         <button className="px-8 py-3 rounded-2xl bg-blue-600 text-white font-bold flex items-center gap-2 hover:bg-blue-500 transition-all shadow-xl shadow-blue-600/20">
-           Activate Group Session <ChevronRight className="w-4 h-4" />
+           {t('inclusive.activate_group', 'Activate Group Session')} <ChevronRight className="w-4 h-4" />
         </button>
       </div>
     </div>

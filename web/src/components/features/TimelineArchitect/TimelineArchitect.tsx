@@ -117,7 +117,7 @@ export function TimelineArchitect() {
           </p>
         </div>
         <button className="px-6 py-3 bg-white/5 hover:bg-white/10 border border-white/10 rounded-2xl text-sm font-bold flex items-center gap-2 transition-all">
-          <BellRing className="w-4 h-4 text-blue-400" /> Sync to My Calendar
+          <BellRing className="w-4 h-4 text-blue-400" /> {t('timeline.sync_calendar', 'Sync to My Calendar')}
         </button>
       </div>
 
@@ -145,10 +145,10 @@ export function TimelineArchitect() {
                 </div>
                 <div className="text-center">
                   <p className={`text-[10px] font-bold uppercase tracking-[0.2em] mb-1 ${activePhase === p.id ? `text-${p.color}-400` : 'text-slate-500'}`}>
-                    Chapter {p.id}
+                    {t('timeline.chapter_prefix', 'Chapter')} {p.id}
                   </p>
                   <p className={`text-sm font-bold ${activePhase === p.id ? 'text-white' : 'text-slate-400'}`}>
-                    {p.title}
+                    {t(`timeline.phases.${p.id}.title`, p.title)}
                   </p>
                 </div>
               </button>
@@ -177,7 +177,7 @@ export function TimelineArchitect() {
                )}
             </div>
             {!showAiInsights && (
-               <p className="text-lg text-slate-300 leading-relaxed max-w-2xl">{phase.desc}</p>
+               <p className="text-lg text-slate-300 leading-relaxed max-w-2xl">{t(`timeline.phases.${phase.id}.desc`, phase.desc)}</p>
             )}
           </div>
 
@@ -185,18 +185,18 @@ export function TimelineArchitect() {
             <>
               {/* Did You Know */}
               <div className="p-4 rounded-2xl bg-blue-500/5 border border-blue-500/15">
-                <p className="text-xs font-bold text-blue-400 mb-1">Did You Know?</p>
-                <p className="text-sm text-slate-400 leading-relaxed">{phase.didYouKnow}</p>
+                <p className="text-xs font-bold text-blue-400 mb-1">{t('timeline.did_you_know', 'Did You Know?')}</p>
+                <p className="text-sm text-slate-400 leading-relaxed">{t(`timeline.phases.${phase.id}.trivia`, phase.didYouKnow)}</p>
               </div>
-
+ 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
                 <div className="p-4 rounded-2xl bg-white/5 border border-white/5 space-y-2">
-                  <h4 className="text-[10px] font-bold text-blue-400 uppercase tracking-widest">Key Actors</h4>
-                  <p className="text-sm text-slate-400">{phase.keyActors}</p>
+                  <h4 className="text-[10px] font-bold text-blue-400 uppercase tracking-widest">{t('timeline.key_actors', 'Key Actors')}</h4>
+                  <p className="text-sm text-slate-400">{t(`timeline.phases.${phase.id}.key_actors`, phase.keyActors)}</p>
                 </div>
                 <div className="p-4 rounded-2xl bg-white/5 border border-white/5 space-y-2">
-                  <h4 className="text-[10px] font-bold text-emerald-400 uppercase tracking-widest">Your Mission</h4>
-                  <p className="text-sm text-slate-400">{phase.yourMission}</p>
+                  <h4 className="text-[10px] font-bold text-emerald-400 uppercase tracking-widest">{t('timeline.your_mission', 'Your Mission')}</h4>
+                  <p className="text-sm text-slate-400">{t(`timeline.phases.${phase.id}.mission`, phase.yourMission)}</p>
                 </div>
               </div>
 
@@ -205,14 +205,14 @@ export function TimelineArchitect() {
                   onClick={handleLearnMore}
                   className="flex-1 py-4 rounded-2xl bg-blue-600 hover:bg-blue-500 text-white font-bold transition-all flex items-center justify-center gap-2 shadow-lg shadow-blue-500/20"
                 >
-                  <Sparkles className="w-4 h-4" /> Deep Dive with AI Guide
+                  <Sparkles className="w-4 h-4" /> {t('timeline.deep_dive', 'Deep Dive with AI Guide')}
                 </button>
                 {activePhase < 5 && (
                   <button
                     onClick={() => setActivePhase((prev) => Math.min(prev + 1, 5))}
                     className="px-6 py-4 rounded-2xl bg-white/5 border border-white/10 text-slate-300 hover:bg-white/10 font-bold transition-all"
                   >
-                    Next Chapter →
+                    {t('timeline.next_chapter', 'Next Chapter')} →
                   </button>
                 )}
               </div>
@@ -274,7 +274,7 @@ export function TimelineArchitect() {
             {/* Infographic Card */}
             <div className="p-6 rounded-2xl bg-navy-900/50 border border-white/5 space-y-4">
               <div className="flex items-center gap-3 text-blue-400 font-bold text-sm">
-                <ImageIcon className="w-4 h-4" /> Visual Infographic
+                <ImageIcon className="w-4 h-4" /> {t('multimodal.visual', 'Visual Infographic')}
               </div>
               <div className="aspect-square rounded-xl bg-white/5 flex items-center justify-center overflow-hidden border border-white/10 group relative">
                 {multimedia?.infographic_url ? (
@@ -285,7 +285,7 @@ export function TimelineArchitect() {
                     </a>
                   </>
                 ) : (
-                  <p className="text-slate-600 text-xs italic text-center p-4">Click generate to build a custom visual guide for this phase.</p>
+                  <p className="text-slate-600 text-xs italic text-center p-4">{t('multimodal.visual_desc', 'Click generate to build a custom visual guide for this phase.')}</p>
                 )}
               </div>
             </div>
@@ -293,7 +293,7 @@ export function TimelineArchitect() {
             {/* Audio Guide Card */}
             <div className="p-6 rounded-2xl bg-navy-900/50 border border-white/5 space-y-4">
               <div className="flex items-center gap-3 text-emerald-400 font-bold text-sm">
-                <Volume2 className="w-4 h-4" /> Audio Walkthrough
+                <Volume2 className="w-4 h-4" /> {t('multimodal.audio', 'Audio Walkthrough')}
               </div>
               <div className="space-y-4">
                 {multimedia?.audio_url ? (
@@ -305,11 +305,11 @@ export function TimelineArchitect() {
                   </div>
                 ) : (
                   <div className="h-32 rounded-xl bg-white/5 flex items-center justify-center border border-white/10">
-                    <p className="text-slate-600 text-xs italic text-center p-4 text-balance">Listen to the story of this phase in your local language.</p>
+                    <p className="text-slate-600 text-xs italic text-center p-4 text-balance">{t('multimodal.audio_desc', 'Listen to the story of this phase in your local language.')}</p>
                   </div>
                 )}
                 <div className="p-3 rounded-xl bg-emerald-500/5 border border-emerald-500/10 text-[10px] text-emerald-500/70 leading-relaxed">
-                  Tip: Use headphones for an immersive spatial audio experience of the election process.
+                  {t('multimodal.audio_tip', 'Tip: Use headphones for an immersive spatial audio experience of the election process.')}
                 </div>
               </div>
             </div>
@@ -317,7 +317,7 @@ export function TimelineArchitect() {
             {/* Video Tutorial Card */}
             <div className="p-6 rounded-2xl bg-navy-900/50 border border-white/5 space-y-4">
               <div className="flex items-center gap-3 text-violet-400 font-bold text-sm">
-                <Video className="w-4 h-4" /> Video Explainer
+                <Video className="w-4 h-4" /> {t('multimodal.video', 'Video Explainer')}
               </div>
               <div className="aspect-video rounded-xl bg-white/5 flex items-center justify-center overflow-hidden border border-white/10 relative group">
                 {multimedia?.video_url ? (
@@ -329,11 +329,11 @@ export function TimelineArchitect() {
                     allowFullScreen
                   />
                 ) : (
-                  <p className="text-slate-600 text-xs italic text-center p-4">Cinematic video tutorials are generated on demand based on your persona.</p>
+                  <p className="text-slate-600 text-xs italic text-center p-4">{t('multimodal.video_desc', 'Cinematic video tutorials are generated on demand based on your persona.')}</p>
                 )}
               </div>
               <p className="text-[10px] text-slate-500 italic text-center">
-                Videos are optimized for low-bandwidth mobile networks.
+                {t('multimodal.bandwidth_note', 'Videos are optimized for low-bandwidth mobile networks.')}
               </p>
             </div>
           </div>
@@ -342,17 +342,17 @@ export function TimelineArchitect() {
         {/* Critical Milestones */}
         <div className="glass rounded-3xl border border-white/10 p-8 flex flex-col">
           <h3 className="text-sm font-bold uppercase tracking-widest text-slate-500 mb-8 flex items-center gap-2">
-            <CalendarDays className="w-4 h-4" /> Critical Milestones
+            <CalendarDays className="w-4 h-4" /> {t('timeline.milestones.title', 'Critical Milestones')}
           </h3>
           <div className="space-y-8 flex-1 relative">
             <div className="absolute left-[11px] top-2 bottom-2 w-0.5 bg-white/5" />
             {[
-              { id: 1, title: 'Voter Roll Draft', date: 'Jan 15', status: 'done' },
-              { id: 2, title: 'Final List Public', date: 'Feb 10', status: 'done' },
-              { id: 3, title: 'Registration Ends', date: 'Mar 15', status: 'active' },
-              { id: 4, title: 'Nomination Deadline', date: 'Apr 01', status: 'pending' },
-              { id: 5, title: 'Polling Day', date: 'May 10', status: 'pending' },
-              { id: 6, title: 'Results Day', date: 'May 13', status: 'pending' },
+              { id: 1, title: t('timeline.milestones.m1', 'Voter Roll Draft'), date: 'Jan 15', status: 'done' },
+              { id: 2, title: t('timeline.milestones.m2', 'Final List Public'), date: 'Feb 10', status: 'done' },
+              { id: 3, title: t('timeline.milestones.m3', 'Registration Ends'), date: 'Mar 15', status: 'active' },
+              { id: 4, title: t('timeline.milestones.m4', 'Nomination Deadline'), date: 'Apr 01', status: 'pending' },
+              { id: 5, title: t('timeline.milestones.m5', 'Polling Day'), date: 'May 10', status: 'pending' },
+              { id: 6, title: t('timeline.milestones.m6', 'Results Day'), date: 'May 13', status: 'pending' },
             ].map((step) => (
               <div key={step.id} className="relative flex gap-6 items-start">
                 <div className={`w-6 h-6 rounded-full border-4 z-10 flex-shrink-0 transition-all duration-500 ${

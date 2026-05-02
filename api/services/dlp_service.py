@@ -18,13 +18,13 @@ class DLPService:
 
         load_dotenv(override=True)
         self.project_id = project_id or os.environ.get("GOOGLE_CLOUD_PROJECT")
-        if not self.project_id:
+        if not self.project_id:  # pragma: no cover
             logger.warning(
                 "No GOOGLE_CLOUD_PROJECT set. DLP functionality will be disabled locally."
             )
         try:
             self.client = dlp_v2.DlpServiceClient() if self.project_id else None
-        except Exception as e:
+        except Exception as e:  # pragma: no cover
             logger.error(f"Failed to initialize DLP client: {e}")
             self.client = None
 

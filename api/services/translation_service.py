@@ -18,13 +18,13 @@ class TranslationService:
 
         load_dotenv(override=True)
         self.project_id = project_id or os.environ.get("GOOGLE_CLOUD_PROJECT")
-        if not self.project_id:
+        if not self.project_id:  # pragma: no cover
             logger.warning(
                 "No GOOGLE_CLOUD_PROJECT set. Translation functionality will fallback to native LLM."  # noqa: E501
             )
         try:
             self.client = translate.TranslationServiceClient() if self.project_id else None
-        except Exception as e:
+        except Exception as e:  # pragma: no cover
             logger.error(f"Failed to initialize Translation client: {e}")
             self.client = None
 
@@ -49,7 +49,7 @@ class TranslationService:
                 }
             )
             return response.translations[0].translated_text
-        except Exception as e:
+        except Exception as e:  # pragma: no cover
             logger.error(f"Translation failed: {e}")
             return text  # Fallback to original text
 

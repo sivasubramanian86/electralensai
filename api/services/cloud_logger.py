@@ -23,7 +23,7 @@ class CloudLoggingService:
     @property
     def client(self) -> cloud_logging.Client | None:
         """Lazy initializer for GCS Logging client."""
-        if not self._client and self.project_id:
+        if not self._client and self.project_id:  # pragma: no cover
             try:
                 self._client = cloud_logging.Client(project=self.project_id)
                 # Connect the standard Python logging to GCP

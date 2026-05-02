@@ -1,33 +1,40 @@
 import { useState } from 'react';
-import { CIVIC_MOCKS } from '../../../mocks/civicKnowledge';
+import { useTranslation } from 'react-i18next';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export function Flashcards() {
+  const { t } = useTranslation();
   const [index, setIndex] = useState(0);
   const [isFlipped, setIsFlipped] = useState(false);
   
-  const cards = CIVIC_MOCKS.flashcards;
-  const currentCard = cards[index];
+  const cardsCount = 6; // We have 6 cards in i18n
+  const cardKey = `learning_lab.cards.c${index + 1}`;
+  
+  const currentCard = {
+    question: t(`${cardKey}.q`),
+    answer: t(`${cardKey}.a`),
+    category: t(`${cardKey}.cat`)
+  };
 
   const next = () => {
     setIsFlipped(false);
     setTimeout(() => {
-      setIndex((prev) => (prev + 1) % cards.length);
+      setIndex((prev) => (prev + 1) % cardsCount);
     }, 200);
   };
 
   const prev = () => {
     setIsFlipped(false);
     setTimeout(() => {
-      setIndex((prev) => (prev - 1 + cards.length) % cards.length);
+      setIndex((prev) => (prev - 1 + cardsCount) % cardsCount);
     }, 200);
   };
 
   return (
     <div className="flex flex-col items-center space-y-8 py-8">
       <div className="text-center">
-        <h3 className="text-2xl font-bold text-white mb-2">Civic Flashcards</h3>
-        <p className="text-slate-400">Master the basics of democracy, one card at a time.</p>
+        <h3 className="text-2xl font-bold text-white mb-2">{t('learning_lab.flashcards_title', 'Civic Flashcards')}</h3>
+        <p className="text-slate-400">{t('learning_lab.flashcards_subtitle', 'Master the basics of democracy, one card at a time.')}</p>
       </div>
 
       <div className="relative w-full max-w-md aspect-[3/2] cursor-pointer group" onClick={() => setIsFlipped(!isFlipped)}>
@@ -53,7 +60,7 @@ export function Flashcards() {
             </p>
 
             <span className="absolute bottom-4 text-xs text-slate-500 uppercase tracking-widest">
-              Click to flip
+              {t('learning_lab.flip', 'Click to flip')}
             </span>
           </motion.div>
         </AnimatePresence>
@@ -67,7 +74,7 @@ export function Flashcards() {
           ←
         </button>
         <span className="text-slate-400 font-mono">
-          {index + 1} / {cards.length}
+          {index + 1} / {cardsCount}
         </span>
         <button 
           onClick={(e) => { e.stopPropagation(); next(); }}

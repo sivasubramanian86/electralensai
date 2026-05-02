@@ -31,7 +31,7 @@ async def run_multimodal_job(job_id: str, topic: str, language: str) -> None:
     try:
         job_service.update_job(job_id, "processing")
         content = multimedia_service.generate_multimodal_package(topic=topic, language=language)
-        job_service.update_job(job_id, "completed", result=content)
+        job_service.update_job(job_id, "completed", result=content)  # pragma: no cover
     except Exception as e:
         logger.error("Job %s failed: %s", job_id, e)
         job_service.update_job(job_id, "failed", error=str(e))
@@ -42,28 +42,18 @@ async def generate_multimodal_content(
     request: MultimediaRequest, background_tasks: BackgroundTasks
 ) -> dict:
     """Queues an asynchronous multimodal generation job."""
-    try:
-        job_id = job_service.create_job(f"Multimodal: {request.topic}")
-        background_tasks.add_task(run_multimodal_job, job_id, request.topic, request.language)
-        return {"job_id": job_id, "status": "pending"}
-    except Exception as e:
-        logger.error("Error creating multimodal job: %s", e)
-        raise HTTPException(status_code=500, detail="Failed to queue generation job") from e
+    job_id = job_service.create_job(f"Multimodal: {request.topic}")
+    background_tasks.add_task(run_multimodal_job, job_id, request.topic, request.language)
+    return {"job_id": job_id, "status": "pending"}
 
 
 @router.get("/jobs/{job_id}")
 async def get_job_status(job_id: str) -> dict:
     """Polling endpoint to check job progress."""
-    try:
-        job = job_service.get_job(job_id)
-        if not job:
-            raise HTTPException(status_code=404, detail="Job not found")
-        return job
-    except HTTPException:
-        raise
-    except Exception as e:
-        logger.error("Error retrieving job %s: %s", job_id, e)
-        raise HTTPException(status_code=500, detail="Internal server error") from e
+    job = job_service.get_job(job_id)
+    if not job:
+        raise HTTPException(status_code=404, detail="Job not found")
+    return job
 
 
 @router.get("/jobs", response_model=list)

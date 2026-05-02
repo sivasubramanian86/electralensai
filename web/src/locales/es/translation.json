@@ -1,0 +1,316 @@
+{
+  "app": {
+    "title": "ElectraLensAI",
+    "subtitle": "Tu guía cívica con IA",
+    "description": "Comprende las elecciones, verifica información y simula votaciones - impulsado por un sistema de IA multi-agente.",
+    "search_placeholder": "Busca reglas, centros de votación o verifica datos...",
+    "search_aria": "Buscar información cívica",
+    "notifications": "Notificaciones",
+    "notifications_aria": "Ver notificaciones"
+  },
+  "nav": {
+    "dashboard": "Centro de Conciencia",
+    "timeline": "Viaje Electoral",
+    "ballot": "Guía del Votante",
+    "simulation": "Juego de Democracia",
+    "rumor": "Cazador de Mitos",
+    "data": "Explorador de Datos",
+    "knowledge": "Centro de Conocimiento",
+    "learning_lab": "Laboratorio de Aprendizaje",
+    "inclusive": "Aprendizaje Inclusivo",
+    "audit": "Auditoría y Transparencia",
+    "settings": "Configuración"
+  },
+  "dashboard": {
+    "welcome": "Centro de Conciencia del Votante",
+    "welcome_sub": "Tu guía cinematográfica para entender y participar en la democracia.",
+    "streak": "Racha de días",
+    "progress_title": "Progreso del Viaje Cívico",
+    "progress_count": "{{completed}}/{{total}} capítulos",
+    "progress_complete": "{{percent}}% completado",
+    "badge_prompt": "Completa capítulos para desbloquear insignias",
+    "persona_title": "Elige tu viaje",
+    "persona_subtitle": "Selecciona un perfil",
+    "storyline_title": "Historia Electoral",
+    "chapter_prefix": "Capítulo",
+    "status": {
+      "locked": "Bloqueado",
+      "available": "Disponible"
+    },
+    "chapters": {
+      "ch1": { "title": "Únete al Censo Electoral", "desc": "Entiende el registro, documentos de identidad y verifica tu nombre." },
+      "ch2": { "title": "Cuenta Regresiva Electoral", "desc": "Sigue las 5 fases — Anuncio → Nominación → Campaña → Votación → Resultados." },
+      "ch3": { "title": "Juego de Democracia", "desc": "Entra en la simulación de un centro de votación. Gestiona escenarios reales como oficial." },
+      "ch4": { "title": "Misión Cazador de Mitos", "desc": "Verifica 3 noticias virales y aprende a comprobar la información por ti mismo." },
+      "ch5": { "title": "Explorador Constitucional", "desc": "Lee 5 artículos constitucionales y entiende tus derechos y deberes." },
+      "ch6": { "title": "Detective de Datos", "desc": "Explora estadísticas electorales: tendencias de voto, distribución de escaños y demografía." },
+      "ch7": { "title": "Laboratorio de Aprendizaje", "desc": "Pon a prueba tus conocimientos con cuestionarios interactivos y tarjetas cívicas." },
+      "ch8": { "title": "Centro de Aprendizaje Inclusivo", "desc": "Explora audiohistorias, mapas visuales y contenido cívico accesible." }
+    },
+    "personas": {
+      "voter": { "name": "Votante Primerizo", "desc": "Recorre tu camino desde el registro hasta los resultados." },
+      "student": { "name": "Estudiante / Educador", "desc": "Explora educación cívica profunda, juegos de rol y simulaciones." },
+      "official": { "name": "Líder Cívico", "desc": "Realiza simulacros de elecciones y prueba tus habilidades de decisión." }
+    },
+    "actions": {
+      "start": "Iniciar Capítulo",
+      "completed": "Completado",
+      "reveal_hint": "Revelar Pista",
+      "go_explore": "Ir a Explorar",
+      "hover_hint": "👆 Pasa el ratón aquí para ver la respuesta..."
+    }
+  },
+  "timeline": {
+    "title": "Guion Gráfico del Viaje Electoral",
+    "subtitle": "Atraviesa los 5 capítulos de la elección para entender la mecánica de la democracia.",
+    "sync_calendar": "Sincronizar con mi calendario",
+    "chapter_prefix": "Capítulo",
+    "phase_heading": "Qué ocurre y cuándo",
+    "deep_dive": "Inmersión profunda con Guía IA",
+    "next_chapter": "Siguiente Capítulo",
+    "close_insights": "Cerrar Información IA",
+    "synthesizing": "Sintetizando información del capítulo...",
+    "key_actors": "Actores Clave",
+    "your_mission": "Tu Misión",
+    "did_you_know": "¿Sabías que?",
+    "phases": {
+      "1": {
+        "title": "Anuncio",
+        "desc": "Se anuncian las fechas oficiales. El Código de Conducta Modelo (MCC) entra en vigor inmediatamente. No se pueden anunciar nuevos planes gubernamentales después de esto.",
+        "key_actors": "Comisión Electoral, Jefe de Estado/Gobierno",
+        "mission": "Atento al anuncio oficial y marca el periodo de silencio (48h antes de la votación) en tu calendario.",
+        "trivia": "El código de conducta a menudo no tiene respaldo legal — se basa en la autoridad moral y el cumplimiento voluntario de los partidos."
+      },
+      "2": {
+        "title": "Registro",
+        "desc": "Tu última oportunidad para incluir tu nombre en la lista de votantes. Sin nombre, no hay voto. Verifica el portal oficial o contacta con tu oficina local.",
+        "key_actors": "Oficiales de Registro Electoral, Gobiernos Locales, Portal NVSP",
+        "mission": "Busca tu nombre en el portal de votantes. Si falta, presenta el formulario de registro inmediatamente.",
+        "trivia": "En las democracias grandes, millones de personas se registran simultáneamente — es el mayor ejercicio administrativo del planeta."
+      },
+      "3": {
+        "title": "Campaña",
+        "desc": "Los candidatos presentan sus nominaciones. Tras los plazos de revisión, se publica la lista final. Las campañas duran hasta el periodo de silencio antes de la votación.",
+        "key_actors": "Candidatos, Partidos Políticos, Oficiales de Escrutinio",
+        "mission": "Revisa las declaraciones juradas de los candidatos (bienes, casos judiciales) — son documentos públicos oficiales.",
+        "trivia": "El periodo de silencio se introdujo para que los votantes pudieran decidir libremente sin influencias de último minuto."
+      },
+      "4": {
+        "title": "Día de la Votación",
+        "desc": "El momento de elegir. Generalmente de 7 AM a 6 PM. Trae tu identificación oficial. Tu voto es secreto.",
+        "key_actors": "Oficiales de Mesa, Interventores, Técnicos de Urnas, Fuerzas de Seguridad",
+        "mission": "Localiza tu mesa electoral, lleva una identificación válida y ejerce tu derecho al voto.",
+        "trivia": "Las urnas electrónicas modernas no están conectadas a ninguna red. Son dispositivos aislados — el hackeo por internet es técnicamente imposible."
+      },
+      "5": {
+        "title": "Conteo y Resultados",
+        "desc": "Los votos se cuentan bajo estricta supervisión oficial en los centros de escrutinio. Los resultados se anuncian por circunscripción.",
+        "key_actors": "Oficiales de Escrutinio, Interventores, Observadores Electorales",
+        "mission": "Sigue los resultados en vivo en el portal oficial — no confíes solo en las proyecciones de los medios.",
+        "trivia": "En muchos países, se realiza un cotejo obligatorio de comprobantes de papel con el conteo electrónico para garantizar la transparencia."
+      }
+    },
+    "milestones": {
+      "title": "Hitos Clave",
+      "m1": "Censo Electoral Provisional",
+      "m2": "Publicación de Lista Final",
+      "m3": "Cierre de Registro",
+      "m4": "Límite de Nominaciones",
+      "m5": "Día de la Elección",
+      "m6": "Día de Resultados"
+    }
+  },
+  "ballot": {
+    "title": "Guía de Preparación del Votante",
+    "subtitle": "Asegúrate de tener todo listo antes de ir al centro de votación. Sin sorpresas, solo una experiencia de voto fluida.",
+    "readiness_score": "Tu Nivel de Preparación",
+    "ready_label": "Listo",
+    "select_step": "Elige un paso",
+    "select_step_desc": "Selecciona un elemento de la izquierda para ver los requisitos detallados verificados por nuestro entrenador IA.",
+    "consulting_agent": "Consultando con el Agente Electra-Lens para tu guía personalizada...",
+    "quick_tip": "Consejo Rápido",
+    "actions": {
+      "verify_online": "Verificar en Línea",
+      "download_guide": "Descargar Guía"
+    },
+    "status": {
+      "compulsory": "Obligatorio",
+      "recommended": "Recomendado"
+    },
+    "steps": {
+      "s1": { "title": "Identificación", "desc": "Documento oficial de identidad con fotografía válido." },
+      "s2": { "title": "Estado de Registro", "desc": "Comprueba que tu nombre figura en el censo electoral." },
+      "s3": { "title": "Localizar Mesa", "desc": "Encuentra tu centro de votación asignado y número de mesa." },
+      "s4": { "title": "Formularios", "desc": "Revisa los perfiles de los candidatos y las declaraciones necesarias." }
+    }
+  },
+  "rumor": {
+    "title": "Compañero Cazador de Mitos",
+    "subtitle": "No dejes que los rumores nublen tu decisión. Ayudamos a verificar noticias virales frente a las reglas oficiales.",
+    "placeholder": "Pega un mensaje viral o noticia aquí...",
+    "verify_button": "Verificar",
+    "analysis_title": "Análisis IA en Vivo",
+    "agent_label": "Agente",
+    "consulting": "Consultando directrices electorales oficiales...",
+    "grounded_note": "Basado en búsquedas de Google y fuentes oficiales",
+    "official_link": "Enlace Oficial",
+    "select_claim": "Introduce una noticia para iniciar el análisis",
+    "select_claim_desc": "Usamos Gemini y búsqueda en vivo para contrastar con la legislación electoral real.",
+    "deflection_title": "Desviación Segura",
+    "deflection_desc": "Si un tema es muy sensible o los resultados no están claros, siempre te recomendaremos consultar a la autoridad electoral local.",
+    "viral_title": "Viral Ahora",
+    "myths": {
+      "m1": { "claim": "Puedes votar usando tu identificación digital desde el móvil.", "verdict": "Verdadero" },
+      "m2": { "claim": "Los centros de votación cierran 2h antes debido a la lluvia.", "verdict": "Falso" },
+      "m3": { "claim": "La edad para votar en elecciones estudiantiles se ha reducido a 16 años.", "verdict": "Engañoso" }
+    }
+  },
+  "simulation": {
+    "title": "Juego de Democracia",
+    "subtitle": "Vive el proceso electoral a través de juegos de rol inmersivos y escenarios \"qué pasaría si\" impulsados por IA.",
+    "start_module": "Iniciar Módulo IA",
+    "back_menu": "Volver al Menú",
+    "game_master": "Maestro de Juego IA",
+    "generating": "Generando escenario...",
+    "input_placeholder": "Escribe tu acción o elección aquí...",
+    "go_button": "Ir",
+    "footer_note": "Impulsado por Google Gemini — las acciones influyen en la historia generada.",
+    "modes": {
+      "training": { "title": "Entrenamiento de Mesa", "desc": "Tutorial paso a paso del día de la votación." },
+      "scenario": { "title": "Juego de Rol", "icon": "Dices", "desc": "Juega como comisionado y gestiona incidentes reales." },
+      "whatif": { "title": "Motor 'Qué pasaría si'", "desc": "Cambia las reglas electorales y mira qué ocurre." }
+    }
+  },
+  "inclusive": {
+    "title": "Centro de Aprendizaje Inclusivo",
+    "subtitle": "La democracia es para todos. Elige cómo quieres aprender: escucha historias, mira guías sencillas.",
+    "ai_assisted": "Aprendizaje asistido por IA",
+    "ready_learn": "¿Listo para aprender?",
+    "ready_learn_desc": "Selecciona un módulo para generar contenido cívico adaptado a tu idioma y perfil mediante IA.",
+    "narrated_by": "Narrado por Electra-Lens AI",
+    "language_label": "Idioma",
+    "transcript": "Transcripción",
+    "sign_language": "Lenguaje de Señas",
+    "playing": "Reproduciendo...",
+    "educator_title": "Modo Educador / Aula",
+    "educator_desc": "Sincroniza la narración de audio con mapas visuales grupales y pausas para discusión.",
+    "activate_group": "Activar Sesión Grupal",
+    "modules": {
+      "m1": { "title": "Cómo Votar (Historia Audio)", "desc": "Explicación estilo radio de tu experiencia en el centro de votación." },
+      "m2": { "title": "Mapa Mental Electoral", "desc": "Un viaje visual sencillo del registro a los resultados. Pulsa para escuchar." },
+      "m3": { "title": "Tutorial de Urna Electrónica", "desc": "Guía visual con audio sobre cómo ejercer el voto correctamente." }
+    }
+  },
+  "learning_lab": {
+    "flashcards_title": "Tarjetas Cívicas",
+    "flashcards_subtitle": "Aprende los conceptos básicos de la democracia una tarjeta a la vez.",
+    "flashcards": "Tarjetas",
+    "quiz_title": "Cuestionario Cívico",
+    "quiz_subtitle": "Reto Rápido",
+    "quiz": "Cuestionario",
+    "badge_title": "Gana tu insignia de \"Erudito Cívico\"",
+    "badge_desc": "Completa 5 cuestionarios para desbloquear recompensas exclusivas.",
+    "quiz_complete": "¡Cuestionario Completado!",
+    "score": "Tu puntuación",
+    "reset": "Reintentar",
+    "next": "Siguiente Pregunta",
+    "finish": "Finalizar",
+    "flip": "Clic para voltear",
+    "question_label": "Pregunta",
+    "of_label": "de",
+    "explanation_label": "Por qué es correcto:",
+    "questions": {
+      "q1": { 
+        "q": "¿Cuál de estos NO suele ser una identificación válida para votar?", 
+        "options": ["Pasaporte", "Licencia de Conducir", "Carnet de Biblioteca", "ID Militar"],
+        "explanation": "En la mayoría de lugares, el carnet de biblioteca no se considera una identificación oficial con foto válida para votar."
+      },
+      "q2": { 
+        "q": "¿Cuál es la edad mínima para registrarse para votar en la mayoría de países?", 
+        "options": ["16", "18", "21", "25"],
+        "explanation": "La edad estándar para votar en la mayoría de las democracias modernas es de 18 años."
+      },
+      "q3": { 
+        "q": "¿Qué organismo organiza las elecciones en una democracia típica?", 
+        "options": ["Corte Suprema", "Parlamento", "Comisión Electoral", "Ministerio del Interior"],
+        "explanation": "La Comisión Electoral es el organismo autónomo encargado de gestionar los procesos electorales."
+      },
+      "q4": { 
+        "q": "¿Qué es el Código de Conducta Modelo?", 
+        "options": ["Lista de candidatos", "Directrices para partidos y candidatos", "Software de votación", "La propia Constitución"],
+        "explanation": "Es el conjunto de directrices que los partidos y candidatos deben seguir durante el periodo electoral."
+      },
+      "q5": { 
+        "q": "¿Cada cuántos años se celebran elecciones presidenciales en EE.UU.?", 
+        "options": ["Cada 2 años", "Cada 4 años", "Cada 5 años", "Cada 6 años"],
+        "explanation": "Las elecciones presidenciales de EE.UU. se celebran cada cuatro años en el mes de noviembre."
+      }
+    },
+    "cards": {
+      "c1": { "q": "¿Qué es una identificación de votante?", "a": "Un documento oficial que verifica tu identidad en el centro de votación.", "cat": "Básicos" },
+      "c2": { "q": "¿Qué es el 'Gerrymandering'?", "a": "La manipulación de los límites de las circunscripciones para favorecer a un partido.", "cat": "Avanzado" },
+      "c3": { "q": "¿Qué es el voto ausente?", "a": "Voto emitido por correo por alguien que no puede acudir al centro de votación el día elegido.", "cat": "Básicos" },
+      "c4": { "q": "¿Qué es un escrutinio?", "a": "El recuento oficial de los votos emitidos en una elección.", "cat": "Proceso" },
+      "c5": { "q": "¿Qué significa EVM?", "a": "Electronic Voting Machine (Urna Electrónica), usada para registrar y contar votos.", "cat": "Tecnología" },
+      "c6": { "q": "¿Qué es el VVPAT?", "a": "Voter Verifiable Paper Audit Trail, permite al votante verificar que su voto fue para el candidato correcto.", "cat": "Transparencia" }
+    }
+  },
+  "gamification": {
+    "xp_next": "XP para el siguiente nivel",
+    "badges_label": "Insignias",
+    "more_label": "Más",
+    "level_prefix": "Nivel.",
+    "titles": {
+      "t0": "Recién Llegado",
+      "t1": "Principiante Electoral",
+      "t2": "Votante Consciente",
+      "t3": "Aprendiz de Democracia",
+      "t4": "Explorador de Distrito",
+      "t5": "Experto Electoral",
+      "t6": "Lector Constitucional",
+      "t7": "Campeón de la Democracia",
+      "t8": "Luminaria Cívica",
+      "t9": "Maestro Electra-Lens"
+    },
+    "badges": {
+      "first_step": { "label": "Primer Paso", "desc": "Iniciaste el tablero de Electra-Lens-AI por primera vez." },
+      "voter_registration_pro": { "label": "Pro del Registro", "desc": "Completaste el capítulo de Guía de Preparación del Votante." },
+      "timeline_explorer": { "label": "Explorador del Viaje", "desc": "Exploraste las 5 fases del viaje electoral." },
+      "myth_buster": { "label": "Cazador de Mitos", "desc": "Verificaste 3 o más noticias electorales." },
+      "counting_room_insider": { "label": "Experto en Escrutinio", "desc": "Completaste el módulo de simulación de conteo de votos." },
+      "constitution_explorer": { "label": "Explorador Constitucional", "desc": "Leíste 5 o más artículos en el Centro de Conocimiento." },
+      "data_detective": { "label": "Detective de Datos", "desc": "Exploraste los gráficos de datos en el explorador." },
+      "streak_3": { "label": "Racha de 3 Días", "desc": "Entraste en Electra-Lens-AI durante 3 días seguidos." },
+      "quiz_ace": { "label": "As del Cuestionario", "desc": "Respondiste correctamente a 10 preguntas." },
+      "commissioner_sim": { "label": "Simulador de Comisionado", "desc": "Completaste el escenario de juego de rol de comisionado electoral." }
+    }
+  },
+  "multimodal": {
+    "title": "Experiencia de Aprendizaje Inclusiva",
+    "subtitle": "Genera infografías, guías de audio y videos para un viaje accesible.",
+    "button": "Generar Pack Multimodal",
+    "generating": "Generando...",
+    "visual": "Infografía Visual",
+    "visual_desc": "Haz clic para generar una guía visual personalizada para esta fase.",
+    "audio": "Guía de Audio",
+    "audio_desc": "Escucha la explicación de esta fase en tu idioma local.",
+    "video": "Explicación en Video",
+    "video_desc": "Se crean tutoriales cinematográficos basados en tu perfil.",
+    "bandwidth_note": "Videos optimizados para conexiones móviles de baja velocidad.",
+    "audio_tip": "Consejo: Usa auriculares para una experiencia de audio inmersiva."
+  },
+  "language": {
+    "en": "English",
+    "hi": "Hindi",
+    "ta": "Tamil",
+    "te": "Telugu",
+    "kn": "Kannada",
+    "ml": "Malayalam",
+    "bn": "Bengali",
+    "gu": "Gujarati",
+    "mr": "Marathi",
+    "es": "Español",
+    "fr": "Français",
+    "de": "Deutsch"
+  }
+}

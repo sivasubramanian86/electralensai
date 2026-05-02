@@ -90,13 +90,21 @@ export function useAgentStream(): UseAgentStreamResult {
         }
         setStatus('done');
       } catch (err) {
-      if ((err as Error).name === 'AbortError') {
-        setStatus('idle');
-        return;
-      }
+        if ((err as Error).name === 'AbortError') {
+          setStatus('idle');
+          return;
+        }
+        
         console.error('Stream error:', err);
         setStatus('error');
-        setOutput((prev) => prev + '\n\n[Connection error. Please try again.]');
+        
+        const errorMessage = (err as Error).message.includes('HTTP 404')
+          ? '[Service Unavailable: Endpoint not found]'
+          : (err as Error).message.includes('HTTP 500')
+          ? '[Server error: The agent pipeline encountered an issue. Please try again later.]'
+          : '[Connection error: Please check your internet and try again.]';
+          
+        setOutput((prev) => prev + `\n\n${errorMessage}`);
       }
     },
     [],

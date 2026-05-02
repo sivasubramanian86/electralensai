@@ -1,9 +1,11 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Quiz } from './Quiz';
 import { Flashcards } from './Flashcards';
 import { motion } from 'framer-motion';
 
 export function LearningLab() {
+  const { t } = useTranslation();
   const [activeTool, setActiveTool] = useState<'quiz' | 'flashcards'>('flashcards');
 
   return (
@@ -17,7 +19,7 @@ export function LearningLab() {
               : 'text-slate-400 hover:text-slate-200'
           }`}
         >
-          Flashcards
+          {t('learning_lab.flashcards', 'Flashcards')}
         </button>
         <button
           onClick={() => setActiveTool('quiz')}
@@ -27,7 +29,7 @@ export function LearningLab() {
               : 'text-slate-400 hover:text-slate-200'
           }`}
         >
-          Quick Quiz
+          {t('learning_lab.quiz', 'Quick Quiz')}
         </button>
       </div>
 
@@ -42,8 +44,8 @@ export function LearningLab() {
 
       {/* Gamification Teaser */}
       <div className="bg-gradient-to-br from-indigo-900/40 to-blue-900/40 p-8 rounded-3xl border border-blue-500/20 text-center">
-        <h4 className="text-xl font-bold text-white mb-2">Earn Your "Civic Scholar" Badge</h4>
-        <p className="text-blue-200/70 mb-6">Complete 5 quizzes to unlock exclusive rewards and level up your democracy rank.</p>
+        <h4 className="text-xl font-bold text-white mb-2">{t('learning_lab.badge_title', 'Earn Your "Civic Scholar" Badge')}</h4>
+        <p className="text-blue-200/70 mb-6">{t('learning_lab.badge_desc', 'Complete 5 quizzes to unlock exclusive rewards and level up your democracy rank.')}</p>
         <div className="flex justify-center space-x-4">
           <div className="w-12 h-12 rounded-full bg-blue-600/20 flex items-center justify-center text-blue-400 border border-blue-500/30">🏅</div>
           <div className="w-12 h-12 rounded-full bg-slate-800/50 flex items-center justify-center text-slate-500 border border-slate-700/50">🔒</div>
