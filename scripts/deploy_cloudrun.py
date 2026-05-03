@@ -68,11 +68,14 @@ def deploy_service(project: str, service_account: str) -> None:
     """
     gcloud_bin = "gcloud.cmd" if sys.platform == "win32" else "gcloud"
     # Vertex AI env vars are required for LLM model auth in Cloud Run.
-    # GEMINI_API_KEY is pulled from Secret Manager (never hardcoded).
+    # GOOGLE_MODEL_LIVE must be set explicitly — without it the live agent falls back
+    # to gemini-2.5-flash which is not supported by the Live bidiGenerateContent API.
     env_vars = ",".join([
         f"GOOGLE_CLOUD_PROJECT={project}",
         f"GOOGLE_CLOUD_LOCATION={_REGION}",
         "GOOGLE_GENAI_USE_VERTEXAI=1",
+        "GOOGLE_MODEL_FLASH=gemini-2.5-flash",
+        "GOOGLE_MODEL_LIVE=gemini-live-2.5-flash-native-audio",
     ])
     _run(
         [
