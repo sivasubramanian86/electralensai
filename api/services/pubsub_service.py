@@ -31,8 +31,8 @@ class PubSubService:
                 self._publisher = pubsub_v1.PublisherClient()
                 self.topic_path = self._publisher.topic_path(self.project_id, self.topic_id)
                 logger.info("Pub/Sub initialized for topic: %s", self.topic_path)
-            except Exception as e:
-                logger.warning("Pub/Sub initialization failed: %s", e)
+            except Exception:  # noqa: BLE001
+                logger.warning("Pub/Sub initialization failed")
         return self._publisher
 
     @publisher.setter
@@ -57,8 +57,8 @@ class PubSubService:
             future = self.publisher.publish(self.topic_path, message_bytes)
             message_id = future.result()
             logger.info("Published %s alert. Message ID: %s", alert_type, message_id)
-        except Exception as e:
-            logger.error("Failed to publish alert to Pub/Sub: %s", e)
+        except Exception:
+            logger.exception("Failed to publish alert to Pub/Sub")
 
 
 pubsub_service = PubSubService()

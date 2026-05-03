@@ -8,12 +8,13 @@ from __future__ import annotations
 
 import logging
 import os
-from typing import TYPE_CHECKING, Any
+from typing import Any
 
-if TYPE_CHECKING:
-    import asyncpg
-
+import asyncpg
 from google.genai import types
+from pgvector.asyncpg import register_vector
+
+from api.genai_client import client
 
 logger = logging.getLogger(__name__)
 
@@ -22,24 +23,22 @@ _POOL: asyncpg.Pool | None = None  # asyncpg.Pool singleton
 EMBEDDING_MODEL = "text-embedding-004"
 
 
-def set_use_alloydb(enabled: bool) -> None:
+def set_use_alloydb(enabled: bool) -> None:  # noqa: FBT001
     """Test helper to toggle AlloyDB mode."""
-    global _USE_ALLOYDB
+    global _USE_ALLOYDB  # noqa: PLW0603
     _USE_ALLOYDB = enabled
 
 
 async def _get_pool() -> asyncpg.Pool:  # pragma: no cover
     """Return the asyncpg connection pool singleton."""
-    global _POOL
+    global _POOL  # noqa: PLW0603
     if _POOL is not None:
         return _POOL
 
-    import asyncpg
-    from pgvector.asyncpg import register_vector
-
     dsn = os.environ.get("DATABASE_URL")
     if not dsn:
-        raise ValueError("DATABASE_URL must be set when USE_ALLOYDB is true")
+        msg = "DATABASE_URL must be set when USE_ALLOYDB is true"
+        raise ValueError(msg)
 
     _POOL = await asyncpg.create_pool(
         dsn,
@@ -58,8 +57,6 @@ async def _get_pool() -> asyncpg.Pool:  # pragma: no cover
 
 async def _embed(text: str) -> list[float]:
     """Generate a 768-dimension embedding via Vertex AI."""
-    from api.genai_client import client
-
     response = client.models.embed_content(
         model=EMBEDDING_MODEL,
         contents=text,
@@ -72,7 +69,7 @@ class AlloyDBMemory:
     """Async memory interface for ElectraLens agents."""
 
     async def get_historical_precedents(
-        self, topic: str
+        self, topic: str,
     ) -> list[dict[str, Any]]:  # pragma: no cover
         """Retrieve top-3 similar election incidents or precedents."""
         if not _USE_ALLOYDB or not os.getenv("DATABASE_URL"):
@@ -94,12 +91,12 @@ class AlloyDBMemory:
                     vector,
                 )
             return [dict(r) for r in rows]
-        except Exception as e:
-            logger.error("[Memory] AlloyDB query failed: %s", e)
+        except Exception:
+            logger.exception("[Memory] AlloyDB query failed")
             return []
 
     async def log_interaction(
-        self, user_id: str, agent: str, question: str, response: str
+        self, user_id: str, agent: str, question: str, response: str,
     ) -> None:  # pragma: no cover
         """Log a user interaction for audit and quality monitoring."""
         if not _USE_ALLOYDB or not os.getenv("DATABASE_URL"):
@@ -119,8 +116,8 @@ class AlloyDBMemory:
                     question,
                     response,
                 )
-        except Exception as e:
-            logger.error("[Memory] Failed to log interaction: %s", e)
+        except Exception:
+            logger.exception("[Memory] Failed to log interaction")
 
     def _mock_precedents(self, topic: str) -> list[dict[str, Any]]:
         """Mock fallback for prototype mode."""
@@ -131,7 +128,7 @@ class AlloyDBMemory:
                 "description": f"Historical precedent for {topic} in remote regions.",
                 "resolution": "Accept secondary verification (MGNREGA card) if EPIC is missing.",
                 "similarity": 0.89,
-            }
+            },
         ]
 
 

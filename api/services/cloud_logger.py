@@ -29,8 +29,8 @@ class CloudLoggingService:
                 # Connect the standard Python logging to GCP
                 self._client.setup_logging()
                 logger.info("Google Cloud Logging successfully initialized for %s", self.project_id)
-            except Exception as e:
-                logger.warning("Cloud Logging initialization failed (falling back to local): %s", e)
+            except Exception:  # noqa: BLE001
+                logger.warning("Cloud Logging initialization failed (falling back to local)")
         return self._client
 
     @client.setter

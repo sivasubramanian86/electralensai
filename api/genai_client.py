@@ -1,6 +1,7 @@
 """Google GenAI client initialization."""
 
 import os
+from pathlib import Path
 
 from dotenv import load_dotenv
 from google import genai
@@ -33,7 +34,7 @@ try:
     # local Windows ADC path that doesn't exist inside the container.
     api_key = os.getenv("GEMINI_API_KEY")
     adc_path = os.getenv("GOOGLE_APPLICATION_CREDENTIALS", "")
-    adc_present = bool(adc_path) and os.path.isfile(adc_path)
+    adc_present = bool(adc_path) and Path(adc_path).is_file()
     use_vertex = (
         os.getenv("GOOGLE_GENAI_USE_VERTEXAI") == "1"
         or adc_present
@@ -44,6 +45,6 @@ try:
     else:
         # If not using Vertex, we MUST have an API Key (checked by logic above)
         client = genai.Client(api_key=api_key)  # pragma: no cover
-except Exception:  # pragma: no cover
+except Exception:  # noqa: BLE001 # pragma: no cover
     # Fallback for CI/local testing where credentials might be missing
-    client = None  # type: ignore
+    client = None  # type: ignore[assignment]

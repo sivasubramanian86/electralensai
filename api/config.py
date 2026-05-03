@@ -26,8 +26,8 @@ class Config:
             client = secretmanager.SecretManagerServiceClient()
             name = f"projects/{cls.PROJECT_ID}/secrets/{secret_id}/versions/latest"
             response = client.access_secret_version(request={"name": name})
-            return response.payload.data.decode("UTF-8")  # pragma: no cover
-        except Exception:  # pragma: no cover
+            return response.payload.data.decode("UTF-8")
+        except Exception:  # noqa: BLE001  # pragma: no cover
             return default
 
 

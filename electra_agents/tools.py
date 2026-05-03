@@ -1,18 +1,22 @@
-"""ElectraLensAI — Agent Tools.
+"""Common tools for ElectraLens agents."""
 
-Centralized location for tool definitions to avoid circular dependencies
-between agents and services.
-"""
+import logging
+from typing import Any
+
+from api.services.analytics_service import analytics_service
+from api.services.cloud_logger import cloud_logger_service
+
+logger = logging.getLogger(__name__)
 
 
-def broadcast_misinformation_alert(claim: str, verdict: str, source: str) -> str:
-    """Broadcasts a high-priority alert when a rumor is debunked.
-
-    Call this tool ONLY when you have high confidence that a claim is FALSE or MISLEADING.
-    """
-    from api.services.pubsub_service import pubsub_service
-
-    pubsub_service.publish_alert(
-        alert_type="RUMOR_DETECTED", data={"claim": claim, "verdict": verdict, "source": source}
+def broadcast_alert(alert_type: str, data: dict[str, Any]) -> str:
+    """Broadcasts a civic alert to all monitoring systems."""
+    analytics_service.trace_agent_call(
+        name="broadcast_alert",
+        user_id="system",
+        input_str=alert_type,
+        output_str="Alert Published",
+        metadata=data,
     )
-    return "Alert successfully broadcast to authorities."
+    cloud_logger_service.log_agent_reasoning("Broadcaster", "N/A", f"Alert: {alert_type}")
+    return f"Alert {alert_type} broadcasted."

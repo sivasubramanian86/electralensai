@@ -20,7 +20,6 @@ class AnalyticsService:
 
     def __init__(self) -> None:
         """Initialize Langfuse and GCP Monitoring clients."""
-        """Initialize Langfuse and GCP Monitoring clients."""
         self.enabled = os.getenv("ENABLE_ANALYTICS", "true").lower() == "true"
         self.langfuse = None
         self.metrics_client = None
@@ -40,12 +39,11 @@ class AnalyticsService:
             if self.project_id:
                 try:
                     self.metrics_client = monitoring_v3.MetricServiceClient()
-                    logger.info("[Analytics] Cloud Monitoring initialized.")
-                except Exception as e:  # pragma: no cover
-                    logger.warning("[Analytics] Cloud Monitoring init failed: %s", e)
+                except Exception:  # noqa: BLE001 # pragma: no cover
+                    logger.warning("[Analytics] Cloud Monitoring init failed")
 
     def trace_agent_call(
-        self, name: str, user_id: str, input_str: str, output_str: str, metadata: dict[str, Any]
+        self, name: str, user_id: str, input_str: str, output_str: str, metadata: dict[str, Any],
     ) -> None:
         """Log a complete agent trace to Langfuse."""
         if not self.langfuse:  # pragma: no cover
@@ -53,10 +51,10 @@ class AnalyticsService:
 
         try:
             self.langfuse.trace(
-                name=name, user_id=user_id, input=input_str, output=output_str, metadata=metadata
+                name=name, user_id=user_id, input=input_str, output=output_str, metadata=metadata,
             )
-        except Exception as e:
-            logger.debug("[Analytics] Trace failed: %s", e)
+        except Exception:  # noqa: BLE001
+            logger.debug("[Analytics] Trace failed")
 
     def record_metric(self, metric_name: str, value: float, labels: dict[str, str]) -> None:
         """Export a custom metric to Google Cloud Monitoring."""
@@ -79,14 +77,14 @@ class AnalyticsService:
                 {
                     "interval": {"end_time": {"seconds": seconds, "nanos": nanos}},
                     "value": {"double_value": value},
-                }
+                },
             )
             series.points = [point]
 
             project_name = f"projects/{self.project_id}"
             self.metrics_client.create_time_series(name=project_name, time_series=[series])
-        except Exception as e:
-            logger.debug("[Analytics] Metric export failed: %s", e)
+        except Exception:  # noqa: BLE001
+            logger.debug("[Analytics] Metric export failed")
 
 
 analytics_service = AnalyticsService()

@@ -40,7 +40,7 @@ def _run(args: list[str], *, check: bool = True) -> subprocess.CompletedProcess[
         subprocess.CalledProcessError: If the command exits with a non-zero code.
     """
     logger.info("Running: %s", " ".join(args))
-    return subprocess.run(args, check=check, capture_output=False, text=True)  # noqa: S603, S607
+    return subprocess.run(args, check=check, capture_output=False, text=True)  # noqa: S603
 
 
 def build_image(project: str) -> None:
@@ -60,7 +60,7 @@ def build_image(project: str) -> None:
             "--project",
             project,
             ".",
-        ]
+        ],
     )
     logger.info("Image built: %s", image)
 
@@ -113,7 +113,7 @@ def deploy_service(project: str, service_account: str) -> None:
             "--project",
             project,
             "--quiet",
-        ]
+        ],
     )
     logger.info("Deployed %s to Cloud Run (%s)", _SERVICE_NAME, _REGION)
 

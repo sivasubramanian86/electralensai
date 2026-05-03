@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import logging
 import os
+from pathlib import Path
 
 import vertexai
 from dotenv import load_dotenv
@@ -42,7 +43,7 @@ def create_app() -> FastAPI:
     # that causes failures in Cloud Run where ADC paths are local-only.
     api_key = os.getenv("GEMINI_API_KEY")
     adc_path = os.getenv("GOOGLE_APPLICATION_CREDENTIALS", "")
-    adc_present = bool(adc_path) and os.path.isfile(adc_path)
+    adc_present = bool(adc_path) and Path(adc_path).is_file()
     use_vertex = (
         os.getenv("GOOGLE_GENAI_USE_VERTEXAI") == "1"
         or adc_present
@@ -52,7 +53,7 @@ def create_app() -> FastAPI:
     if use_vertex and project_id:
         logger.info("Initializing Vertex AI Mode (Enterprise Auth) for project: %s", project_id)
         vertexai.init(
-            project=project_id, location=os.getenv("GOOGLE_CLOUD_LOCATION", "us-central1")
+            project=project_id, location=os.getenv("GOOGLE_CLOUD_LOCATION", "us-central1"),
         )
     elif api_key:
         logger.info("Initializing Developer API Mode (AI Studio Auth)")
@@ -73,9 +74,9 @@ def create_app() -> FastAPI:
         return RedirectResponse(url="/docs")
 
     @app.exception_handler(Exception)
-    async def global_exception_handler(request: Request, exc: Exception) -> JSONResponse:
+    async def global_exception_handler(_request: Request, _exc: Exception) -> JSONResponse:
         """Catch-all for any unhandled backend exceptions."""
-        logger.exception("Unhandled server error: %s", exc)
+        logger.exception("Unhandled server error")
 
         return JSONResponse(
             status_code=500,

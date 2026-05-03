@@ -9,7 +9,7 @@ from __future__ import annotations
 
 import json
 import logging
-from typing import AsyncIterator
+from typing import TYPE_CHECKING
 
 from fastapi import APIRouter, HTTPException
 from google.genai import types
@@ -20,6 +20,9 @@ from api.services.analytics_service import analytics_service
 from api.services.dlp_service import dlp_service
 from api.services.translation_service import translation_service
 from electra_agents import runner
+
+if TYPE_CHECKING:
+    from collections.abc import AsyncIterator
 
 logger = logging.getLogger(__name__)
 router = APIRouter()
@@ -106,14 +109,14 @@ async def _stream_agent_response(request: QueryRequest) -> AsyncIterator[dict[st
                 yield {
                     "event": "agent_state",
                     "data": json.dumps(
-                        {"event": "agent_state", "agent": event.author, "state": "active"}
+                        {"event": "agent_state", "agent": event.author, "state": "active"},
                     ),
                 }
 
         # If language is not English, translate the final summary or offer a translated event
         if request.language != "en":  # pragma: no cover
             translated_content = translation_service.translate_text(
-                full_content, target_language_code=request.language
+                full_content, target_language_code=request.language,
             )
             yield {
                 "event": "translated_done",
@@ -122,7 +125,7 @@ async def _stream_agent_response(request: QueryRequest) -> AsyncIterator[dict[st
                         "event": "translated_done",
                         "content": translated_content,
                         "language": request.language,
-                    }
+                    },
                 ),
             }
 
@@ -137,8 +140,8 @@ async def _stream_agent_response(request: QueryRequest) -> AsyncIterator[dict[st
 
         yield {"event": "done", "data": json.dumps({"status": "complete"})}
 
-    except Exception as exc:
-        logger.exception("Agent pipeline error: %s", exc)
+    except Exception:
+        logger.exception("Agent pipeline error")
         yield {
             "event": "error",
             "data": json.dumps({"error": "Agent processing failed. Please try again."}),

@@ -34,7 +34,7 @@ async def _run_adk_loop(
     retry_count = 0
     while retry_count < max_retries:  # pragma: no cover
         try:
-            logger.info(f"Starting ADK run_live (Attempt {retry_count + 1})")
+            logger.info("Starting ADK run_live (Attempt %d)", retry_count + 1)
             async for event in live_runner.run_live(
                 user_id=user_id,
                 session_id=session_id,
@@ -50,14 +50,14 @@ async def _run_adk_loop(
                             await websocket.send_json({"type": "transcript", "text": part.text})
 
                 if event.usage_metadata:  # pragma: no cover
-                    logger.info(f"Usage: {event.usage_metadata.total_token_count} tokens")
+                    logger.info("Usage: %d tokens", event.usage_metadata.total_token_count)
             break
-        except Exception as e:
+        except Exception:
             retry_count += 1
-            logger.warning(f"ADK Loop Error (Attempt {retry_count}): {e}")
+            logger.warning("ADK Loop Error (Attempt %s)", retry_count)
             if retry_count >= max_retries:
-                logger.error("Max retries reached for ADK Loop")
-                await websocket.send_json({"error": str(e)})
+                logger.exception("Max retries reached for ADK Loop")
+                await websocket.send_json({"error": "Connection failed"})
                 break
             await asyncio.sleep(1)
 
@@ -70,7 +70,7 @@ async def _handle_client_message(message: dict, live_request_queue: LiveRequestQ
 
     if "bytes" in message:
         live_request_queue.send_realtime(
-            types.Blob(mime_type="audio/pcm;rate=16000", data=message.get("bytes"))
+            types.Blob(mime_type="audio/pcm;rate=16000", data=message.get("bytes")),
         )
     elif "text" in message:  # pragma: no cover
         text_content = message.get("text")
@@ -79,7 +79,7 @@ async def _handle_client_message(message: dict, live_request_queue: LiveRequestQ
             data_type = data.get("type")
             if data_type == "finalize":
                 return False
-            elif data_type == "audio_start":
+            if data_type == "audio_start":
                 live_request_queue.send_activity_start()
             elif data_type == "audio_end":
                 live_request_queue.send_activity_end()
@@ -88,14 +88,14 @@ async def _handle_client_message(message: dict, live_request_queue: LiveRequestQ
                     types.Content(
                         role="user",
                         parts=[types.Part.from_text(text=data.get("text", ""))],
-                    )
+                    ),
                 )
         except json.JSONDecodeError:
             live_request_queue.send_content(
                 types.Content(
                     role="user",
                     parts=[types.Part.from_text(text=message.get("text", ""))],
-                )
+                ),
             )
     return True
 
@@ -114,12 +114,12 @@ async def live_agent_ws(websocket: WebSocket) -> None:
 
         live_request_queue = LiveRequestQueue()
         run_config = RunConfig(
-            response_modalities=["AUDIO"], session_resumption=types.SessionResumptionConfig()
+            response_modalities=["AUDIO"], session_resumption=types.SessionResumptionConfig(),
         )
 
         # Start downstream stream
         adk_task = asyncio.create_task(
-            _run_adk_loop(websocket, user_id, session_id, live_request_queue, run_config)
+            _run_adk_loop(websocket, user_id, session_id, live_request_queue, run_config),
         )
 
         # Trigger Initial Greeting
@@ -128,10 +128,10 @@ async def live_agent_ws(websocket: WebSocket) -> None:
                 role="user",
                 parts=[
                     types.Part.from_text(
-                        text="User has joined. Greet them as ElectraLens Assistant."
-                    )
+                        text="User has joined. Greet them as ElectraLens Assistant.",
+                    ),
                 ],
-            )
+            ),
         )
 
         # Handle upstream messages
@@ -142,15 +142,14 @@ async def live_agent_ws(websocket: WebSocket) -> None:
 
     except WebSocketDisconnect:
         logger.info("WebSocket disconnected")
-    except Exception as e:
-        logger.exception("Global session error: %s", e)
+    except Exception:
+        logger.exception("Global session error")
     finally:
         live_request_queue.close()
         if "adk_task" in locals() and not adk_task.done():  # pragma: no cover
             adk_task.cancel()
-
         try:
             await websocket.close()
-        except Exception as e:  # pragma: no cover
-            logger.debug("Cleanup error (ignored): %s", e)
+        except Exception:  # noqa: BLE001 # pragma: no cover
+            logger.debug("Cleanup error (ignored)")
         logger.info("Session cleanup complete")

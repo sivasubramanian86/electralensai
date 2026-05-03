@@ -14,11 +14,11 @@ async def generate_inclusive_assets(topic: str, language: str = "en") -> dict:
     Use this when a user asks for 'visuals', 'guides', 'mind maps', or 'more details'.
     """
     try:
-        logger.info(f"Live Agent triggering asset generation for: {topic}")
+        logger.info("Live Agent triggering asset generation for: %s", topic)
         return multimedia_service.generate_multimodal_package(topic, language)
-    except Exception as e:  # pragma: no cover
-        logger.error(f"Inclusive assets generation failed: {e}")
-        return {"error": str(e)}
+    except Exception:  # pragma: no cover
+        logger.exception("Inclusive assets generation failed")
+        return {"error": "Asset generation failed"}
 
 
 async def verify_civic_document(document_text: str) -> str:

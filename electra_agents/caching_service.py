@@ -8,7 +8,6 @@ for recurring agent interactions.
 import logging
 import os
 import uuid
-from typing import Optional
 
 logger = logging.getLogger(__name__)
 
@@ -21,8 +20,8 @@ class CachingService:
         self.enabled = os.getenv("ENABLE_CONTEXT_CACHING", "false").lower() == "true"
 
     def create_instruction_cache(
-        self, model: str, instruction: str, ttl_minutes: int = 60
-    ) -> Optional[str]:
+        self, model: str, _instruction: str, _ttl_minutes: int = 60,
+    ) -> str | None:
         """Creates a context cache for a specific set of instructions.
 
         Returns:
@@ -39,10 +38,11 @@ class CachingService:
             logger.info("[Caching] Simulated cache creation for model: %s", model)
             project = os.getenv("GOOGLE_CLOUD_PROJECT")
             cache_id = f"mock-cache-{uuid.uuid4()}"
-            return f"projects/{project}/locations/us-central1/cachedContents/{cache_id}"
-        except Exception as e:  # pragma: no cover
-            logger.error("[Caching] Failed to create context cache: %s", e)
+        except Exception:  # pragma: no cover
+            logger.exception("[Caching] Failed to create context cache")
             return None
+        else:
+            return f"projects/{project}/locations/us-central1/cachedContents/{cache_id}"
 
 
 caching_service = CachingService()

@@ -6,7 +6,7 @@ Allows the API to remain responsive while complex assets (Imagen, TTS) are built
 
 import logging
 import uuid
-from typing import Any, Dict, Optional
+from typing import Any
 
 logger = logging.getLogger(__name__)
 
@@ -16,7 +16,7 @@ class JobService:
 
     def __init__(self) -> None:
         """Initialize the in-memory job store."""
-        self.jobs: Dict[str, Dict[str, Any]] = {}
+        self.jobs: dict[str, dict[str, Any]] = {}
 
     def create_job(self, task_name: str) -> str:
         """Create a new job entry and return its ID."""
@@ -46,11 +46,11 @@ class JobService:
                 self.jobs[job_id]["error"] = error
             logger.info("[JobService] Job %s updated to %s", job_id, status)
 
-    def get_job(self, job_id: str) -> Optional[Dict[str, Any]]:
+    def get_job(self, job_id: str) -> dict[str, Any] | None:
         """Retrieve the current state of a job."""
         return self.jobs.get(job_id)
 
-    def list_jobs(self) -> list[Dict[str, Any]]:
+    def list_jobs(self) -> list[dict[str, Any]]:
         """List all current jobs."""
         return list(self.jobs.values())
 
