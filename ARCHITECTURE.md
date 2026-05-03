@@ -71,6 +71,9 @@ ElectraLensAI integrates the **Gemini Multimodal Live API**, allowing users to i
 ### 4. Enterprise-Grade Security & PII Redaction
 Every query passing through the mesh is intercepted by the **DLPService**. Using Google Cloud's Data Loss Prevention API, the system automatically detects and masks names, phone numbers, and addresses (`***`) before they reach the model or are persisted in logs, ensuring 100% GDPR/PII compliance.
 
+### 5. Hyper-Localized i18n Architecture
+To address regional civic literacy gaps, ElectraLensAI implements a massive state-driven **12-Language Localization Engine** via `i18next`. It instantly re-renders deeply nested application states—including live constitutional facts, voting FAQs, dynamic knowledge paths, and UI tokens—into native tongues (like Tamil, Marathi, Bengali) instantly, without requiring external translations on the fly.
+
 ---
 
 ## 🛡️ Governance & Quality Gates
@@ -80,4 +83,4 @@ Every query passing through the mesh is intercepted by the **DLPService**. Using
 *   **Manual Deployment Gate**: Controlled production releases via GitHub `workflow_dispatch`.
 
 ---
-*Document generated for Gen AI APAC 2026 Hackathon Submission - ElectraLensAI Team.*
+*Document generated for Promptwars Virtual 2026 Hackathon Submission - ElectraLensAI Team.*

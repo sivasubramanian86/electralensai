@@ -29,6 +29,7 @@ Voters often face significant barriers in the democratic process:
 2. **Misinformation**: Viral rumors and deepfakes create confusion about when and how to vote.
 3. **Complexity**: Navigating registration, ID requirements, and ballot measures can be daunting.
 4. **Inaccessibility**: Information is rarely optimized for voice-first or visual-first learners.
+5. **Language Barriers**: Civic information is overwhelmingly locked in English, disenfranchising non-native speakers and rural communities.
 
 ElectraLensAI bridges this gap by providing a **centralized, multimodal, and agentic** interface for non-partisan civic engagement.
 
@@ -38,6 +39,7 @@ ElectraLensAI bridges this gap by providing a **centralized, multimodal, and age
 - **Voter Simulation** — Gamified step-by-step voting walkthrough.
 - **Multimodal Live Agent** — Voice-first interactive assistant for hands-free learning.
 - **Inclusive Asset Generation** — Dynamic infographics and audio guides for accessibility.
+- **12-Language Inclusivity** — Full i18n architecture providing instant translations for 12 native Indian languages (Hindi, Tamil, Telugu, Bengali, Marathi, etc.), breaking down regional barriers.
 
 ---
 
