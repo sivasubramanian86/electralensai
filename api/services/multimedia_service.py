@@ -75,6 +75,10 @@ class MultimediaService:
     def generate_infographic(self, prompt: str, aspect_ratio: str = "1:1") -> str:
         """Generates an infographic using Imagen 3 and uploads to GCS.
 
+        Args:
+            prompt: The text prompt describing the infographic content.
+            aspect_ratio: The desired aspect ratio (e.g., "1:1", "16:9").
+
         Returns:
             The public URL of the generated image.
         """
@@ -87,7 +91,14 @@ class MultimediaService:
             return "https://placehold.co/600x400?text=Infographic+Error"
 
     def _enhance_prompt(self, prompt: str) -> str:
-        """Enhances the user prompt using Gemini for better Imagen results."""
+        """Enhances the user prompt using Gemini for better Imagen results.
+
+        Args:
+            prompt: The original user-provided topic or prompt.
+
+        Returns:
+            A more descriptive prompt engineered for high-quality image generation.
+        """
         if not client:
             logger.error("GenAI client not initialized. Cannot enhance prompt.")
             return prompt
@@ -149,7 +160,15 @@ class MultimediaService:
         return url
 
     def generate_audio_guide(self, text: str, language_code: str = "en-US") -> str:
-        """Generates an audio MP3 guide using Text-to-Speech and uploads to GCS."""
+        """Generates an audio MP3 guide using Text-to-Speech and uploads to GCS.
+
+        Args:
+            text: The script text to convert to speech.
+            language_code: BCP-47 language tag (e.g., "hi-IN", "en-US").
+
+        Returns:
+            The public URL of the synthesized MP3 file, or empty string on failure.
+        """
         try:
             logger.info("Generating audio guide for text: %s...", text[:50])
 
@@ -185,7 +204,16 @@ class MultimediaService:
             return url
 
     def generate_multimodal_package(self, topic: str, language: str = "en") -> dict:
-        """Generates a complete package: Infographic and Audio Guide."""
+        """Generates a complete package: Infographic and Audio Guide.
+
+        Args:
+            topic: The educational topic to generate content for.
+            language: The target language code (e.g., "hi", "ta").
+
+        Returns:
+            A dictionary containing URLs for the infographic, audio, and video assets,
+            along with a script preview.
+        """
         lang_map = {
             "en": "en-US", "hi": "hi-IN", "te": "te-IN", "ta": "ta-IN",
             "kn": "kn-IN", "ml": "ml-IN", "bn": "bn-IN", "gu": "gu-IN",

@@ -8,6 +8,7 @@ export function LiveAgentOverlay() {
     return (
       <button
         onClick={startSession}
+        aria-label="Start Live Assistant session"
         className="fixed bottom-10 right-10 z-[100] group flex items-center gap-4 px-6 py-4 bg-blue-600 hover:bg-blue-500 text-white rounded-2xl shadow-2xl shadow-blue-600/30 transition-all hover:scale-105 active:scale-95 border border-white/20"
       >
         <div className="relative">
@@ -40,6 +41,7 @@ export function LiveAgentOverlay() {
         </div>
         <button 
           onClick={stopSession}
+          aria-label="Close Live Assistant session"
           className="p-2 hover:bg-white/10 rounded-full transition-colors"
         >
           <X className="w-4 h-4 text-slate-400" />
@@ -80,7 +82,10 @@ export function LiveAgentOverlay() {
            ))}
         </div>
 
-        <div className="min-h-[100px] max-h-[200px] overflow-y-auto p-4 rounded-2xl bg-white/5 border border-white/5 text-xs text-slate-300 leading-relaxed italic custom-scrollbar">
+        <div 
+           className="min-h-[100px] max-h-[200px] overflow-y-auto p-4 rounded-2xl bg-white/5 border border-white/5 text-xs text-slate-300 leading-relaxed italic custom-scrollbar"
+           aria-live="polite"
+        >
            {transcript || "Waiting for your first words..."}
         </div>
       </div>
@@ -90,6 +95,7 @@ export function LiveAgentOverlay() {
         <div className="flex items-center justify-center gap-6">
            <button 
              onClick={stopSession}
+             aria-label="Stop Live Assistant session"
              className="w-14 h-14 rounded-full bg-rose-600/20 border border-rose-500/30 flex items-center justify-center text-rose-500 hover:bg-rose-600 hover:text-white transition-all shadow-lg"
            >
              <MicOff className="w-6 h-6" />
