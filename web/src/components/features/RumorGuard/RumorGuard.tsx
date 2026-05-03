@@ -71,7 +71,9 @@ export function RumorGuard() {
         <div className="absolute inset-y-0 left-6 flex items-center pointer-events-none">
           <Search className="h-5 w-5 text-slate-500 group-focus-within:text-blue-400 transition-colors" />
         </div>
+        <label htmlFor="rumor-search" className="sr-only">{t('rumor.input_label', 'Enter claim to verify')}</label>
         <input
+          id="rumor-search"
           type="text"
           className="w-full bg-navy-950 border border-white/10 rounded-3xl py-6 pl-14 pr-32 text-lg text-white placeholder-slate-500 focus:outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500/50 transition-all shadow-2xl"
           placeholder={t('rumor.placeholder', 'Paste a viral forward or claim here...')}
@@ -83,9 +85,10 @@ export function RumorGuard() {
         <button 
           onClick={() => handleSearch()}
           disabled={status === 'loading' || status === 'streaming'}
+          aria-label={t('rumor.verify_aria', 'Verify this claim')}
           className="absolute right-3 top-3 bottom-3 px-6 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-2xl transition-all flex items-center gap-2 disabled:opacity-50"
         >
-          {status === 'loading' || status === 'streaming' ? <Loader2 className="w-5 h-5 animate-spin" /> : t('rumor.verify_button', 'Verify')}
+          {status === 'loading' || status === 'streaming' ? <Loader2 className="w-5 h-5 animate-spin" aria-hidden="true" /> : t('rumor.verify_button', 'Verify')}
         </button>
       </div>
 
@@ -109,12 +112,12 @@ export function RumorGuard() {
                 
                 <h3 className="text-xl font-bold text-slate-100 italic">"{currentClaim}"</h3>
                 
-                <div className="flex-1 overflow-y-auto p-5 bg-white/5 rounded-2xl border border-white/5 markdown-body text-slate-300">
+                <div className="flex-1 overflow-y-auto p-5 bg-white/5 rounded-2xl border border-white/5 markdown-body text-slate-300" aria-live="polite">
                    {output ? (
                       <ReactMarkdown>{output}</ReactMarkdown>
                    ) : (
                       <div className="flex items-center gap-2 text-slate-500 italic">
-                        <Loader2 className="w-4 h-4 animate-spin" /> {t('rumor.consulting', 'Consulting official election guidelines...')}
+                        <Loader2 className="w-4 h-4 animate-spin" aria-hidden="true" /> {t('rumor.consulting', 'Consulting official election guidelines...')}
                       </div>
                    )}
                 </div>
@@ -165,9 +168,10 @@ export function RumorGuard() {
                    setQuery(t(`rumor.myths.m${m.id}.claim`, m.claim));
                    handleSearch(t(`rumor.myths.m${m.id}.claim`, m.claim));
                 }}
+                aria-label={`${t(`rumor.myths.m${m.id}.verdict`, m.verdict)}: ${t(`rumor.myths.m${m.id}.claim`, m.claim)}`}
                 className="w-full text-left p-4 rounded-2xl border border-white/5 bg-black/20 hover:bg-white/5 hover:border-white/10 transition-all group"
               >
-                <div className="flex justify-between items-start mb-2">
+                <div className="flex justify-between items-start mb-2" aria-hidden="true">
                   <span className={`text-[10px] font-bold px-2 py-0.5 rounded uppercase ${
                     m.verdict === 'TRUE' ? 'text-emerald-400 bg-emerald-400/10' :
                     m.verdict === 'FALSE' ? 'text-red-400 bg-red-400/10' :

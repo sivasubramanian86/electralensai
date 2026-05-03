@@ -21,12 +21,16 @@ export const useMultimedia = (): UseMultimediaResult => {
   const [error, setError] = useState<string | null>(null);
 
   const pollJobStatus = useCallback(async (jobId: string) => {
+    let active = true;
     const poll = async () => {
+      if (!active) return;
       try {
         const response = await fetch(`${API_BASE}/v1/multimedia/jobs/${jobId}`);
         if (!response.ok) throw new Error('Polling failed');
         
         const data = await response.json();
+        if (!active) return;
+
         if (data.status === 'completed') {
           setContent(data.result);
           setLoading(false);
@@ -37,11 +41,13 @@ export const useMultimedia = (): UseMultimediaResult => {
           setTimeout(poll, 3000);
         }
       } catch (err) {
+        if (!active) return;
         setError(err instanceof Error ? err.message : 'Polling error');
         setLoading(false);
       }
     };
     poll();
+    return () => { active = false; };
   }, []);
 
   const generateContent = useCallback(async (topic: string, language: string = 'en') => {

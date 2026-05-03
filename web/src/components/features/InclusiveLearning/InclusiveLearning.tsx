@@ -97,13 +97,15 @@ export function InclusiveLearning() {
             <button
               key={mod.id}
               onClick={() => setActiveModule(mod)}
+              aria-label={`${t(`inclusive.modules.m${mod.id === 'audio-story' ? '1' : mod.id === 'mind-map' ? '2' : '3'}.title`, mod.title)} - ${mod.type} Module`}
+              aria-pressed={activeModule?.id === mod.id}
               className={`w-full text-left p-6 rounded-3xl border transition-all group flex items-start gap-4 ${
                 activeModule?.id === mod.id 
                   ? 'bg-blue-600/10 border-blue-500/50 shadow-xl' 
                   : 'bg-navy-900/50 border-white/5 hover:border-white/20'
               }`}
             >
-              <div className={`w-12 h-12 rounded-2xl bg-${mod.color}-500/10 flex items-center justify-center border border-${mod.color}-500/20 shrink-0 group-hover:scale-110 transition-transform`}>
+              <div className={`w-12 h-12 rounded-2xl bg-${mod.color}-500/10 flex items-center justify-center border border-${mod.color}-500/20 shrink-0 group-hover:scale-110 transition-transform`} aria-hidden="true">
                 <mod.icon className={`w-6 h-6 text-${mod.color}-400`} />
               </div>
               <div className="flex-1 space-y-1">
@@ -125,8 +127,8 @@ export function InclusiveLearning() {
               {/* Media Preview / Content Area */}
               <div className="flex-1 bg-black/40 relative group flex items-center justify-center">
                 {loading ? (
-                   <div className="flex flex-col items-center gap-4 text-blue-400">
-                      <Loader2 className="w-12 h-12 animate-spin" />
+                   <div className="flex flex-col items-center gap-4 text-blue-400" aria-live="polite" aria-busy="true">
+                      <Loader2 className="w-12 h-12 animate-spin" aria-hidden="true" />
                       <p className="text-sm font-bold animate-pulse">{t('multimodal.generating', 'Generating Inclusive Assets')} for {i18n.language.toUpperCase()}...</p>
                    </div>
                 ) : error ? (
@@ -203,25 +205,35 @@ export function InclusiveLearning() {
                     <button 
                       onClick={() => setIsPlaying(!isPlaying)}
                       disabled={loading || !content?.audio_url}
+                      aria-label={isPlaying ? t('inclusive.pause', 'Pause narration') : t('inclusive.play', 'Play narration')}
                       className="w-14 h-14 rounded-full bg-blue-600 flex items-center justify-center text-white shadow-lg shadow-blue-600/30 hover:scale-105 transition-all disabled:opacity-50"
                     >
-                      {isPlaying ? <Pause className="w-6 h-6" /> : <PlayCircle className="w-6 h-6" />}
+                      {isPlaying ? <Pause className="w-6 h-6" aria-hidden="true" /> : <PlayCircle className="w-6 h-6" aria-hidden="true" />}
                     </button>
                     {content?.audio_url && isPlaying && (
                        <audio key={content.audio_url} autoPlay onEnded={() => setIsPlaying(false)} className="hidden">
                           <source src={content.audio_url} type="audio/mpeg" />
                        </audio>
                     )}
-                    <button className="p-4 rounded-full border border-white/10 text-slate-400 hover:text-white transition-colors">
-                      <Repeat className="w-5 h-5" />
+                    <button 
+                      className="p-4 rounded-full border border-white/10 text-slate-400 hover:text-white transition-colors"
+                      aria-label={t('inclusive.repeat', 'Repeat narration')}
+                    >
+                      <Repeat className="w-5 h-5" aria-hidden="true" />
                     </button>
                   </div>
                   <div className="flex gap-2">
-                    <button className="px-4 py-2 rounded-xl bg-white/5 border border-white/10 text-[10px] font-bold uppercase tracking-widest text-slate-400 hover:text-white transition-all flex items-center gap-2">
-                      <Download className="w-3 h-3" /> {t('inclusive.transcript', 'Transcript')}
+                    <button 
+                      className="px-4 py-2 rounded-xl bg-white/5 border border-white/10 text-[10px] font-bold uppercase tracking-widest text-slate-400 hover:text-white transition-all flex items-center gap-2"
+                      aria-label={t('inclusive.download_transcript', 'Download Transcript')}
+                    >
+                      <Download className="w-3 h-3" aria-hidden="true" /> {t('inclusive.transcript', 'Transcript')}
                     </button>
-                    <button className="px-4 py-2 rounded-xl bg-white/5 border border-white/10 text-[10px] font-bold uppercase tracking-widest text-slate-400 hover:text-white transition-all flex items-center gap-2">
-                      <Captions className="w-3 h-3" /> {t('inclusive.sign_language', 'Sign Language')}
+                    <button 
+                      className="px-4 py-2 rounded-xl bg-white/5 border border-white/10 text-[10px] font-bold uppercase tracking-widest text-slate-400 hover:text-white transition-all flex items-center gap-2"
+                      aria-label={t('inclusive.view_sign_language', 'View Sign Language Video')}
+                    >
+                      <Captions className="w-3 h-3" aria-hidden="true" /> {t('inclusive.sign_language', 'Sign Language')}
                     </button>
                   </div>
                 </div>

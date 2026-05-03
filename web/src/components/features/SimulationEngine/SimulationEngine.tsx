@@ -69,9 +69,10 @@ export function SimulationEngine() {
             <button 
               key={m.id}
               onClick={() => handleStartMode(m.id as 'training' | 'scenario' | 'whatif', m.title)}
+              aria-label={`${t(`simulation.modes.${m.id}.title`, m.title)}: ${t(`simulation.modes.${m.id}.desc`, m.desc)}`}
               className="glass p-8 rounded-3xl border border-white/5 hover:border-white/20 hover:bg-white/[0.08] transition-all group text-left space-y-6"
             >
-              <div className={`w-14 h-14 rounded-2xl bg-${m.color}-500/10 flex items-center justify-center border border-${m.color}-500/20 group-hover:scale-110 transition-transform`}>
+              <div className={`w-14 h-14 rounded-2xl bg-${m.color}-500/10 flex items-center justify-center border border-${m.color}-500/20 group-hover:scale-110 transition-transform`} aria-hidden="true">
                 <m.icon className={`w-7 h-7 text-${m.color}-400`} />
               </div>
               <div className="space-y-2">
@@ -79,7 +80,7 @@ export function SimulationEngine() {
                 <p className="text-slate-400 leading-relaxed">{t(`simulation.modes.${m.id}.desc`, m.desc)}</p>
               </div>
               <div className="pt-4 flex items-center gap-2 text-blue-400 font-bold text-sm">
-                {t('simulation.start_module', 'Start AI Module')} <ChevronRight className="w-4 h-4" />
+                {t('simulation.start_module', 'Start AI Module')} <ChevronRight className="w-4 h-4" aria-hidden="true" />
               </div>
             </button>
           ))}
@@ -109,12 +110,12 @@ export function SimulationEngine() {
       </div>
 
       <div className="flex-1 glass p-8 md:p-12 rounded-[2.5rem] border border-white/10 flex flex-col relative overflow-hidden h-[600px]">
-         <div className="flex-1 overflow-y-auto pr-4 mb-6 text-slate-300 markdown-body custom-scrollbar">
+         <div className="flex-1 overflow-y-auto pr-4 mb-6 text-slate-300 markdown-body custom-scrollbar" aria-live="polite">
             {output ? (
                <ReactMarkdown>{output}</ReactMarkdown>
             ) : (
                <div className="flex flex-col items-center justify-center h-full gap-4 text-slate-500">
-                  <Loader2 className="w-8 h-8 animate-spin text-violet-400" />
+                  <Loader2 className="w-8 h-8 animate-spin text-violet-400" aria-hidden="true" />
                   <p>{t('simulation.generating', 'Generating dynamic scenario...')}</p>
                </div>
             )}
@@ -123,7 +124,9 @@ export function SimulationEngine() {
          {/* Interaction Input */}
          <div className="mt-auto pt-6 border-t border-white/10">
             <form onSubmit={handleActionSubmit} className="relative">
+               <label htmlFor="simulation-input" className="sr-only">{t('simulation.input_label', 'Your response')}</label>
                <input 
+                  id="simulation-input"
                   type="text" 
                   value={userAction}
                   onChange={(e) => setUserAction(e.target.value)}
@@ -134,9 +137,10 @@ export function SimulationEngine() {
                <button 
                   type="submit"
                   disabled={!userAction.trim() || status === 'loading' || status === 'streaming'}
+                  aria-label={t('simulation.send_action', 'Send action')}
                   className="absolute right-2 top-2 bottom-2 px-6 bg-violet-600 hover:bg-violet-500 text-white font-bold rounded-xl transition-all disabled:opacity-50 flex items-center gap-2"
                >
-                  {status === 'loading' || status === 'streaming' ? <Loader2 className="w-4 h-4 animate-spin" /> : <><Sparkles className="w-4 h-4" /> {t('simulation.go_button', 'Go')}</>}
+                  {status === 'loading' || status === 'streaming' ? <Loader2 className="w-4 h-4 animate-spin" aria-hidden="true" /> : <><Sparkles className="w-4 h-4" aria-hidden="true" /> {t('simulation.go_button', 'Go')}</>}
                </button>
             </form>
             <p className="text-[10px] text-slate-500 mt-3 text-center uppercase tracking-widest">

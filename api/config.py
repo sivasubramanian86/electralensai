@@ -15,6 +15,7 @@ class Config:
 
     # Firebase (Optional: backend might need some keys if using admin SDK)
     FIREBASE_PROJECT_ID = os.getenv("VITE_FIREBASE_PROJECT_ID")
+    STORAGE_BUCKET = os.getenv("VITE_FIREBASE_STORAGE_BUCKET")
 
     @classmethod
     def get_secret(cls, secret_id: str, default: str | None = None) -> str | None:

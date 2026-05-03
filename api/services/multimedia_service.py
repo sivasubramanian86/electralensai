@@ -2,6 +2,7 @@
 
 import logging
 import os
+import tempfile
 import uuid
 
 import vertexai
@@ -25,12 +26,12 @@ class MultimediaService:
 
     def __init__(self) -> None:
         """Initialize the multimedia service configuration."""
-        self.project_id = os.getenv("GOOGLE_CLOUD_PROJECT")
-        self.location = os.getenv("GOOGLE_CLOUD_LOCATION", "us-central1")
-        self.bucket_name = os.getenv("VITE_FIREBASE_STORAGE_BUCKET")
-        self._storage_client = None
-        self._tts_client = None
-        self._imagen_model = None
+        self.project_id = Config.PROJECT_ID
+        self.location = Config.LOCATION
+        self.bucket_name = Config.STORAGE_BUCKET
+        self._storage_client: storage.Client | None = None
+        self._tts_client: texttospeech.TextToSpeechClient | None = None
+        self._imagen_model: ImageGenerationModel | None = None
 
     @property
     def storage_client(self) -> storage.Client:
@@ -85,28 +86,30 @@ class MultimediaService:
             # Fallback placeholder
             return "https://placehold.co/600x400?text=Infographic+Error"
 
-    def _generate_infographic_logic(self, prompt: str, aspect_ratio: str) -> str:
-        """Internal logic for infographic generation."""
+    def _enhance_prompt(self, prompt: str) -> str:
+        """Enhances the user prompt using Gemini for better Imagen results."""
         if not client:
             logger.error("GenAI client not initialized. Cannot enhance prompt.")
-            enhanced_prompt = prompt
-        else:
-            # Use Gemini to engineer a high-quality Imagen prompt
-            model_id = Config.MODEL_NAME
-            try:
-                response = client.models.generate_content(
-                    model=model_id,
-                    contents=(
-                        f"Create an educational infographic about: {prompt}. "
-                        "Focus on inclusive design, clarity, and election iconography. "
-                        "No text except headings."
-                    ),
-                )
-                enhanced_prompt = response.text.strip()
-            except Exception:  # pragma: no cover
-                logger.warning("Prompt enhancement failed")  # pragma: no cover
-                enhanced_prompt = prompt  # pragma: no cover
+            return prompt
 
+        model_id = Config.MODEL_NAME
+        try:
+            response = client.models.generate_content(
+                model=model_id,
+                contents=(
+                    f"Create an educational infographic about: {prompt}. "
+                    "Focus on inclusive design, clarity, and election iconography. "
+                    "No text except headings."
+                ),
+            )
+            return response.text.strip()
+        except Exception:  # pragma: no cover
+            logger.warning("Prompt enhancement failed, using original prompt")
+            return prompt
+
+    def _generate_infographic_logic(self, prompt: str, aspect_ratio: str) -> str:
+        """Internal logic for infographic generation."""
+        enhanced_prompt = self._enhance_prompt(prompt)
         logger.info("Enhanced Imagen prompt: %s", enhanced_prompt)
 
         images = self.imagen_model.generate_images(
@@ -125,8 +128,8 @@ class MultimediaService:
         bucket = self.storage_client.bucket(self.bucket_name)
         blob = bucket.blob(file_name)
 
-        # Save to temp file first
-        temp_path = f"temp_{uuid.uuid4()}.png"
+        # Save to temp file first (use temp dir for Cloud Run write permissions)
+        temp_path = os.path.join(tempfile.gettempdir(), f"temp_{uuid.uuid4()}.png")
         images[0].save(location=temp_path, include_generation_parameters=False)
 
         try:
