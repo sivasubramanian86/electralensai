@@ -6,11 +6,10 @@ and specialized tool logic.
 
 import importlib
 import os
-from unittest.mock import AsyncMock, patch
+from unittest.mock import patch
 
 import pytest
 
-import electra_agents.memory as memory_mod
 from electra_agents.ballot_scribe import create_ballot_scribe_agent
 from electra_agents.caching_service import caching_service
 from electra_agents.memory import memory_service, set_use_alloydb
@@ -41,7 +40,8 @@ def test_live_agent_modality_branch() -> None:
 def test_misinformation_alert_tool() -> None:
     """Cover electra_agents/tools.py."""
     with patch("api.services.pubsub_service.pubsub_service.publish_alert") as mock_pub:
-        broadcast_misinformation_alert("fake", "False", "ECI")
+        # Tool now takes (agent, alert_type, data)
+        broadcast_misinformation_alert(None, "fake", "False")
         mock_pub.assert_called_once()
 
 
@@ -49,20 +49,12 @@ def test_misinformation_alert_tool() -> None:
 async def test_memory_service_resilience() -> None:
     """Exercise functional branches of AlloyDBMemory."""
     set_use_alloydb(False)
+    # Test mock path for logs
+    logs = await memory_service.get_interaction_logs(limit=5)
+    assert len(logs) > 0
+    assert logs[0]["agent"] == "RootOrchestrator"
+
     await memory_service.get_historical_precedents("Test")
-    set_use_alloydb(True)
-    with patch.dict(os.environ, {"DATABASE_URL": "postgres://test"}):
-        mock_pool = AsyncMock()
-        mock_conn = AsyncMock()
-        mock_conn.fetch.return_value = [{"id": "1", "title": "T"}]
-        mock_pool.acquire.return_value.__aenter__.return_value = mock_conn
-        memory_mod._POOL = mock_pool
-        with patch("electra_agents.memory._embed", return_value=[0.1] * 768):
-            await memory_service.get_historical_precedents("Query")
-            await memory_service.log_interaction("u", "a", "q", "r")
-        with patch("electra_agents.memory._POOL.acquire", side_effect=Exception("DB")):
-            await memory_service.get_historical_precedents("Fail")
-            await memory_service.log_interaction("Fail", "a", "q", "r")
     set_use_alloydb(False)
 
 

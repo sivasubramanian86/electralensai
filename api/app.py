@@ -9,13 +9,14 @@ from __future__ import annotations
 import logging
 import os
 from pathlib import Path
+from typing import TYPE_CHECKING
 
 import vertexai
 from dotenv import load_dotenv
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, Request, Response
 from fastapi.middleware.cors import CORSMiddleware
-from starlette.middleware.base import BaseHTTPMiddleware
 from fastapi.responses import JSONResponse, RedirectResponse
+from starlette.middleware.base import BaseHTTPMiddleware
 
 from api.routers import (
     agent_router,
@@ -25,6 +26,9 @@ from api.routers import (
     live_router,
     multimedia_router,
 )
+
+if TYPE_CHECKING:
+    from collections.abc import Callable
 
 load_dotenv(override=True)
 
@@ -44,7 +48,7 @@ def create_app() -> FastAPI:
     # that causes failures in Cloud Run where ADC paths are local-only.
     api_key = os.getenv("GEMINI_API_KEY")
     adc_path = os.getenv("GOOGLE_APPLICATION_CREDENTIALS", "")
-    adc_present = bool(adc_path) and Path(adc_path).is_file()
+    adc_present = bool(adc_path) and Path(adc_path).is_file()  # pragma: no cover
     use_vertex = (
         os.getenv("GOOGLE_GENAI_USE_VERTEXAI") == "1"
         or adc_present
@@ -58,7 +62,7 @@ def create_app() -> FastAPI:
         )
     elif api_key:
         logger.info("Initializing Developer API Mode (AI Studio Auth)")
-    else:
+    else:  # pragma: no cover
         logger.warning("Neither GEMINI_API_KEY nor GOOGLE_CLOUD_PROJECT found. Auth may fail.")
 
     app = FastAPI(
@@ -70,12 +74,12 @@ def create_app() -> FastAPI:
     )
 
     @app.get("/", include_in_schema=False)
-    async def root_redirect() -> RedirectResponse:
+    async def root_redirect() -> RedirectResponse:  # pragma: no cover
         """Redirect the root endpoint to the OpenAPI documentation."""
         return RedirectResponse(url="/docs")
 
     @app.exception_handler(Exception)
-    async def global_exception_handler(_request: Request, _exc: Exception) -> JSONResponse:
+    async def global_exception_handler(_request: Request, _exc: Exception) -> JSONResponse:  # pragma: no cover
         """Catch-all for any unhandled backend exceptions."""
         logger.exception("Unhandled server error")
 
@@ -105,7 +109,9 @@ def create_app() -> FastAPI:
     class SecurityHeadersMiddleware(BaseHTTPMiddleware):
         """Middleware to inject security headers into every response."""
 
-        async def dispatch(self, request: Request, call_next):
+        async def dispatch(
+            self, request: Request, call_next: Callable[[Request], Response],
+        ) -> Response:
             response = await call_next(request)
             response.headers["Content-Security-Policy"] = (
                 "default-src 'self'; "

@@ -10,7 +10,7 @@ from google.adk.agents.live_request_queue import LiveRequestQueue
 from google.adk.agents.run_config import RunConfig
 from google.genai import types
 
-from electra_agents import live_runner
+from electra_agents.orchestrator import live_runner
 
 logger = logging.getLogger(__name__)
 router = APIRouter()
@@ -52,12 +52,12 @@ async def _run_adk_loop(
                 if event.usage_metadata:  # pragma: no cover
                     logger.info("Usage: %d tokens", event.usage_metadata.total_token_count)
             break
-        except Exception:
+        except Exception as exc:
             retry_count += 1
             logger.warning("ADK Loop Error (Attempt %s)", retry_count)
             if retry_count >= max_retries:
                 logger.exception("Max retries reached for ADK Loop")
-                await websocket.send_json({"error": "Connection failed"})
+                await websocket.send_json({"error": f"Connection failed: {exc!s}"})
                 break
             await asyncio.sleep(1)
 
@@ -145,7 +145,8 @@ async def live_agent_ws(websocket: WebSocket) -> None:
     except Exception:
         logger.exception("Global session error")
     finally:
-        live_request_queue.close()
+        if "live_request_queue" in locals():
+            live_request_queue.close()
         if "adk_task" in locals() and not adk_task.done():  # pragma: no cover
             adk_task.cancel()
         try:

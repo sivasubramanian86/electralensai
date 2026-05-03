@@ -37,6 +37,12 @@ class TestHealthEndpoint:
         assert data["service"] == "ElectraLensAI"
         assert "version" in data
 
+    def test_root_redirect(self, client) -> None:
+        """Verify the root endpoint redirects to the documentation."""
+        response = client.get("/", follow_redirects=False)
+        assert response.status_code == 307
+        assert response.headers["location"] == "/docs"
+
 
 class TestQueryEndpoint:
     """Suite for validating the synchronous civic query processing pipeline."""

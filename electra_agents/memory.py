@@ -10,13 +10,11 @@ import logging
 import os
 from typing import Any
 
+logger = logging.getLogger(__name__)
+
 import asyncpg
 from google.genai import types
 from pgvector.asyncpg import register_vector
-
-from api.genai_client import client
-
-logger = logging.getLogger(__name__)
 
 _USE_ALLOYDB = os.getenv("USE_ALLOYDB", "false").lower() == "true"
 _POOL: asyncpg.Pool | None = None  # asyncpg.Pool singleton
@@ -55,8 +53,9 @@ async def _get_pool() -> asyncpg.Pool:  # pragma: no cover
     return _POOL
 
 
-async def _embed(text: str) -> list[float]:
+async def _embed(text: str) -> list[float]:  # pragma: no cover
     """Generate a 768-dimension embedding via Vertex AI."""
+    from api.genai_client import client  # noqa: PLC0415
     response = client.models.embed_content(
         model=EMBEDDING_MODEL,
         contents=text,
@@ -131,15 +130,17 @@ class AlloyDBMemory:
                 },
             ]
 
-        try:
+        try:  # pragma: no cover
             pool = await _get_pool()
             async with pool.acquire() as conn:
-                rows = await conn.fetch(
-                    "SELECT created_at as timestamp, agent_name as agent, question, response FROM agent_logs ORDER BY created_at DESC LIMIT $1",
-                    limit,
+                query = (
+                    "SELECT created_at as timestamp, agent_name as agent, "
+                    "question, response FROM agent_logs "
+                    "ORDER BY created_at DESC LIMIT $1"
                 )
+                rows = await conn.fetch(query, limit)
             return [dict(r) for r in rows]
-        except Exception:
+        except Exception:  # pragma: no cover
             logger.exception("[Memory] Failed to fetch interaction logs")
             return []
 

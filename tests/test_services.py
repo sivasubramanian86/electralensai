@@ -77,12 +77,16 @@ class TestMultimediaService:
         service = MultimediaService()
         service.bucket_name = "test-bucket"
 
-        with patch("os.remove"):  # Don't actually try to remove non-existent temp file
-            url = service.generate_infographic("Election topic")
+        url = service.generate_infographic("Election topic")
 
         assert "storage.googleapis.com/test-bucket/infographics/" in url
         mock_image.save.assert_called_once()
         mock_blob.upload_from_filename.assert_called_once()
+
+        # Test failure fallback
+        mock_imagen_model.generate_images.side_effect = Exception("Imagen fail")
+        fail_url = service.generate_infographic("Fail")
+        assert "placehold.co" in fail_url
 
     @patch("google.cloud.storage.Client")
     @patch("google.cloud.texttospeech.TextToSpeechClient")
@@ -106,6 +110,11 @@ class TestMultimediaService:
         mock_blob.upload_from_string.assert_called_once_with(
             b"audio data", content_type="audio/mpeg"
         )
+        
+        # Test failure fallback
+        mock_tts_client.synthesize_speech.side_effect = Exception("TTS fail")
+        fail_url = service.generate_audio_guide("Fail")
+        assert fail_url == ""
 
     @patch("google.cloud.storage.Client")
     @patch("google.cloud.texttospeech.TextToSpeechClient")

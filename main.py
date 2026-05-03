@@ -31,8 +31,9 @@ load_dotenv(override=True)
 # We prioritize Vertex AI if credentials or the explicit flag is set.
 # This ensures native-audio models on Vertex function correctly.
 if os.getenv("GOOGLE_APPLICATION_CREDENTIALS") or os.getenv("GOOGLE_GENAI_USE_VERTEXAI") == "1":
-    pass
-elif os.getenv("GEMINI_API_KEY"):  # pragma: no cover
+    print("Initializing in Vertex AI Mode (Enterprise Auth)")  # noqa: T201
+elif os.getenv("GEMINI_API_KEY"):
+    print("Initializing in Developer API Mode (AI Studio Auth)")  # noqa: T201
     # Popping these prevents the SDK from auto-defaulting to Vertex AI mode
     os.environ.pop("GOOGLE_CLOUD_PROJECT", None)
     os.environ.pop("GOOGLE_CLOUD_LOCATION", None)

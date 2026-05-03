@@ -121,8 +121,11 @@ class MultimediaService:
         temp_path = f"temp_{uuid.uuid4()}.png"
         images[0].save(location=temp_path, include_generation_parameters=False)
 
-        blob.upload_from_filename(temp_path)
-        Path(temp_path).unlink()
+        try:
+            blob.upload_from_filename(temp_path)
+        finally:
+            if os.path.exists(temp_path):
+                os.remove(temp_path)
 
         # Return public URL (assuming bucket is public or has appropriate IAM)
         return f"https://storage.googleapis.com/{self.bucket_name}/{file_name}"

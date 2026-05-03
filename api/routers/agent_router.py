@@ -19,7 +19,7 @@ from sse_starlette.sse import EventSourceResponse
 from api.services.analytics_service import analytics_service
 from api.services.dlp_service import dlp_service
 from api.services.translation_service import translation_service
-from electra_agents import runner
+from electra_agents.orchestrator import runner
 
 if TYPE_CHECKING:
     from collections.abc import AsyncIterator
