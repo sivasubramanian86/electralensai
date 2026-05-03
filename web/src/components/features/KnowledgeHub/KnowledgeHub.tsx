@@ -21,6 +21,7 @@ import {
   ArrowRight,
   CheckCircle2,
 } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import type { UseGamificationResult } from '../../../hooks/useGamification';
 
 // ─── Data ──────────────────────────────────────────────────────────────────────
@@ -213,6 +214,7 @@ interface KnowledgeHubProps {
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export function KnowledgeHub({ gamification }: KnowledgeHubProps) {
+  const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState<'constitution' | 'faq' | 'paths'>('constitution');
   const [activeArticle, setActiveArticle] = useState<typeof constitutionArticles[0] | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
@@ -257,10 +259,10 @@ export function KnowledgeHub({ gamification }: KnowledgeHubProps) {
         <div>
           <h2 className="text-3xl font-bold flex items-center gap-3 text-white">
             <BookOpen className="w-9 h-9 text-violet-400" />
-            Knowledge Hub
+            {t('knowledge.title', 'Knowledge Hub')}
           </h2>
           <p className="text-slate-400 mt-1">
-            Constitution, FAQ, and curated reading paths — your civic reference library.
+            {t('knowledge.desc', 'Constitution, FAQ, and curated reading paths — your civic reference library.')}
           </p>
         </div>
         {readArticles.length > 0 && (
@@ -276,7 +278,7 @@ export function KnowledgeHub({ gamification }: KnowledgeHubProps) {
         <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
         <input
           type="text"
-          placeholder="Search articles, topics, or questions..."
+          placeholder={t('knowledge.search_placeholder', 'Search articles, topics, or questions...')}
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           className="w-full bg-white/5 border border-white/10 rounded-2xl py-3 pl-12 pr-6 text-sm focus:outline-none focus:border-violet-500/50 focus:bg-white/10 transition-all"
@@ -286,9 +288,9 @@ export function KnowledgeHub({ gamification }: KnowledgeHubProps) {
       {/* Tabs */}
       <div className="flex gap-1 p-1 bg-white/5 rounded-2xl border border-white/5 w-fit">
         {[
-          { id: 'constitution', label: 'Constitution', icon: ScrollText },
-          { id: 'faq', label: 'FAQ', icon: HelpCircle },
-          { id: 'paths', label: 'Reading Paths', icon: ArrowRight },
+          { id: 'constitution', label: t('knowledge.tab_constitution', 'Constitution'), icon: ScrollText },
+          { id: 'faq', label: t('knowledge.tab_faq', 'FAQ'), icon: HelpCircle },
+          { id: 'paths', label: t('knowledge.tab_paths', 'Reading Paths'), icon: ArrowRight },
         ].map((tab) => (
           <button
             key={tab.id}
@@ -330,13 +332,13 @@ export function KnowledgeHub({ gamification }: KnowledgeHubProps) {
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center justify-between gap-2">
                         <span className="text-[10px] font-mono font-bold text-slate-500 uppercase tracking-widest">
-                          {article.article}
+                          {t(`knowledge.articles.${article.id}.article_num`, article.article)}
                         </span>
                         {isRead && <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />}
                       </div>
-                      <p className="text-sm font-bold text-white mt-0.5 truncate">{article.title}</p>
+                      <p className="text-sm font-bold text-white mt-0.5 truncate">{t(`knowledge.articles.${article.id}.title`, article.title)}</p>
                       <span className={`text-[10px] font-bold text-${article.color}-400`}>
-                        {article.category}
+                        {t(`knowledge.categories.${article.category}`, article.category)}
                       </span>
                     </div>
                   </div>
@@ -352,30 +354,30 @@ export function KnowledgeHub({ gamification }: KnowledgeHubProps) {
                 <div className="space-y-2">
                   <div className="flex items-center gap-3">
                     <span className="px-3 py-1 rounded-full bg-violet-500/10 border border-violet-500/20 text-violet-400 text-[10px] font-bold uppercase tracking-widest">
-                      {activeArticle.article}
+                      {t(`knowledge.articles.${activeArticle.id}.article_num`, activeArticle.article)}
                     </span>
-                    <span className="text-[10px] text-slate-500">{activeArticle.category}</span>
+                    <span className="text-[10px] text-slate-500">{t(`knowledge.categories.${activeArticle.category}`, activeArticle.category)}</span>
                   </div>
-                  <h3 className="text-2xl font-bold text-white">{activeArticle.title}</h3>
+                  <h3 className="text-2xl font-bold text-white">{t(`knowledge.articles.${activeArticle.id}.title`, activeArticle.title)}</h3>
                 </div>
 
-                <p className="text-slate-300 leading-relaxed text-base">{activeArticle.summary}</p>
+                <p className="text-slate-300 leading-relaxed text-base">{t(`knowledge.articles.${activeArticle.id}.summary`, activeArticle.summary)}</p>
 
                 <div className="space-y-3">
-                  <h4 className="text-xs font-bold text-slate-500 uppercase tracking-widest">Key Points</h4>
+                  <h4 className="text-xs font-bold text-slate-500 uppercase tracking-widest">{t('knowledge.key_points', 'Key Points')}</h4>
                   {activeArticle.keyPoints.map((point, i) => (
                     <div key={i} className="flex gap-3 items-start p-3 rounded-xl bg-white/5 border border-white/5">
                       <div className="w-5 h-5 rounded-full bg-violet-500/20 flex items-center justify-center text-[10px] font-bold text-violet-400 shrink-0 mt-0.5">
                         {i + 1}
                       </div>
-                      <p className="text-sm text-slate-300">{point}</p>
+                      <p className="text-sm text-slate-300">{t(`knowledge.articles.${activeArticle.id}.point_${i}`, point)}</p>
                     </div>
                   ))}
                 </div>
 
                 <div className="p-4 rounded-2xl bg-amber-500/5 border border-amber-500/20">
-                  <p className="text-xs font-bold text-amber-400 mb-1">Deep Dive Suggestion</p>
-                  <p className="text-sm text-slate-400">{activeArticle.deepDive}</p>
+                  <p className="text-xs font-bold text-amber-400 mb-1">{t('knowledge.deep_dive_suggestion', 'Deep Dive Suggestion')}</p>
+                  <p className="text-sm text-slate-400">{t(`knowledge.articles.${activeArticle.id}.deepDive`, activeArticle.deepDive)}</p>
                 </div>
 
                 <a
@@ -384,12 +386,12 @@ export function KnowledgeHub({ gamification }: KnowledgeHubProps) {
                   rel="noopener noreferrer"
                   className="flex items-center gap-2 text-sm font-bold text-violet-400 hover:text-violet-300 transition-colors"
                 >
-                  Read Official Source <ExternalLink className="w-4 h-4" />
+                  {t('knowledge.read_official_source', 'Read Official Source')} <ExternalLink className="w-4 h-4" />
                 </a>
 
                 <div className="pt-2 border-t border-white/5 text-center">
                   <p className="text-[10px] text-slate-600">
-                    +15 XP awarded for reading this article
+                    {t('knowledge.xp_awarded', '+15 XP awarded for reading this article')}
                   </p>
                 </div>
               </div>
@@ -397,13 +399,13 @@ export function KnowledgeHub({ gamification }: KnowledgeHubProps) {
               <div className="glass p-8 rounded-3xl border border-white/10 flex flex-col items-center justify-center text-center min-h-[400px] space-y-4">
                 <ScrollText className="w-16 h-16 text-slate-700" />
                 <div>
-                  <p className="text-lg font-bold text-slate-400">Select an Article</p>
+                  <p className="text-lg font-bold text-slate-400">{t('knowledge.select_article', 'Select an Article')}</p>
                   <p className="text-sm text-slate-600 max-w-xs mx-auto mt-1">
-                    Choose a constitutional provision to read its summary, key points, and deep-dive path.
+                    {t('knowledge.select_article_desc', 'Choose a constitutional provision to read its summary, key points, and deep-dive path.')}
                   </p>
                 </div>
                 <div className="text-[10px] text-slate-700">
-                  Reading 5 articles unlocks the "Constitution Explorer" badge
+                  {t('knowledge.badge_hint', 'Reading 5 articles unlocks the "Constitution Explorer" badge')}
                 </div>
               </div>
             )}
@@ -425,7 +427,7 @@ export function KnowledgeHub({ gamification }: KnowledgeHubProps) {
               >
                 <div className="flex items-center gap-3">
                   <HelpCircle className="w-5 h-5 text-blue-400 shrink-0" />
-                  <span className="text-sm font-bold text-white">{faq.question}</span>
+                  <span className="text-sm font-bold text-white">{t(`knowledge.faqs.${faq.id}.question`, faq.question)}</span>
                 </div>
                 <ChevronRight
                   className={`w-4 h-4 text-slate-500 transition-transform shrink-0 ${
@@ -435,11 +437,11 @@ export function KnowledgeHub({ gamification }: KnowledgeHubProps) {
               </button>
               {expandedFaq === faq.id && (
                 <div className="px-5 pb-5 space-y-3 animate-in slide-in-from-top-2 duration-200">
-                  <p className="text-sm text-slate-300 leading-relaxed pl-8">{faq.answer}</p>
+                  <p className="text-sm text-slate-300 leading-relaxed pl-8">{t(`knowledge.faqs.${faq.id}.answer`, faq.answer)}</p>
                   <div className="pl-8 flex items-center gap-2">
                     <div className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
                     <span className="text-[10px] font-bold text-slate-500">
-                      Source: {faq.source}
+                      {t('knowledge.source', 'Source:')} {t(`knowledge.faqs.${faq.id}.source`, faq.source)}
                     </span>
                   </div>
                 </div>
@@ -459,9 +461,9 @@ export function KnowledgeHub({ gamification }: KnowledgeHubProps) {
             >
               <div className="flex items-start justify-between">
                 <div>
-                  <h3 className="text-lg font-bold text-white">{path.title}</h3>
+                  <h3 className="text-lg font-bold text-white">{t(`knowledge.paths.${path.id}.title`, path.title)}</h3>
                   <span className={`text-[10px] font-bold text-${path.color}-400 uppercase tracking-widest`}>
-                    {path.difficulty}
+                    {t(`knowledge.difficulty.${path.difficulty}`, path.difficulty)}
                   </span>
                 </div>
                 <div className={`px-2 py-1 rounded-lg bg-${path.color}-500/10 border border-${path.color}-500/20`}>
@@ -475,7 +477,7 @@ export function KnowledgeHub({ gamification }: KnowledgeHubProps) {
                     <div className={`w-5 h-5 rounded-full bg-${path.color}-500/10 border border-${path.color}-500/20 flex items-center justify-center text-[9px] font-bold text-${path.color}-400 shrink-0`}>
                       {i + 1}
                     </div>
-                    <p className="text-xs text-slate-400">{step}</p>
+                    <p className="text-xs text-slate-400">{t(`knowledge.paths.${path.id}.step_${i}`, step)}</p>
                   </div>
                 ))}
               </div>
@@ -487,7 +489,7 @@ export function KnowledgeHub({ gamification }: KnowledgeHubProps) {
                 }}
                 className={`w-full py-2.5 rounded-xl bg-${path.color}-600/10 border border-${path.color}-500/20 text-${path.color}-400 text-sm font-bold hover:bg-${path.color}-600/20 transition-all flex items-center justify-center gap-2`}
               >
-                Start Path <ArrowRight className="w-4 h-4" />
+                {t('knowledge.start_path', 'Start Path')} <ArrowRight className="w-4 h-4" />
               </button>
             </div>
           ))}
@@ -497,9 +499,9 @@ export function KnowledgeHub({ gamification }: KnowledgeHubProps) {
       {/* Next Steps */}
       <div className="p-6 rounded-3xl bg-violet-600/5 border border-violet-500/20 flex flex-col md:flex-row items-center justify-between gap-4">
         <div>
-          <p className="text-sm font-bold text-violet-400">What you can do next</p>
+          <p className="text-sm font-bold text-violet-400">{t('knowledge.next_steps', 'What you can do next')}</p>
           <p className="text-xs text-slate-400 mt-0.5">
-            Continue your civic journey — read 5 articles to unlock the Constitution Explorer badge.
+            {t('knowledge.next_steps_desc', 'Continue your civic journey — read 5 articles to unlock the Constitution Explorer badge.')}
           </p>
         </div>
         <div className="flex gap-2 flex-wrap">
@@ -507,13 +509,13 @@ export function KnowledgeHub({ gamification }: KnowledgeHubProps) {
             onClick={() => setActiveTab('faq')}
             className="px-4 py-2 rounded-xl bg-violet-600/10 border border-violet-500/20 text-violet-400 text-xs font-bold hover:bg-violet-600/20 transition-all"
           >
-            Explore FAQs
+            {t('knowledge.explore_faqs', 'Explore FAQs')}
           </button>
           <button
             onClick={() => setActiveTab('paths')}
             className="px-4 py-2 rounded-xl bg-violet-600/10 border border-violet-500/20 text-violet-400 text-xs font-bold hover:bg-violet-600/20 transition-all"
           >
-            View Reading Paths
+            {t('knowledge.view_paths', 'View Reading Paths')}
           </button>
         </div>
       </div>

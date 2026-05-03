@@ -82,6 +82,24 @@ describe('useAgentStream Hook', () => {
     consoleSpy.mockRestore();
   });
 
+  it('handles 404 fetch errors', async () => {
+    vi.stubGlobal('fetch', vi.fn().mockResolvedValue({
+      ok: false,
+      status: 404
+    }));
+    const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+
+    const { result } = renderHook(() => useAgentStream());
+
+    await act(async () => {
+      await result.current.submit('test', 'IN', 'rumor_guard');
+    });
+
+    expect(result.current.status).toBe('error');
+    expect(result.current.output).toContain('[Service Unavailable: Endpoint not found]');
+    consoleSpy.mockRestore();
+  });
+
   it('handles abort correctly', async () => {
     // Mock a slow fetch
     vi.stubGlobal('fetch', vi.fn().mockReturnValue(new Promise(() => {})));

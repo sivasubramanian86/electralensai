@@ -11,7 +11,7 @@ RUN pip install --no-cache-dir --upgrade pip \
     && pip install --no-cache-dir .
 
 # Copy application code
-COPY agents/ ./agents/
+COPY electra_agents/ ./electra_agents/
 COPY api/ ./api/
 COPY main.py .
 

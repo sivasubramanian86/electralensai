@@ -31,6 +31,7 @@ import {
   Info,
   ChevronDown,
 } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import type { UseGamificationResult } from '../../../hooks/useGamification';
 
 // ─── Data ──────────────────────────────────────────────────────────────────────
@@ -103,6 +104,7 @@ interface ElectoralDataProps {
 }
 
 export function ElectoralData({ gamification }: ElectoralDataProps) {
+  const { t } = useTranslation();
   const [selectedRegion, setSelectedRegion] = useState('IN');
   const [activeChart, setActiveChart] = useState<'turnout' | 'age' | 'seats' | 'states'>('turnout');
 
@@ -121,10 +123,10 @@ export function ElectoralData({ gamification }: ElectoralDataProps) {
         <div>
           <h2 className="text-3xl font-bold flex items-center gap-3 text-white">
             <BarChart3 className="w-9 h-9 text-emerald-400" />
-            Electoral Data Explorer
+            {t('data.title', 'Electoral Data Explorer')}
           </h2>
           <p className="text-slate-400 mt-1">
-            Aggregate civic statistics — turnout trends, demographics, and constituency breakdown.
+            {t('data.desc', 'Aggregate civic statistics — turnout trends, demographics, and constituency breakdown.')}
           </p>
         </div>
         <div className="flex items-center gap-2 bg-white/5 border border-white/10 rounded-xl px-3 py-2">
@@ -147,8 +149,7 @@ export function ElectoralData({ gamification }: ElectoralDataProps) {
       <div className="p-3 rounded-xl bg-amber-500/5 border border-amber-500/15 flex gap-3 items-start">
         <Info className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
         <p className="text-xs text-amber-500/80">
-          <strong>Data Note:</strong> Figures are illustrative approximations based on publicly available ECI data for educational purposes.
-          Always refer to the official Election Commission of India portal (eci.gov.in) for authoritative data.
+          <strong>{t('data.data_note', 'Data Note:')}</strong> {t('data.disclaimer', 'Figures are illustrative approximations based on publicly available ECI data for educational purposes. Always refer to the official Election Commission of India portal (eci.gov.in) for authoritative data.')}
         </p>
       </div>
 

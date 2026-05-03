@@ -1,7 +1,8 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import { Quiz } from './Quiz';
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import { CIVIC_MOCKS } from '../../../mocks/civicKnowledge';
+import { useTranslation } from 'react-i18next';
 
 describe('Quiz Component', () => {
   it('renders the first question', () => {
@@ -63,5 +64,19 @@ describe('Quiz Component', () => {
     
     expect(screen.getByText('✗')).toBeInTheDocument();
     expect(screen.getByText(/Why this is correct/i)).toBeInTheDocument();
+  });
+
+  it('handles undefined options safely', () => {
+     
+    vi.mocked(useTranslation).mockReturnValueOnce({
+      t: (k: string) => k.includes('options') ? undefined : k,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      i18n: { language: 'en' } as any,
+      ready: true
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } as any);
+    
+    render(<Quiz />);
+    expect(screen.getByText(/learning_lab.quiz_title/i)).toBeInTheDocument();
   });
 });

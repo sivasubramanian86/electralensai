@@ -6,7 +6,18 @@
     "search_placeholder": "Busca reglas, centros de votación o verifica datos...",
     "search_aria": "Buscar información cívica",
     "notifications": "Notificaciones",
-    "notifications_aria": "Ver notificaciones"
+    "notifications_aria": "Ver notificaciones",
+    "new_notif": "Nuevo",
+    "notif_reg_title": "Registro de Votantes",
+    "notif_reg_desc": "La fecha límite se acerca en 5 días!",
+    "notif_myth_title": "Alerta Cazadores de Mitos",
+    "notif_myth_desc": "Una afirmación viral fue desmentida.",
+    "notif_achiev_title": "Logro Desbloqueado",
+    "notif_achiev_desc": "Ganaste una insignia!",
+    "notif_time_2h": "Hace 2 horas",
+    "notif_time_5h": "Hace 5 horas",
+    "notif_time_1d": "Hace 1 día",
+    "mark_all_read": "Marcar todo como leído"
   },
   "nav": {
     "dashboard": "Centro de Conciencia",
@@ -19,7 +30,12 @@
     "learning_lab": "Laboratorio de Aprendizaje",
     "inclusive": "Aprendizaje Inclusivo",
     "audit": "Auditoría y Transparencia",
-    "settings": "Configuración"
+    "settings": "Configuración",
+    "profile": "Perfil",
+    "notifications": "Notificaciones",
+    "security": "Seguridad y Privacidad",
+    "appearance": "Apariencia",
+    "language": "Idioma y Región"
   },
   "dashboard": {
     "welcome": "Centro de Conciencia del Votante",
@@ -38,19 +54,52 @@
       "available": "Disponible"
     },
     "chapters": {
-      "ch1": { "title": "Únete al Censo Electoral", "desc": "Entiende el registro, documentos de identidad y verifica tu nombre." },
-      "ch2": { "title": "Cuenta Regresiva Electoral", "desc": "Sigue las 5 fases — Anuncio → Nominación → Campaña → Votación → Resultados." },
-      "ch3": { "title": "Juego de Democracia", "desc": "Entra en la simulación de un centro de votación. Gestiona escenarios reales como oficial." },
-      "ch4": { "title": "Misión Cazador de Mitos", "desc": "Verifica 3 noticias virales y aprende a comprobar la información por ti mismo." },
-      "ch5": { "title": "Explorador Constitucional", "desc": "Lee 5 artículos constitucionales y entiende tus derechos y deberes." },
-      "ch6": { "title": "Detective de Datos", "desc": "Explora estadísticas electorales: tendencias de voto, distribución de escaños y demografía." },
-      "ch7": { "title": "Laboratorio de Aprendizaje", "desc": "Pon a prueba tus conocimientos con cuestionarios interactivos y tarjetas cívicas." },
-      "ch8": { "title": "Centro de Aprendizaje Inclusivo", "desc": "Explora audiohistorias, mapas visuales y contenido cívico accesible." }
+      "ch1": {
+        "title": "Únete al Censo Electoral",
+        "desc": "Entiende el registro, documentos de identidad y verifica tu nombre."
+      },
+      "ch2": {
+        "title": "Cuenta Regresiva Electoral",
+        "desc": "Sigue las 5 fases — Anuncio → Nominación → Campaña → Votación → Resultados."
+      },
+      "ch3": {
+        "title": "Juego de Democracia",
+        "desc": "Entra en la simulación de un centro de votación. Gestiona escenarios reales como oficial."
+      },
+      "ch4": {
+        "title": "Misión Cazador de Mitos",
+        "desc": "Verifica 3 noticias virales y aprende a comprobar la información por ti mismo."
+      },
+      "ch5": {
+        "title": "Explorador Constitucional",
+        "desc": "Lee 5 artículos constitucionales y entiende tus derechos y deberes."
+      },
+      "ch6": {
+        "title": "Detective de Datos",
+        "desc": "Explora estadísticas electorales: tendencias de voto, distribución de escaños y demografía."
+      },
+      "ch7": {
+        "title": "Laboratorio de Aprendizaje",
+        "desc": "Pon a prueba tus conocimientos con cuestionarios interactivos y tarjetas cívicas."
+      },
+      "ch8": {
+        "title": "Centro de Aprendizaje Inclusivo",
+        "desc": "Explora audiohistorias, mapas visuales y contenido cívico accesible."
+      }
     },
     "personas": {
-      "voter": { "name": "Votante Primerizo", "desc": "Recorre tu camino desde el registro hasta los resultados." },
-      "student": { "name": "Estudiante / Educador", "desc": "Explora educación cívica profunda, juegos de rol y simulaciones." },
-      "official": { "name": "Líder Cívico", "desc": "Realiza simulacros de elecciones y prueba tus habilidades de decisión." }
+      "voter": {
+        "name": "Votante Primerizo",
+        "desc": "Recorre tu camino desde el registro hasta los resultados."
+      },
+      "student": {
+        "name": "Estudiante / Educador",
+        "desc": "Explora educación cívica profunda, juegos de rol y simulaciones."
+      },
+      "official": {
+        "name": "Líder Cívico",
+        "desc": "Realiza simulacros de elecciones y prueba tus habilidades de decisión."
+      }
     },
     "actions": {
       "start": "Iniciar Capítulo",
@@ -138,10 +187,22 @@
       "recommended": "Recomendado"
     },
     "steps": {
-      "s1": { "title": "Identificación", "desc": "Documento oficial de identidad con fotografía válido." },
-      "s2": { "title": "Estado de Registro", "desc": "Comprueba que tu nombre figura en el censo electoral." },
-      "s3": { "title": "Localizar Mesa", "desc": "Encuentra tu centro de votación asignado y número de mesa." },
-      "s4": { "title": "Formularios", "desc": "Revisa los perfiles de los candidatos y las declaraciones necesarias." }
+      "s1": {
+        "title": "Identificación",
+        "desc": "Documento oficial de identidad con fotografía válido."
+      },
+      "s2": {
+        "title": "Estado de Registro",
+        "desc": "Comprueba que tu nombre figura en el censo electoral."
+      },
+      "s3": {
+        "title": "Localizar Mesa",
+        "desc": "Encuentra tu centro de votación asignado y número de mesa."
+      },
+      "s4": {
+        "title": "Formularios",
+        "desc": "Revisa los perfiles de los candidatos y las declaraciones necesarias."
+      }
     }
   },
   "rumor": {
@@ -160,9 +221,18 @@
     "deflection_desc": "Si un tema es muy sensible o los resultados no están claros, siempre te recomendaremos consultar a la autoridad electoral local.",
     "viral_title": "Viral Ahora",
     "myths": {
-      "m1": { "claim": "Puedes votar usando tu identificación digital desde el móvil.", "verdict": "Verdadero" },
-      "m2": { "claim": "Los centros de votación cierran 2h antes debido a la lluvia.", "verdict": "Falso" },
-      "m3": { "claim": "La edad para votar en elecciones estudiantiles se ha reducido a 16 años.", "verdict": "Engañoso" }
+      "m1": {
+        "claim": "Puedes votar usando tu identificación digital desde el móvil.",
+        "verdict": "Verdadero"
+      },
+      "m2": {
+        "claim": "Los centros de votación cierran 2h antes debido a la lluvia.",
+        "verdict": "Falso"
+      },
+      "m3": {
+        "claim": "La edad para votar en elecciones estudiantiles se ha reducido a 16 años.",
+        "verdict": "Engañoso"
+      }
     }
   },
   "simulation": {
@@ -176,9 +246,19 @@
     "go_button": "Ir",
     "footer_note": "Impulsado por Google Gemini — las acciones influyen en la historia generada.",
     "modes": {
-      "training": { "title": "Entrenamiento de Mesa", "desc": "Tutorial paso a paso del día de la votación." },
-      "scenario": { "title": "Juego de Rol", "icon": "Dices", "desc": "Juega como comisionado y gestiona incidentes reales." },
-      "whatif": { "title": "Motor 'Qué pasaría si'", "desc": "Cambia las reglas electorales y mira qué ocurre." }
+      "training": {
+        "title": "Entrenamiento de Mesa",
+        "desc": "Tutorial paso a paso del día de la votación."
+      },
+      "scenario": {
+        "title": "Juego de Rol",
+        "icon": "Dices",
+        "desc": "Juega como comisionado y gestiona incidentes reales."
+      },
+      "whatif": {
+        "title": "Motor 'Qué pasaría si'",
+        "desc": "Cambia las reglas electorales y mira qué ocurre."
+      }
     }
   },
   "inclusive": {
@@ -196,9 +276,18 @@
     "educator_desc": "Sincroniza la narración de audio con mapas visuales grupales y pausas para discusión.",
     "activate_group": "Activar Sesión Grupal",
     "modules": {
-      "m1": { "title": "Cómo Votar (Historia Audio)", "desc": "Explicación estilo radio de tu experiencia en el centro de votación." },
-      "m2": { "title": "Mapa Mental Electoral", "desc": "Un viaje visual sencillo del registro a los resultados. Pulsa para escuchar." },
-      "m3": { "title": "Tutorial de Urna Electrónica", "desc": "Guía visual con audio sobre cómo ejercer el voto correctamente." }
+      "m1": {
+        "title": "Cómo Votar (Historia Audio)",
+        "desc": "Explicación estilo radio de tu experiencia en el centro de votación."
+      },
+      "m2": {
+        "title": "Mapa Mental Electoral",
+        "desc": "Un viaje visual sencillo del registro a los resultados. Pulsa para escuchar."
+      },
+      "m3": {
+        "title": "Tutorial de Urna Electrónica",
+        "desc": "Guía visual con audio sobre cómo ejercer el voto correctamente."
+      }
     }
   },
   "learning_lab": {
@@ -220,39 +309,88 @@
     "of_label": "de",
     "explanation_label": "Por qué es correcto:",
     "questions": {
-      "q1": { 
-        "q": "¿Cuál de estos NO suele ser una identificación válida para votar?", 
-        "options": ["Pasaporte", "Licencia de Conducir", "Carnet de Biblioteca", "ID Militar"],
+      "q1": {
+        "q": "¿Cuál de estos NO suele ser una identificación válida para votar?",
+        "options": [
+          "Pasaporte",
+          "Licencia de Conducir",
+          "Carnet de Biblioteca",
+          "ID Militar"
+        ],
         "explanation": "En la mayoría de lugares, el carnet de biblioteca no se considera una identificación oficial con foto válida para votar."
       },
-      "q2": { 
-        "q": "¿Cuál es la edad mínima para registrarse para votar en la mayoría de países?", 
-        "options": ["16", "18", "21", "25"],
+      "q2": {
+        "q": "¿Cuál es la edad mínima para registrarse para votar en la mayoría de países?",
+        "options": [
+          "16",
+          "18",
+          "21",
+          "25"
+        ],
         "explanation": "La edad estándar para votar en la mayoría de las democracias modernas es de 18 años."
       },
-      "q3": { 
-        "q": "¿Qué organismo organiza las elecciones en una democracia típica?", 
-        "options": ["Corte Suprema", "Parlamento", "Comisión Electoral", "Ministerio del Interior"],
+      "q3": {
+        "q": "¿Qué organismo organiza las elecciones en una democracia típica?",
+        "options": [
+          "Corte Suprema",
+          "Parlamento",
+          "Comisión Electoral",
+          "Ministerio del Interior"
+        ],
         "explanation": "La Comisión Electoral es el organismo autónomo encargado de gestionar los procesos electorales."
       },
-      "q4": { 
-        "q": "¿Qué es el Código de Conducta Modelo?", 
-        "options": ["Lista de candidatos", "Directrices para partidos y candidatos", "Software de votación", "La propia Constitución"],
+      "q4": {
+        "q": "¿Qué es el Código de Conducta Modelo?",
+        "options": [
+          "Lista de candidatos",
+          "Directrices para partidos y candidatos",
+          "Software de votación",
+          "La propia Constitución"
+        ],
         "explanation": "Es el conjunto de directrices que los partidos y candidatos deben seguir durante el periodo electoral."
       },
-      "q5": { 
-        "q": "¿Cada cuántos años se celebran elecciones presidenciales en EE.UU.?", 
-        "options": ["Cada 2 años", "Cada 4 años", "Cada 5 años", "Cada 6 años"],
+      "q5": {
+        "q": "¿Cada cuántos años se celebran elecciones presidenciales en EE.UU.?",
+        "options": [
+          "Cada 2 años",
+          "Cada 4 años",
+          "Cada 5 años",
+          "Cada 6 años"
+        ],
         "explanation": "Las elecciones presidenciales de EE.UU. se celebran cada cuatro años en el mes de noviembre."
       }
     },
     "cards": {
-      "c1": { "q": "¿Qué es una identificación de votante?", "a": "Un documento oficial que verifica tu identidad en el centro de votación.", "cat": "Básicos" },
-      "c2": { "q": "¿Qué es el 'Gerrymandering'?", "a": "La manipulación de los límites de las circunscripciones para favorecer a un partido.", "cat": "Avanzado" },
-      "c3": { "q": "¿Qué es el voto ausente?", "a": "Voto emitido por correo por alguien que no puede acudir al centro de votación el día elegido.", "cat": "Básicos" },
-      "c4": { "q": "¿Qué es un escrutinio?", "a": "El recuento oficial de los votos emitidos en una elección.", "cat": "Proceso" },
-      "c5": { "q": "¿Qué significa EVM?", "a": "Electronic Voting Machine (Urna Electrónica), usada para registrar y contar votos.", "cat": "Tecnología" },
-      "c6": { "q": "¿Qué es el VVPAT?", "a": "Voter Verifiable Paper Audit Trail, permite al votante verificar que su voto fue para el candidato correcto.", "cat": "Transparencia" }
+      "c1": {
+        "q": "¿Qué es una identificación de votante?",
+        "a": "Un documento oficial que verifica tu identidad en el centro de votación.",
+        "cat": "Básicos"
+      },
+      "c2": {
+        "q": "¿Qué es el 'Gerrymandering'?",
+        "a": "La manipulación de los límites de las circunscripciones para favorecer a un partido.",
+        "cat": "Avanzado"
+      },
+      "c3": {
+        "q": "¿Qué es el voto ausente?",
+        "a": "Voto emitido por correo por alguien que no puede acudir al centro de votación el día elegido.",
+        "cat": "Básicos"
+      },
+      "c4": {
+        "q": "¿Qué es un escrutinio?",
+        "a": "El recuento oficial de los votos emitidos en una elección.",
+        "cat": "Proceso"
+      },
+      "c5": {
+        "q": "¿Qué significa EVM?",
+        "a": "Electronic Voting Machine (Urna Electrónica), usada para registrar y contar votos.",
+        "cat": "Tecnología"
+      },
+      "c6": {
+        "q": "¿Qué es el VVPAT?",
+        "a": "Voter Verifiable Paper Audit Trail, permite al votante verificar que su voto fue para el candidato correcto.",
+        "cat": "Transparencia"
+      }
     }
   },
   "gamification": {
@@ -273,16 +411,46 @@
       "t9": "Maestro Electra-Lens"
     },
     "badges": {
-      "first_step": { "label": "Primer Paso", "desc": "Iniciaste el tablero de Electra-Lens-AI por primera vez." },
-      "voter_registration_pro": { "label": "Pro del Registro", "desc": "Completaste el capítulo de Guía de Preparación del Votante." },
-      "timeline_explorer": { "label": "Explorador del Viaje", "desc": "Exploraste las 5 fases del viaje electoral." },
-      "myth_buster": { "label": "Cazador de Mitos", "desc": "Verificaste 3 o más noticias electorales." },
-      "counting_room_insider": { "label": "Experto en Escrutinio", "desc": "Completaste el módulo de simulación de conteo de votos." },
-      "constitution_explorer": { "label": "Explorador Constitucional", "desc": "Leíste 5 o más artículos en el Centro de Conocimiento." },
-      "data_detective": { "label": "Detective de Datos", "desc": "Exploraste los gráficos de datos en el explorador." },
-      "streak_3": { "label": "Racha de 3 Días", "desc": "Entraste en Electra-Lens-AI durante 3 días seguidos." },
-      "quiz_ace": { "label": "As del Cuestionario", "desc": "Respondiste correctamente a 10 preguntas." },
-      "commissioner_sim": { "label": "Simulador de Comisionado", "desc": "Completaste el escenario de juego de rol de comisionado electoral." }
+      "first_step": {
+        "label": "Primer Paso",
+        "desc": "Iniciaste el tablero de Electra-Lens-AI por primera vez."
+      },
+      "voter_registration_pro": {
+        "label": "Pro del Registro",
+        "desc": "Completaste el capítulo de Guía de Preparación del Votante."
+      },
+      "timeline_explorer": {
+        "label": "Explorador del Viaje",
+        "desc": "Exploraste las 5 fases del viaje electoral."
+      },
+      "myth_buster": {
+        "label": "Cazador de Mitos",
+        "desc": "Verificaste 3 o más noticias electorales."
+      },
+      "counting_room_insider": {
+        "label": "Experto en Escrutinio",
+        "desc": "Completaste el módulo de simulación de conteo de votos."
+      },
+      "constitution_explorer": {
+        "label": "Explorador Constitucional",
+        "desc": "Leíste 5 o más artículos en el Centro de Conocimiento."
+      },
+      "data_detective": {
+        "label": "Detective de Datos",
+        "desc": "Exploraste los gráficos de datos en el explorador."
+      },
+      "streak_3": {
+        "label": "Racha de 3 Días",
+        "desc": "Entraste en Electra-Lens-AI durante 3 días seguidos."
+      },
+      "quiz_ace": {
+        "label": "As del Cuestionario",
+        "desc": "Respondiste correctamente a 10 preguntas."
+      },
+      "commissioner_sim": {
+        "label": "Simulador de Comisionado",
+        "desc": "Completaste el escenario de juego de rol de comisionado electoral."
+      }
     }
   },
   "multimodal": {
@@ -312,5 +480,198 @@
     "es": "Español",
     "fr": "Français",
     "de": "Deutsch"
+  },
+  "settings": {
+    "title": "Configuración del Sistema",
+    "description": "Configure su experiencia, accesibilidad y seguridad.",
+    "discard": "Descartar",
+    "save": "Guardar Cambios",
+    "sections": "Secciones de configuración",
+    "personalization": "Personalización",
+    "security_privacy": "Seguridad y Privacidad",
+    "appearance_desc": "Personaliza la apariencia.",
+    "theme_dark": "Modo Oscuro",
+    "theme_dark_desc": "Para entornos con poca luz.",
+    "theme_light": "Modo Claro",
+    "theme_light_desc": "(Próximamente)",
+    "regional": "Preferencias Regionales",
+    "regional_desc": "Establece tu idioma principal.",
+    "lang_label": "Idioma de la Aplicación",
+    "profile_desc": "Administrar la configuración del perfil.",
+    "notif_desc": "Controlar las notificaciones.",
+    "sec_desc": "Administrar contraseñas y seguridad.",
+    "accessibility_mode": "Modo de Accesibilidad",
+    "mode_standard": "Estándar",
+    "mode_contrast": "Alto Contraste",
+    "mode_reader": "Lector de Pantalla",
+    "notification_prefs": "Preferencias de Notificación",
+    "election_alerts": "Alertas Electorales",
+    "election_alerts_desc": "Recibe notificaciones sobre elecciones.",
+    "agent_insights": "Estadísticas del Agente",
+    "agent_insights_desc": "Recibe resúmenes cuando se encuentren nuevos datos.",
+    "security_alerts": "Alertas de Seguridad",
+    "security_alerts_desc": "Notificaciones importantes sobre su cuenta.",
+    "data_privacy": "Privacidad de Datos",
+    "anonymous_analytics": "Análisis Anónimo",
+    "anonymous_analytics_desc": "Ayúdenos a mejorar sin compartir su identidad.",
+    "export_alert": "Exportación de datos solicitada.",
+    "request_export": "Solicitar Exportación de Datos",
+    "delete_confirm": "¿Seguro que quieres eliminar la cuenta?",
+    "delete_account": "Eliminar Cuenta",
+    "appearance": "Configuración de Apariencia",
+    "dark_mode": "Modo Oscuro",
+    "light_mode": "Modo Claro",
+    "interface_language": "Idioma de la Interfaz"
+  },
+  "knowledge": {
+    "title": "Knowledge Hub",
+    "desc": "Constitution, FAQ, and curated reading paths — your civic reference library.",
+    "search_placeholder": "Search articles, topics, or questions...",
+    "tab_constitution": "Constitution",
+    "tab_faq": "FAQ",
+    "tab_paths": "Reading Paths",
+    "select_article": "Select an Article",
+    "select_article_desc": "Choose a constitutional provision to read its summary, key points, and deep-dive path.",
+    "badge_hint": "Reading 5 articles unlocks the 'Constitution Explorer' badge",
+    "next_steps": "What you can do next",
+    "next_steps_desc": "Continue your civic journey — read 5 articles to unlock the Constitution Explorer badge.",
+    "explore_faqs": "Explore FAQs",
+    "view_paths": "View Reading Paths",
+    "faqs": {
+      "f1": {
+        "question": "¿Qué pasa si mi nombre no está en la lista de votantes?",
+        "answer": "Presente el Formulario 6 en su oficina local.",
+        "source": "ECI Oficial"
+      },
+      "f2": {
+        "question": "¿Se pueden posponer las elecciones?",
+        "answer": "Sí, pero solo en circunstancias excepcionales.",
+        "source": "Artículo 324"
+      },
+      "f3": {
+        "question": "¿Qué sucede en una asamblea sin mayoría?",
+        "answer": "Se invita al partido más grande a formar gobierno.",
+        "source": "Constitución"
+      },
+      "f4": {
+        "question": "¿Qué es el Código de Conducta Modelo?",
+        "answer": "Son pautas que entran en vigor al anunciarse las elecciones.",
+        "source": "ECI"
+      },
+      "f5": {
+        "question": "¿Puedo votar usando mi tarjeta Aadhaar?",
+        "answer": "Sí, pero debe estar en el padrón electoral.",
+        "source": "ECI"
+      },
+      "f6": {
+        "question": "¿Qué es una EVM y es segura?",
+        "answer": "Las máquinas de votación electrónica son totalmente seguras.",
+        "source": "Corte Suprema"
+      },
+      "f7": {
+        "question": "¿Cuál es la diferencia entre un MLA y un MP?",
+        "answer": "El MLA es estatal, el MP es nacional.",
+        "source": "Constitución"
+      },
+      "f8": {
+        "question": "¿Cuántas circunscripciones hay en la Lok Sabha?",
+        "answer": "Hay 543 circunscripciones electas.",
+        "source": "Artículo 81"
+      }
+    },
+    "paths": {
+      "rp1": {
+        "title": "Conceptos Básicos",
+        "step_0": "Artículo 324",
+        "step_1": "Artículo 326",
+        "step_2": "RPA 1951",
+        "step_3": "Código de Conducta"
+      },
+      "rp2": {
+        "title": "Inmersión Antideserción",
+        "step_0": "Artículo 101",
+        "step_1": "10º Anexo",
+        "step_2": "Caso Kihoto",
+        "step_3": "Caso Nabam"
+      },
+      "rp3": {
+        "title": "Límites Judiciales",
+        "step_0": "Artículo 329",
+        "step_1": "Artículo 105",
+        "step_2": "Petición Electoral",
+        "step_3": "NOTA"
+      }
+    },
+    "articles": {
+      "art324": {
+        "article_num": "Artículo 324",
+        "title": "Comisión Electoral de India",
+        "summary": "La ECI tiene el control de las elecciones.",
+        "point_0": "Control total de las elecciones.",
+        "point_1": "Remoción difícil del comisionado.",
+        "point_2": "Nombrado por el Presidente.",
+        "deepDive": "Leer Artículo 324."
+      },
+      "art326": {
+        "article_num": "Artículo 326",
+        "title": "Sufragio Universal",
+        "summary": "Derecho al voto para mayores de 18 años.",
+        "point_0": "Edad mínima 18.",
+        "point_1": "Descalificaciones específicas.",
+        "point_2": "Restricciones a convictos.",
+        "deepDive": "Explorar Artículo 326."
+      },
+      "art101": {
+        "article_num": "Artículo 101",
+        "title": "Vacancia de Escaños",
+        "summary": "Condiciones para perder un escaño.",
+        "point_0": "No puede estar en ambas cámaras.",
+        "point_1": "Ausencia de 60+ días.",
+        "point_2": "Ley antideserción.",
+        "deepDive": "Leer 10º Anexo."
+      },
+      "art51a": {
+        "article_num": "Artículo 51A",
+        "title": "Deberes Fundamentales",
+        "summary": "11 deberes fundamentales ciudadanos.",
+        "point_0": "Añadido por 42ª enmienda.",
+        "point_1": "Votar es un deber indirecto.",
+        "point_2": "11º deber añadido en 2002.",
+        "deepDive": "Comparar con Derechos Fundamentales."
+      },
+      "art329": {
+        "article_num": "Artículo 329",
+        "title": "Prohibición de Interferencia",
+        "summary": "Los tribunales no pueden interferir en las elecciones.",
+        "point_0": "No se cuestiona delimitación.",
+        "point_1": "Peticiones solo después de resultados.",
+        "point_2": "Protege el tiempo electoral.",
+        "deepDive": "Leer RPA 1951."
+      }
+    },
+    "categories": {
+      "Electoral Authority": "Electoral Authority",
+      "Voting Rights": "Voting Rights",
+      "Parliamentary Rules": "Parliamentary Rules",
+      "Civic Duties": "Civic Duties",
+      "Judicial Limits": "Judicial Limits"
+    },
+    "difficulty": {
+      "Beginner": "Beginner",
+      "Intermediate": "Intermediate",
+      "Advanced": "Advanced"
+    },
+    "key_points": "Key Points",
+    "deep_dive_suggestion": "Deep Dive Suggestion",
+    "read_official_source": "Read Official Source",
+    "xp_awarded": "+15 XP awarded for reading this article",
+    "source": "Source:",
+    "start_path": "Start Path"
+  },
+  "data": {
+    "title": "Electoral Data Explorer",
+    "desc": "Aggregate civic statistics — turnout trends, demographics, and constituency breakdown.",
+    "data_note": "Data Note:",
+    "disclaimer": "Figures are illustrative approximations based on publicly available ECI data for educational purposes. Always refer to the official Election Commission of India portal (eci.gov.in) for authoritative data."
   }
 }

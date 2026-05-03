@@ -6,7 +6,18 @@
     "search_placeholder": "Suche nach Regeln, Wahllokalen oder Fakten-Check...",
     "search_aria": "Bürgerinformationen suchen",
     "notifications": "Benachrichtigungen",
-    "notifications_aria": "Benachrichtigungen anzeigen"
+    "notifications_aria": "Benachrichtigungen anzeigen",
+    "new_notif": "Neu",
+    "notif_reg_title": "Wählerregistrierung",
+    "notif_reg_desc": "Die Frist läuft in 5 Tagen ab!",
+    "notif_myth_title": "Mythos-Jäger-Alarm",
+    "notif_myth_desc": "Ein virales Gerücht wurde widerlegt.",
+    "notif_achiev_title": "Erfolg freigeschaltet",
+    "notif_achiev_desc": "Du hast ein Abzeichen verdient!",
+    "notif_time_2h": "Vor 2 Stunden",
+    "notif_time_5h": "Vor 5 Stunden",
+    "notif_time_1d": "Vor 1 Tag",
+    "mark_all_read": "Alles als gelesen markieren"
   },
   "nav": {
     "dashboard": "Bewusstseinszentrum",
@@ -19,7 +30,12 @@
     "learning_lab": "Lernlabor",
     "inclusive": "Inklusives Lernen",
     "audit": "Audit & Transparenz",
-    "settings": "Einstellungen"
+    "settings": "Einstellungen",
+    "profile": "Profil",
+    "notifications": "Benachrichtigungen",
+    "security": "Sicherheit & Datenschutz",
+    "appearance": "Erscheinungsbild",
+    "language": "Sprache & Region"
   },
   "dashboard": {
     "welcome": "Wähler-Bewusstseinszentrum",
@@ -38,19 +54,52 @@
       "available": "Verfügbar"
     },
     "chapters": {
-      "ch1": { "title": "In das Wählerverzeichnis eintragen", "desc": "Verstehen Sie Registrierung, Ausweisdokumente und prüfen Sie Ihren Namen." },
-      "ch2": { "title": "Wahl-Countdown", "desc": "Folgen Sie den 5 Phasen — Ankündigung → Nominierung → Wahlkampf → Abstimmung → Ergebnisse." },
-      "ch3": { "title": "Demokratiespiel", "desc": "Betreten Sie die Simulation eines Wahllokals. Meistern Sie reale Szenarien als Wahlhelfer." },
-      "ch4": { "title": "Mission Mythen-Jäger", "desc": "Prüfen Sie 3 virale Wahlnachrichten und lernen Sie, Fakten selbst zu checken." },
-      "ch5": { "title": "Verfassungs-Explorer", "desc": "Lesen Sie 5 Verfassungsartikel und verstehen Sie Ihre Rechte und Pflichten." },
-      "ch6": { "title": "Daten-Detektiv", "desc": "Erkunden Sie Wahlstatistiken: Wählertrends, Sitzverteilung und Demografie." },
-      "ch7": { "title": "Lernlabor", "desc": "Testen Sie Ihr Wissen mit interaktiven Quizfragen und Bürger-Flashcards." },
-      "ch8": { "title": "Inklusives Lernzentrum", "desc": "Entdecken Sie Hörgeschichten, visuelle Mind-Maps und barrierefreie Bürgerinhalte." }
+      "ch1": {
+        "title": "In das Wählerverzeichnis eintragen",
+        "desc": "Verstehen Sie Registrierung, Ausweisdokumente und prüfen Sie Ihren Namen."
+      },
+      "ch2": {
+        "title": "Wahl-Countdown",
+        "desc": "Folgen Sie den 5 Phasen — Ankündigung → Nominierung → Wahlkampf → Abstimmung → Ergebnisse."
+      },
+      "ch3": {
+        "title": "Demokratiespiel",
+        "desc": "Betreten Sie die Simulation eines Wahllokals. Meistern Sie reale Szenarien als Wahlhelfer."
+      },
+      "ch4": {
+        "title": "Mission Mythen-Jäger",
+        "desc": "Prüfen Sie 3 virale Wahlnachrichten und lernen Sie, Fakten selbst zu checken."
+      },
+      "ch5": {
+        "title": "Verfassungs-Explorer",
+        "desc": "Lesen Sie 5 Verfassungsartikel und verstehen Sie Ihre Rechte und Pflichten."
+      },
+      "ch6": {
+        "title": "Daten-Detektiv",
+        "desc": "Erkunden Sie Wahlstatistiken: Wählertrends, Sitzverteilung und Demografie."
+      },
+      "ch7": {
+        "title": "Lernlabor",
+        "desc": "Testen Sie Ihr Wissen mit interaktiven Quizfragen und Bürger-Flashcards."
+      },
+      "ch8": {
+        "title": "Inklusives Lernzentrum",
+        "desc": "Entdecken Sie Hörgeschichten, visuelle Mind-Maps und barrierefreie Bürgerinhalte."
+      }
     },
     "personas": {
-      "voter": { "name": "Erstwähler", "desc": "Gehen Sie Ihren Weg von der Registrierung bis zu den Ergebnissen." },
-      "student": { "name": "Student / Pädagoge", "desc": "Erkunden Sie tiefgehende politische Bildung, Rollenspiele und Simulationen." },
-      "official": { "name": "Bürgerführer", "desc": "Führen Sie Probewahlen durch und testen Sie Ihre Entscheidungsfähigkeit." }
+      "voter": {
+        "name": "Erstwähler",
+        "desc": "Gehen Sie Ihren Weg von der Registrierung bis zu den Ergebnissen."
+      },
+      "student": {
+        "name": "Student / Pädagoge",
+        "desc": "Erkunden Sie tiefgehende politische Bildung, Rollenspiele und Simulationen."
+      },
+      "official": {
+        "name": "Bürgerführer",
+        "desc": "Führen Sie Probewahlen durch und testen Sie Ihre Entscheidungsfähigkeit."
+      }
     },
     "actions": {
       "start": "Kapitel starten",
@@ -138,10 +187,22 @@
       "recommended": "Empfohlen"
     },
     "steps": {
-      "s1": { "title": "Identifikation", "desc": "Gültiges amtliches Ausweisdokument mit Foto." },
-      "s2": { "title": "Registrierungsstatus", "desc": "Prüfen Sie, ob Ihr Name im Wählerverzeichnis steht." },
-      "s3": { "title": "Wahllokal finden", "desc": "Finden Sie Ihr zugewiesenes Wahllokal und die Tischnummer." },
-      "s4": { "title": "Formulare", "desc": "Prüfen Sie die Profile der Kandidaten und notwendige Erklärungen." }
+      "s1": {
+        "title": "Identifikation",
+        "desc": "Gültiges amtliches Ausweisdokument mit Foto."
+      },
+      "s2": {
+        "title": "Registrierungsstatus",
+        "desc": "Prüfen Sie, ob Ihr Name im Wählerverzeichnis steht."
+      },
+      "s3": {
+        "title": "Wahllokal finden",
+        "desc": "Finden Sie Ihr zugewiesenes Wahllokal und die Tischnummer."
+      },
+      "s4": {
+        "title": "Formulare",
+        "desc": "Prüfen Sie die Profile der Kandidaten und notwendige Erklärungen."
+      }
     }
   },
   "rumor": {
@@ -160,9 +221,18 @@
     "deflection_desc": "Falls ein Thema sehr sensibel ist oder Ergebnisse unklar sind, empfehlen wir immer den Kontakt zur lokalen Wahlbehörde.",
     "viral_title": "Gerade Viral",
     "myths": {
-      "m1": { "claim": "Sie können mit Ihrer digitalen Identität vom Handy aus wählen.", "verdict": "Wahr" },
-      "m2": { "claim": "Die Wahllokale schließen wegen Regen 2 Std. früher.", "verdict": "Falsch" },
-      "m3": { "claim": "Das Wahlalter für Studentenwahlen wurde auf 16 Jahre gesenkt.", "verdict": "Irreführend" }
+      "m1": {
+        "claim": "Sie können mit Ihrer digitalen Identität vom Handy aus wählen.",
+        "verdict": "Wahr"
+      },
+      "m2": {
+        "claim": "Die Wahllokale schließen wegen Regen 2 Std. früher.",
+        "verdict": "Falsch"
+      },
+      "m3": {
+        "claim": "Das Wahlalter für Studentenwahlen wurde auf 16 Jahre gesenkt.",
+        "verdict": "Irreführend"
+      }
     }
   },
   "simulation": {
@@ -176,9 +246,19 @@
     "go_button": "Los",
     "footer_note": "Unterstützt durch Google Gemini — Aktionen beeinflussen die generierte Geschichte.",
     "modes": {
-      "training": { "title": "Wahllokal-Training", "desc": "Schritt-für-Schritt-Anleitung des Wahltags." },
-      "scenario": { "title": "Rollenspiel", "icon": "Dices", "desc": "Spielen Sie als Wahlkommissar und meistern Sie Vorfälle." },
-      "whatif": { "title": "Was-Wäre-Wenn-Maschine", "desc": "Ändern Sie Wahlregeln und sehen Sie, was passiert." }
+      "training": {
+        "title": "Wahllokal-Training",
+        "desc": "Schritt-für-Schritt-Anleitung des Wahltags."
+      },
+      "scenario": {
+        "title": "Rollenspiel",
+        "icon": "Dices",
+        "desc": "Spielen Sie als Wahlkommissar und meistern Sie Vorfälle."
+      },
+      "whatif": {
+        "title": "Was-Wäre-Wenn-Maschine",
+        "desc": "Ändern Sie Wahlregeln und sehen Sie, was passiert."
+      }
     }
   },
   "inclusive": {
@@ -196,9 +276,18 @@
     "educator_desc": "Synchronisieren Sie die Audio-Erzählung mit visuellen Gruppenkarten und Diskussionspausen.",
     "activate_group": "Gruppensitzung aktivieren",
     "modules": {
-      "m1": { "title": "Wie man wählt (Hörgeschichte)", "desc": "Erklärung Ihres Wahllokal-Erlebnisses im Radiostil." },
-      "m2": { "title": "Wahl-Mind-Map", "desc": "Eine einfache visuelle Reise von der Registrierung bis zum Ergebnis. Zum Hören auf Knoten tippen." },
-      "m3": { "title": "Wahlurnen-Tutorial", "desc": "Visuelle Anleitung mit Audio dazu, wie man korrekt wählt." }
+      "m1": {
+        "title": "Wie man wählt (Hörgeschichte)",
+        "desc": "Erklärung Ihres Wahllokal-Erlebnisses im Radiostil."
+      },
+      "m2": {
+        "title": "Wahl-Mind-Map",
+        "desc": "Eine einfache visuelle Reise von der Registrierung bis zum Ergebnis. Zum Hören auf Knoten tippen."
+      },
+      "m3": {
+        "title": "Wahlurnen-Tutorial",
+        "desc": "Visuelle Anleitung mit Audio dazu, wie man korrekt wählt."
+      }
     }
   },
   "learning_lab": {
@@ -220,39 +309,88 @@
     "of_label": "von",
     "explanation_label": "Warum das richtig ist:",
     "questions": {
-      "q1": { 
-        "q": "Welches dieser Dokumente ist meist KEIN gültiger Wahlausweis?", 
-        "options": ["Reisepass", "Führerschein", "Bibliotheksausweis", "Militärausweis"],
+      "q1": {
+        "q": "Welches dieser Dokumente ist meist KEIN gültiger Wahlausweis?",
+        "options": [
+          "Reisepass",
+          "Führerschein",
+          "Bibliotheksausweis",
+          "Militärausweis"
+        ],
         "explanation": "An den meisten Orten wird ein Bibliotheksausweis nicht als gültiger amtlicher Lichtbildausweis für Wahlen anerkannt."
       },
-      "q2": { 
-        "q": "Was ist das Mindestalter für die Wahlregistrierung in den meisten Ländern?", 
-        "options": ["16", "18", "21", "25"],
+      "q2": {
+        "q": "Was ist das Mindestalter für die Wahlregistrierung in den meisten Ländern?",
+        "options": [
+          "16",
+          "18",
+          "21",
+          "25"
+        ],
         "explanation": "Das Standardwahlalter in den meisten modernen Demokratien liegt bei 18 Jahren."
       },
-      "q3": { 
-        "q": "Welches Organ organisiert Wahlen in einer typischen Demokratie?", 
-        "options": ["Oberster Gerichtshof", "Parlament", "Wahlkommission", "Innenministerium"],
+      "q3": {
+        "q": "Welches Organ organisiert Wahlen in einer typischen Demokratie?",
+        "options": [
+          "Oberster Gerichtshof",
+          "Parlament",
+          "Wahlkommission",
+          "Innenministerium"
+        ],
         "explanation": "Die Wahlkommission ist das autonome Organ, das für die Verwaltung von Wahlprozessen zuständig ist."
       },
-      "q4": { 
-        "q": "Was ist der Musterverhaltenskodex?", 
-        "options": ["Kandidatenliste", "Richtlinien für Parteien und Kandidaten", "Wahlsoftware", "Die Verfassung selbst"],
+      "q4": {
+        "q": "Was ist der Musterverhaltenskodex?",
+        "options": [
+          "Kandidatenliste",
+          "Richtlinien für Parteien und Kandidaten",
+          "Wahlsoftware",
+          "Die Verfassung selbst"
+        ],
         "explanation": "Dies ist die Menge an Richtlinien, denen Parteien und Kandidaten während der Wahlzeit folgen müssen."
       },
-      "q5": { 
-        "q": "Alle wie viele Jahre finden in den USA Präsidentschaftswahlen statt?", 
-        "options": ["Alle 2 Jahre", "Alle 4 Jahre", "Alle 5 Jahre", "Alle 6 Jahre"],
+      "q5": {
+        "q": "Alle wie viele Jahre finden in den USA Präsidentschaftswahlen statt?",
+        "options": [
+          "Alle 2 Jahre",
+          "Alle 4 Jahre",
+          "Alle 5 Jahre",
+          "Alle 6 Jahre"
+        ],
         "explanation": "Die US-Präsidentschaftswahlen finden alle vier Jahre im November statt."
       }
     },
     "cards": {
-      "c1": { "q": "Was ist ein Wählerausweis?", "a": "Ein amtliches Dokument, das Ihre Identität im Wahllokal bestätigt.", "cat": "Grundlagen" },
-      "c2": { "q": "Was ist 'Gerrymandering'?", "a": "Die Manipulation von Wahlkreisgrenzen, um eine Partei zu bevorzugen.", "cat": "Fortgeschritten" },
-      "c3": { "q": "Was ist Briefwahl?", "a": "Stimmabgabe per Post durch jemanden, der am Wahltag nicht persönlich erscheinen kann.", "cat": "Grundlagen" },
-      "c4": { "q": "Was ist ein Wahlergebnis?", "a": "Die offizielle Zählung der bei einer Wahl abgegebenen Stimmen.", "cat": "Prozess" },
-      "c5": { "q": "Was bedeutet EVM?", "a": "Electronic Voting Machine (Wahlurne), die zum Erfassen und Zählen von Stimmen genutzt wird.", "cat": "Technologie" },
-      "c6": { "q": "Was ist VVPAT?", "a": "Voter Verifiable Paper Audit Trail, ermöglicht Wählern zu prüfen, ob ihre Stimme an den richtigen Kandidaten ging.", "cat": "Transparenz" }
+      "c1": {
+        "q": "Was ist ein Wählerausweis?",
+        "a": "Ein amtliches Dokument, das Ihre Identität im Wahllokal bestätigt.",
+        "cat": "Grundlagen"
+      },
+      "c2": {
+        "q": "Was ist 'Gerrymandering'?",
+        "a": "Die Manipulation von Wahlkreisgrenzen, um eine Partei zu bevorzugen.",
+        "cat": "Fortgeschritten"
+      },
+      "c3": {
+        "q": "Was ist Briefwahl?",
+        "a": "Stimmabgabe per Post durch jemanden, der am Wahltag nicht persönlich erscheinen kann.",
+        "cat": "Grundlagen"
+      },
+      "c4": {
+        "q": "Was ist ein Wahlergebnis?",
+        "a": "Die offizielle Zählung der bei einer Wahl abgegebenen Stimmen.",
+        "cat": "Prozess"
+      },
+      "c5": {
+        "q": "Was bedeutet EVM?",
+        "a": "Electronic Voting Machine (Wahlurne), die zum Erfassen und Zählen von Stimmen genutzt wird.",
+        "cat": "Technologie"
+      },
+      "c6": {
+        "q": "Was ist VVPAT?",
+        "a": "Voter Verifiable Paper Audit Trail, ermöglicht Wählern zu prüfen, ob ihre Stimme an den richtigen Kandidaten ging.",
+        "cat": "Transparenz"
+      }
     }
   },
   "gamification": {
@@ -273,16 +411,46 @@
       "t9": "Master Electra-Lens"
     },
     "badges": {
-      "first_step": { "label": "Erster Schritt", "desc": "Sie haben das Electra-Lens-AI Dashboard zum ersten Mal gestartet." },
-      "voter_registration_pro": { "label": "Registrierungs-Pro", "desc": "Sie haben das Kapitel Wähler-Vorbereitungsleitfaden abgeschlossen." },
-      "timeline_explorer": { "label": "Reise-Explorer", "desc": "Sie haben alle 5 Phasen der Wahlreise erkundet." },
-      "myth_buster": { "label": "Mythen-Jäger", "desc": "Sie haben 3 oder mehr Wahlnachrichten geprüft." },
-      "counting_room_insider": { "label": "Auszählungs-Experte", "desc": "Sie haben das Modul zur Stimmauszählungs-Simulation abgeschlossen." },
-      "constitution_explorer": { "label": "Verfassungs-Explorer", "desc": "Sie haben 5 oder mehr Artikel im Wissenszentrum gelesen." },
-      "data_detective": { "label": "Daten-Detektiv", "desc": "Sie haben die Datendiagramme im Explorer untersucht." },
-      "streak_3": { "label": "3-Tage-Serie", "desc": "3 Tage hintereinander bei Electra-Lens-AI eingeloggt." },
-      "quiz_ace": { "label": "Quiz-Ass", "desc": "Sie haben 10 Quizfragen korrekt beantwortet." },
-      "commissioner_sim": { "label": "Kommissar-Simulator", "desc": "Sie haben das Wahlkommissar-Rollenspiel abgeschlossen." }
+      "first_step": {
+        "label": "Erster Schritt",
+        "desc": "Sie haben das Electra-Lens-AI Dashboard zum ersten Mal gestartet."
+      },
+      "voter_registration_pro": {
+        "label": "Registrierungs-Pro",
+        "desc": "Sie haben das Kapitel Wähler-Vorbereitungsleitfaden abgeschlossen."
+      },
+      "timeline_explorer": {
+        "label": "Reise-Explorer",
+        "desc": "Sie haben alle 5 Phasen der Wahlreise erkundet."
+      },
+      "myth_buster": {
+        "label": "Mythen-Jäger",
+        "desc": "Sie haben 3 oder mehr Wahlnachrichten geprüft."
+      },
+      "counting_room_insider": {
+        "label": "Auszählungs-Experte",
+        "desc": "Sie haben das Modul zur Stimmauszählungs-Simulation abgeschlossen."
+      },
+      "constitution_explorer": {
+        "label": "Verfassungs-Explorer",
+        "desc": "Sie haben 5 oder mehr Artikel im Wissenszentrum gelesen."
+      },
+      "data_detective": {
+        "label": "Daten-Detektiv",
+        "desc": "Sie haben die Datendiagramme im Explorer untersucht."
+      },
+      "streak_3": {
+        "label": "3-Tage-Serie",
+        "desc": "3 Tage hintereinander bei Electra-Lens-AI eingeloggt."
+      },
+      "quiz_ace": {
+        "label": "Quiz-Ass",
+        "desc": "Sie haben 10 Quizfragen korrekt beantwortet."
+      },
+      "commissioner_sim": {
+        "label": "Kommissar-Simulator",
+        "desc": "Sie haben das Wahlkommissar-Rollenspiel abgeschlossen."
+      }
     }
   },
   "multimodal": {
@@ -312,5 +480,198 @@
     "es": "Spanisch",
     "fr": "Französisch",
     "de": "Deutsch"
+  },
+  "settings": {
+    "title": "Systemeinstellungen",
+    "description": "Konfigurieren Sie Ihre Erfahrung, Barrierefreiheit und Sicherheit.",
+    "discard": "Verwerfen",
+    "save": "Speichern",
+    "sections": "Abschnitte",
+    "personalization": "Personalisierung",
+    "security_privacy": "Sicherheit & Datenschutz",
+    "appearance_desc": "Erscheinungsbild anpassen.",
+    "theme_dark": "Dunkler Modus",
+    "theme_dark_desc": "Für schwach beleuchtete Umgebungen.",
+    "theme_light": "Heller Modus",
+    "theme_light_desc": "(Demnächst)",
+    "regional": "Regionale Einstellungen",
+    "regional_desc": "Legen Sie Ihre Hauptsprache fest.",
+    "lang_label": "Anwendungssprache",
+    "profile_desc": "Profileinstellungen verwalten.",
+    "notif_desc": "Benachrichtigungen steuern.",
+    "sec_desc": "Passwörter und Sicherheit verwalten.",
+    "accessibility_mode": "Barrierefreiheitsmodus",
+    "mode_standard": "Standard",
+    "mode_contrast": "Hoher Kontrast",
+    "mode_reader": "Bildschirmleser",
+    "notification_prefs": "Benachrichtigungseinstellungen",
+    "election_alerts": "Wahlalarme",
+    "election_alerts_desc": "Benachrichtigungen über anstehende Wahlen.",
+    "agent_insights": "Agent-Einblicke",
+    "agent_insights_desc": "Zusammenfassungen für neue Daten erhalten.",
+    "security_alerts": "Sicherheitsalarme",
+    "security_alerts_desc": "Wichtige Benachrichtigungen zu Ihrem Konto.",
+    "data_privacy": "Datenschutz",
+    "anonymous_analytics": "Anonyme Analysen",
+    "anonymous_analytics_desc": "Helfen Sie uns bei der Verbesserung.",
+    "export_alert": "Datenexport angefordert.",
+    "request_export": "Datenexport anfordern",
+    "delete_confirm": "Möchten Sie das Konto wirklich löschen?",
+    "delete_account": "Konto löschen",
+    "appearance": "Erscheinungsbild",
+    "dark_mode": "Dunkler Modus",
+    "light_mode": "Heller Modus",
+    "interface_language": "Schnittstellensprache"
+  },
+  "knowledge": {
+    "title": "Knowledge Hub",
+    "desc": "Constitution, FAQ, and curated reading paths — your civic reference library.",
+    "search_placeholder": "Search articles, topics, or questions...",
+    "tab_constitution": "Constitution",
+    "tab_faq": "FAQ",
+    "tab_paths": "Reading Paths",
+    "select_article": "Select an Article",
+    "select_article_desc": "Choose a constitutional provision to read its summary, key points, and deep-dive path.",
+    "badge_hint": "Reading 5 articles unlocks the 'Constitution Explorer' badge",
+    "next_steps": "What you can do next",
+    "next_steps_desc": "Continue your civic journey — read 5 articles to unlock the Constitution Explorer badge.",
+    "explore_faqs": "Explore FAQs",
+    "view_paths": "View Reading Paths",
+    "faqs": {
+      "f1": {
+        "question": "Was ist, wenn mein Name fehlt?",
+        "answer": "Reichen Sie Formular 6 beim örtlichen Büro ein.",
+        "source": "ECI Offiziell"
+      },
+      "f2": {
+        "question": "Können Wahlen verschoben werden?",
+        "answer": "Ja, aber nur in Ausnahmefällen.",
+        "source": "Artikel 324"
+      },
+      "f3": {
+        "question": "Was passiert in einem Parlament ohne Mehrheit?",
+        "answer": "Die größte Partei wird zur Regierungsbildung eingeladen.",
+        "source": "Verfassung"
+      },
+      "f4": {
+        "question": "Was ist der Verhaltenskodex?",
+        "answer": "Richtlinien, die mit der Ankündigung der Wahl in Kraft treten.",
+        "source": "ECI"
+      },
+      "f5": {
+        "question": "Kann ich mit meiner Aadhaar-Karte wählen?",
+        "answer": "Ja, aber Sie müssen im Wählerverzeichnis stehen.",
+        "source": "ECI"
+      },
+      "f6": {
+        "question": "Was ist ein EVM?",
+        "answer": "Wahlmaschinen sind absolut sicher.",
+        "source": "Oberster Gerichtshof"
+      },
+      "f7": {
+        "question": "Unterschied zwischen MLA und MP?",
+        "answer": "MLA ist regional, MP ist national.",
+        "source": "Verfassung"
+      },
+      "f8": {
+        "question": "Wie viele Wahlkreise gibt es?",
+        "answer": "Es gibt 543 Wahlkreise in der Lok Sabha.",
+        "source": "Artikel 81"
+      }
+    },
+    "paths": {
+      "rp1": {
+        "title": "Wahl-Grundlagen",
+        "step_0": "Artikel 324",
+        "step_1": "Artikel 326",
+        "step_2": "RPA 1951",
+        "step_3": "Verhaltenskodex"
+      },
+      "rp2": {
+        "title": "Anti-Übertrittsgesetz",
+        "step_0": "Artikel 101",
+        "step_1": "10. Anhang",
+        "step_2": "Kihoto-Fall",
+        "step_3": "Nabam-Fall"
+      },
+      "rp3": {
+        "title": "Gerichtliche Grenzen",
+        "step_0": "Artikel 329",
+        "step_1": "Artikel 105",
+        "step_2": "Wahlpetition",
+        "step_3": "NOTA"
+      }
+    },
+    "articles": {
+      "art324": {
+        "article_num": "Artikel 324",
+        "title": "Wahlkommission",
+        "summary": "Die ECI kontrolliert die Wahlen.",
+        "point_0": "Volle Kontrolle über die Wahlen.",
+        "point_1": "Schwere Absetzung.",
+        "point_2": "Vom Präsidenten ernannt.",
+        "deepDive": "Lesen Sie Artikel 324."
+      },
+      "art326": {
+        "article_num": "Artikel 326",
+        "title": "Allgemeines Wahlrecht",
+        "summary": "Wahlrecht ab 18 Jahren.",
+        "point_0": "Mindestalter 18.",
+        "point_1": "Einige Disqualifikationen.",
+        "point_2": "Einschränkungen für Verurteilte.",
+        "deepDive": "Erforschen Sie Artikel 326."
+      },
+      "art101": {
+        "article_num": "Artikel 101",
+        "title": "Vakante Sitze",
+        "summary": "Bedingungen für den Verlust eines Sitzes.",
+        "point_0": "Nicht in beiden Kammern sitzen.",
+        "point_1": "60+ Tage Abwesenheit.",
+        "point_2": "Anti-Übertrittsgesetz.",
+        "deepDive": "Lesen Sie den 10. Anhang."
+      },
+      "art51a": {
+        "article_num": "Artikel 51A",
+        "title": "Grundpflichten",
+        "summary": "11 bürgerliche Pflichten.",
+        "point_0": "Hinzugefügt durch 42. Verfassungsänderung.",
+        "point_1": "Wählen ist eine indirekte Pflicht.",
+        "point_2": "11. Pflicht 2002 hinzugefügt.",
+        "deepDive": "Vergleiche mit Grundrechten."
+      },
+      "art329": {
+        "article_num": "Artikel 329",
+        "title": "Nichteinmischung",
+        "summary": "Gerichte dürfen sich nicht einmischen.",
+        "point_0": "Keine Infragestellung der Abgrenzung.",
+        "point_1": "Petitionen nur nach Ergebnissen.",
+        "point_2": "Schützt den Zeitplan.",
+        "deepDive": "Lesen Sie RPA 1951."
+      }
+    },
+    "categories": {
+      "Electoral Authority": "Electoral Authority",
+      "Voting Rights": "Voting Rights",
+      "Parliamentary Rules": "Parliamentary Rules",
+      "Civic Duties": "Civic Duties",
+      "Judicial Limits": "Judicial Limits"
+    },
+    "difficulty": {
+      "Beginner": "Beginner",
+      "Intermediate": "Intermediate",
+      "Advanced": "Advanced"
+    },
+    "key_points": "Key Points",
+    "deep_dive_suggestion": "Deep Dive Suggestion",
+    "read_official_source": "Read Official Source",
+    "xp_awarded": "+15 XP awarded for reading this article",
+    "source": "Source:",
+    "start_path": "Start Path"
+  },
+  "data": {
+    "title": "Electoral Data Explorer",
+    "desc": "Aggregate civic statistics — turnout trends, demographics, and constituency breakdown.",
+    "data_note": "Data Note:",
+    "disclaimer": "Figures are illustrative approximations based on publicly available ECI data for educational purposes. Always refer to the official Election Commission of India portal (eci.gov.in) for authoritative data."
   }
 }

@@ -114,7 +114,7 @@ export function BallotScribe() {
                      <div className="w-14 h-14 rounded-2xl bg-blue-600/20 border border-blue-500/30 flex items-center justify-center shadow-lg">
                         <ActiveIcon className="w-6 h-6 text-blue-400" />
                      </div>
-                     <h3 className="text-2xl font-bold text-white">{t(`ballot.steps.s${activeStep}.title`, activeStepDetails?.title)}</h3>
+                     <h3 className="text-2xl font-bold text-white">{t(`ballot.steps.s${activeStep}.title`, activeStepDetails?.title || '')}</h3>
                   </div>
                   {activeAgent && (
                     <span className="text-xs text-slate-500 flex items-center gap-1 bg-white/5 px-2 py-1 rounded-lg border border-white/5">
@@ -131,7 +131,7 @@ export function BallotScribe() {
                      <div className="space-y-4 animate-pulse">
                         <div className="p-4 bg-blue-500/10 border border-blue-500/20 rounded-xl">
                           <p className="text-blue-400 font-bold mb-1">{t('ballot.quick_tip', 'Quick Tip')}:</p>
-                          <p className="text-slate-300 italic">{t(`ballot.steps.s${activeStep}.desc`, activeStepDetails?.desc)}</p>
+                          <p className="text-slate-300 italic">{t(`ballot.steps.s${activeStep}.desc`, activeStepDetails?.desc || '')}</p>
                         </div>
                         <div className="flex items-center gap-2 text-slate-500 text-sm italic">
                           <Loader2 className="w-4 h-4 animate-spin" /> 
