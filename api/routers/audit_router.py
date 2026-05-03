@@ -5,7 +5,6 @@ and system performance metrics for the '100% Score' dashboard.
 """
 
 import logging
-from typing import Annotated
 
 from fastapi import APIRouter, Query
 
@@ -17,19 +16,14 @@ router = APIRouter(prefix="/audit", tags=["Audit & Transparency"])
 
 @router.get("/traces")
 async def get_agent_traces(
-    session_id: Annotated[str, Query(description="Unique session ID to audit")],
+    limit: int = Query(10, description="Number of logs to retrieve"),
 ) -> dict:
-    """Retrieves structured reasoning traces for a specific session."""
-    return {  # pragma: no cover
-        "session_id": session_id,
-        "traces": [
-            {
-                "timestamp": "2026-04-26T12:00:00Z",
-                "agent": "RootOrchestrator",
-                "action": "Routing to MythBuster",
-                "rationale": "User queried about a rumor regarding EVMs.",
-            },
-        ],
+    """Retrieves structured reasoning traces for auditing."""
+    logs = await memory_service.get_interaction_logs(limit=limit)
+    return {
+        "status": "success",
+        "count": len(logs),
+        "traces": logs,
     }
 
 

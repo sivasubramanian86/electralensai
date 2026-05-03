@@ -119,6 +119,30 @@ class AlloyDBMemory:
         except Exception:
             logger.exception("[Memory] Failed to log interaction")
 
+    async def get_interaction_logs(self, limit: int = 10) -> list[dict[str, Any]]:
+        """Retrieve the latest interaction logs for auditing."""
+        if not _USE_ALLOYDB or not os.getenv("DATABASE_URL"):
+            return [
+                {
+                    "timestamp": "2026-05-03T10:00:00Z",
+                    "agent": "RootOrchestrator",
+                    "question": "How to register for voting?",
+                    "response": "You can register online via the NVSP portal...",
+                },
+            ]
+
+        try:
+            pool = await _get_pool()
+            async with pool.acquire() as conn:
+                rows = await conn.fetch(
+                    "SELECT created_at as timestamp, agent_name as agent, question, response FROM agent_logs ORDER BY created_at DESC LIMIT $1",
+                    limit,
+                )
+            return [dict(r) for r in rows]
+        except Exception:
+            logger.exception("[Memory] Failed to fetch interaction logs")
+            return []
+
     def _mock_precedents(self, topic: str) -> list[dict[str, Any]]:
         """Mock fallback for prototype mode."""
         return [

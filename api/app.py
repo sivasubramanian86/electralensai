@@ -14,6 +14,7 @@ import vertexai
 from dotenv import load_dotenv
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
+from starlette.middleware.base import BaseHTTPMiddleware
 from fastapi.responses import JSONResponse, RedirectResponse
 
 from api.routers import (
@@ -97,9 +98,29 @@ def create_app() -> FastAPI:
         CORSMiddleware,
         allow_origins=cors_origins,
         allow_credentials=True,
-        allow_methods=["*"],
+        allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
         allow_headers=["*"],
     )
+
+    class SecurityHeadersMiddleware(BaseHTTPMiddleware):
+        """Middleware to inject security headers into every response."""
+
+        async def dispatch(self, request: Request, call_next):
+            response = await call_next(request)
+            response.headers["Content-Security-Policy"] = (
+                "default-src 'self'; "
+                "script-src 'self' 'unsafe-inline'; "
+                "style-src 'self' 'unsafe-inline'; "
+                "img-src 'self' data: https://storage.googleapis.com; "
+                "connect-src 'self' wss: https://*.googleapis.com;"
+            )
+            response.headers["X-Content-Type-Options"] = "nosniff"
+            response.headers["X-Frame-Options"] = "DENY"
+            response.headers["Strict-Transport-Security"] = "max-age=31536000; includeSubDomains"
+            response.headers["X-XSS-Protection"] = "1; mode=block"
+            return response
+
+    app.add_middleware(SecurityHeadersMiddleware)
 
     app.include_router(health_router.router, prefix="/v1", tags=["Health"])
     app.include_router(agent_router.router, prefix="/v1", tags=["Agents"])
