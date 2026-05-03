@@ -69,7 +69,7 @@ describe('TimelineArchitect', () => {
     fireEvent.click(deepDiveBtn);
 
     expect(mockSubmit).toHaveBeenCalledWith(
-      expect.stringContaining('Announcement'),
+      expect.objectContaining({ title: 'Announcement' }),
       'IN',
       'timeline',
       'en'

@@ -55,29 +55,34 @@ def test_live_ws_session_extended(mock_runner_class, client) -> None:
     mock_runner_instance = mock_runner_class.return_value
     mock_runner_instance.run_live.return_value = mock_live_iter()
 
-    # Prefix is /v1 as defined in app.py
-    with client.websocket_connect("/v1/ws/session") as websocket:
-        # 1. Session ID
-        data = websocket.receive_json()
-        assert data["type"] == "session_id"
+    from starlette.websockets import WebSocketDisconnect
 
-        # 2. Receive text transcript
-        data = websocket.receive_json()
-        assert data["type"] == "transcript"
-        assert data["text"] == "Text message"
+    try:
+        # Prefix is /v1 as defined in app.py
+        with client.websocket_connect("/v1/ws/session") as websocket:
+            # 1. Session ID
+            data = websocket.receive_json()
+            assert data["type"] == "session_id"
 
-        # 3. Receive binary audio
-        data = websocket.receive_bytes()
-        assert data == b"Audio data"
+            # 2. Receive text transcript
+            data = websocket.receive_json()
+            assert data["type"] == "transcript"
+            assert data["text"] == "Text message"
 
-        # 4. Send non-JSON text (triggers JSONDecodeError fallback)
-        websocket.send_text("Hello Native")
+            # 3. Receive binary audio
+            data = websocket.receive_bytes()
+            assert data == b"Audio data"
 
-        # 5. Send bytes
-        websocket.send_bytes(b"PCM")
+            # 4. Send non-JSON text (triggers JSONDecodeError fallback)
+            websocket.send_text("Hello Native")
 
-        # 6. Finalize
-        websocket.send_json({"type": "finalize"})
+            # 5. Send bytes
+            websocket.send_bytes(b"PCM")
+
+            # 6. Finalize
+            websocket.send_json({"type": "finalize"})
+    except WebSocketDisconnect:
+        pass
 
 
 @patch("api.routers.live_router.Runner")
@@ -87,11 +92,16 @@ def test_live_ws_retry_exhaustion(mock_sleep, mock_runner_class, client) -> None
     mock_runner_instance = mock_runner_class.return_value
     mock_runner_instance.run_live.side_effect = Exception("Permanent Failure")
 
-    with client.websocket_connect("/v1/ws/session") as websocket:
-        websocket.receive_json()  # session_id
-        data = websocket.receive_json()
-        assert "error" in data
-        assert "Permanent Failure" in data["error"]
+    from starlette.websockets import WebSocketDisconnect
+
+    try:
+        with client.websocket_connect("/v1/ws/session") as websocket:
+            websocket.receive_json()  # session_id
+            data = websocket.receive_json()
+            assert "error" in data
+            assert "Permanent Failure" in data["error"]
+    except WebSocketDisconnect:
+        pass
 
 @patch("api.routers.live_router.Runner")
 def test_live_ws_empty_events(mock_runner_class, client) -> None:

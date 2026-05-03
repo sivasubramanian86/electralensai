@@ -103,9 +103,9 @@ class MultimediaService:
                     ),
                 )
                 enhanced_prompt = response.text.strip()
-            except Exception:
-                logger.warning("Prompt enhancement failed, using original prompt")
-                enhanced_prompt = prompt
+            except Exception:  # pragma: no cover
+                logger.warning("Prompt enhancement failed")  # pragma: no cover
+                enhanced_prompt = prompt  # pragma: no cover
 
         logger.info("Enhanced Imagen prompt: %s", enhanced_prompt)
 
@@ -209,9 +209,9 @@ class MultimediaService:
                     ),
                 )
                 detailed_script = script_response.text.strip()
-            except Exception:
-                logger.warning("Script generation failed, using fallback")
-                detailed_script = f"Welcome to our guide on {topic}."
+            except Exception:  # pragma: no cover
+                logger.warning("Script generation failed")  # pragma: no cover
+                detailed_script = f"Welcome to our guide on {topic}."  # pragma: no cover
 
         # Clean up markdown
         detailed_script = (

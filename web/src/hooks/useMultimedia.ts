@@ -21,24 +21,27 @@ export const useMultimedia = (): UseMultimediaResult => {
   const [error, setError] = useState<string | null>(null);
 
   const pollJobStatus = useCallback(async (jobId: string) => {
-    try {
-      const response = await fetch(`${API_BASE}/v1/multimedia/jobs/${jobId}`);
-      if (!response.ok) throw new Error('Polling failed');
-      
-      const data = await response.json();
-      if (data.status === 'completed') {
-        setContent(data.result);
+    const poll = async () => {
+      try {
+        const response = await fetch(`${API_BASE}/v1/multimedia/jobs/${jobId}`);
+        if (!response.ok) throw new Error('Polling failed');
+        
+        const data = await response.json();
+        if (data.status === 'completed') {
+          setContent(data.result);
+          setLoading(false);
+        } else if (data.status === 'failed') {
+          throw new Error(data.error || 'Job failed');
+        } else {
+          // Continue polling
+          setTimeout(poll, 3000);
+        }
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Polling error');
         setLoading(false);
-      } else if (data.status === 'failed') {
-        throw new Error(data.error || 'Job failed');
-      } else {
-        // Continue polling
-        setTimeout(() => pollJobStatus(jobId), 3000);
       }
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Polling error');
-      setLoading(false);
-    }
+    };
+    poll();
   }, []);
 
   const generateContent = useCallback(async (topic: string, language: string = 'en') => {

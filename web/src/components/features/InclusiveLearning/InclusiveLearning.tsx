@@ -137,6 +137,7 @@ export function InclusiveLearning() {
                 ) : (
                   <div className="flex-1 w-full relative">
                     {activeModule.type === 'VIDEO' ? (
+                       <div className="w-full h-full relative">
                          {content?.video_url ? (
                            <iframe 
                              key={content.video_url}
