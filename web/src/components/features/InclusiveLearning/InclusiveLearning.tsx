@@ -58,6 +58,13 @@ const multimodalModules = [
  * to ensure civic education is accessible to all citizens, including those
  * with visual or auditory impairments.
  */
+/**
+ * InclusiveLearning Module.
+ * 
+ * Provides accessible, multimodal education modules (Audio, Visual, Infographic)
+ * for users with diverse learning needs. Integrates with Gemini and Text-to-Speech
+ * for on-demand asset generation.
+ */
 export function InclusiveLearning() {
   const { t, i18n } = useTranslation();
   const [activeModule, setActiveModule] = useState<typeof multimodalModules[0] | null>(null);

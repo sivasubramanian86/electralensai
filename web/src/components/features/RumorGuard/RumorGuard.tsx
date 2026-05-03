@@ -34,6 +34,13 @@ const trendingMyths = [
   }
 ];
 
+/**
+ * RumorGuard Component.
+ * 
+ * A specialized RAG-powered interface for identifying and debunking election rumors.
+ * Routes user queries through the agent mesh to the MythBuster specialist for
+ * grounded fact-checking.
+ */
 export function RumorGuard() {
   const { t, i18n } = useTranslation();
   const [query, setQuery] = useState('');

@@ -15,6 +15,13 @@ interface AuditMetrics {
   cache_hit_rate: string;
 }
 
+/**
+ * AuditDashboard Component.
+ * 
+ * Provides a real-time observability interface for the ElectraLensAI ecosystem.
+ * Visualizes agent traces, system metrics (latency, token count), and compliance
+ * alignment with NIST and WCAG frameworks.
+ */
 export function AuditDashboard() {
   const [traces, setTraces] = useState<AuditTrace[]>([]);
   const [metrics, setMetrics] = useState<AuditMetrics | null>(null);
@@ -26,10 +33,18 @@ export function AuditDashboard() {
         const traceRes = await fetch('http://localhost:8082/v1/audit/traces?session_id=demo');
         const metricRes = await fetch('http://localhost:8082/v1/audit/metrics');
         
-        if (traceRes.ok) setTraces((await traceRes.json()).traces);
-        if (metricRes.ok) setMetrics(await metricRes.json());
-      } catch (e) {
-        console.error("Failed to fetch audit data", e);
+        if (!traceRes.ok || !metricRes.ok) {
+           console.warn('Audit Dashboard: Backend metrics unavailable');
+           return;
+        }
+
+        const traceData = await traceRes.json();
+        const metricData = await metricRes.json();
+
+        setTraces(traceData.traces || []);
+        setMetrics(metricData);
+      } catch (err) {
+        console.error('Audit Dashboard Fetch Error:', err);
       }
     };
     fetchData();

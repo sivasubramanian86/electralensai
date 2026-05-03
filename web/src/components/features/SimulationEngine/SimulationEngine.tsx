@@ -14,10 +14,11 @@ import { useAgentStream } from '../../../hooks/useAgentStream';
 import ReactMarkdown from 'react-markdown';
 
 /**
- * SimulationEngine — Interactive Role-Play and "What-If" Scenario Generator.
+ * SimulationEngine Component.
  * 
- * Leverages Google Gemini to create immersive election-day simulations,
- * allowing users to experience the process as voters, officials, or leaders.
+ * An interactive role-play and "What-If" scenario generator.
+ * Leverages Gemini to create immersive election-day simulations for voters
+ * and officials to practice democratic processes.
  */
 export function SimulationEngine() {
   const { t, i18n } = useTranslation();

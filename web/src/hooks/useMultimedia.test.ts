@@ -201,7 +201,7 @@ describe('useMultimedia Hook', () => {
   });
 
   it('stops polling when unmounted during fetch', async () => {
-    let resolveFetch: any;
+    let resolveFetch: (value: unknown) => void;
     const fetchPromise = new Promise((resolve) => { resolveFetch = resolve; });
     
     const fetchMock = vi.fn()
@@ -220,14 +220,14 @@ describe('useMultimedia Hook', () => {
     
     // Resolve the fetch
     await act(async () => { 
-      resolveFetch({ ok: true, json: () => Promise.resolve({ status: 'completed', result: { infographic_url: 'ok' } }) });
+      resolveFetch!({ ok: true, json: () => Promise.resolve({ status: 'completed', result: { infographic_url: 'ok' } }) });
     });
 
     expect(result.current.content).toBeNull();
   });
 
   it('stops polling when unmounted during failed fetch', async () => {
-    let rejectFetch: any;
+    let rejectFetch: (reason?: unknown) => void;
     const fetchPromise = new Promise((_, reject) => { rejectFetch = reject; });
     
     const fetchMock = vi.fn()

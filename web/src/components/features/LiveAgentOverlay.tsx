@@ -1,6 +1,12 @@
 import { Mic, MicOff, X, Sparkles, Volume2 } from 'lucide-react';
 import { useLiveAgent } from '../../hooks/useLiveAgent';
 
+/**
+ * LiveAgentOverlay Component.
+ * 
+ * A multimodal voice assistant interface using Gemini Live (WebSocket).
+ * Provides low-latency, conversational support for users navigating the platform.
+ */
 export function LiveAgentOverlay() {
   const { isActive, isSpeaking, transcript, startSession, stopSession } = useLiveAgent();
 
