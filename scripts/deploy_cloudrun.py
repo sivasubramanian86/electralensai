@@ -1,8 +1,14 @@
 """ElectraLensAI — Hardened Cloud Run deployment script.
 
-Builds the container image using Cloud Build and deploys to Cloud Run
-following the ElectraLensAI-proven secure subprocess pattern.
-All API keys are sourced from GCP Secret Manager — zero .env in production.
+Deploys the backend to Cloud Run using `--source .` (Cloud Build) following
+the ElectraLensAI-proven secure subprocess pattern.
+
+Pre-requisites — the service account passed via --service-account must have:
+  - roles/aiplatform.user     (Vertex AI Gemini inference)
+  - roles/dlp.user            (Cloud DLP PII masking)
+  - roles/logging.logWriter   (Cloud Logging)
+
+All model configuration is injected via --set-env-vars; zero .env in production.
 """
 
 from __future__ import annotations
