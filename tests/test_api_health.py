@@ -17,7 +17,8 @@ def test_health_check(client) -> None:
     assert response.json()["status"] == "healthy"
 
 
-def test_root_404(client) -> None:
-    """Test that root returns 404 since no root route is defined."""
-    response = client.get("/")
-    assert response.status_code == 404
+def test_root_redirects_to_docs(client) -> None:
+    """Test that root redirects to /docs (307 Temporary Redirect)."""
+    response = client.get("/", follow_redirects=False)
+    assert response.status_code == 307
+    assert response.headers["location"] == "/docs"
