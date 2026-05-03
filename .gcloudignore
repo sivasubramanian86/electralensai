@@ -1,0 +1,13 @@
+.venv
+.git
+.github
+__pycache__
+web/node_modules
+web/dist
+node_modules
+.pytest_cache
+.ruff_cache
+.firebase
+.vscode
+.gemini
+coverage_full_report.txt

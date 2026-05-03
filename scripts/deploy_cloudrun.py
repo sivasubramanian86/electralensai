@@ -15,9 +15,9 @@ import sys
 logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
 logger = logging.getLogger(__name__)
 
-_SERVICE_NAME = "electralensai-api"
-_REGION = "asia-southeast1"
-_IMAGE_NAME = "gcr.io/{project}/electralensai-api:latest"
+_SERVICE_NAME = "electralensai-backend"
+_REGION = "us-central1"
+_IMAGE_NAME = "gcr.io/{project}/electralensai-backend:latest"
 
 
 def _run(args: list[str], *, check: bool = True) -> subprocess.CompletedProcess[str]:
@@ -66,15 +66,15 @@ def deploy_service(project: str, service_account: str) -> None:
         project: The GCP project ID.
         service_account: The Cloud Run service account email (least-privilege IAM).
     """
-    image = _IMAGE_NAME.format(project=project)
+    gcloud_bin = "gcloud.cmd" if sys.platform == "win32" else "gcloud"
     _run(
         [
-            "gcloud",
+            gcloud_bin,
             "run",
             "deploy",
             _SERVICE_NAME,
-            "--image",
-            image,
+            "--source",
+            ".",
             "--region",
             _REGION,
             "--platform",
@@ -82,20 +82,19 @@ def deploy_service(project: str, service_account: str) -> None:
             "--allow-unauthenticated",
             "--service-account",
             service_account,
-            "--set-secrets",
-            "GOOGLE_API_KEY=electralensai-google-api-key:latest",
             "--memory",
             "1Gi",
             "--cpu",
             "1",
             "--min-instances",
-            "1",
+            "0",
             "--max-instances",
             "10",
             "--port",
             "8080",
             "--project",
             project,
+            "--quiet",
         ]
     )
     logger.info("Deployed %s to Cloud Run (%s)", _SERVICE_NAME, _REGION)
@@ -117,7 +116,6 @@ def main() -> None:
     )
     args = parser.parse_args()
 
-    build_image(args.project)
     if not args.build_only:
         deploy_service(args.project, args.service_account)
 
