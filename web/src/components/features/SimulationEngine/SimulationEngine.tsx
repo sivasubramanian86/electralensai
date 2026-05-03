@@ -27,8 +27,10 @@ export function SimulationEngine() {
 
   const handleStartMode = (selectedMode: 'training' | 'scenario' | 'whatif', title: string) => {
     setMode(selectedMode);
+    const localizedTitle = t(`simulation.modes.${selectedMode}.title`, title);
+    
     submit(
-      `Start a new interactive module: ${title}. Provide a brief setup scenario and give me 2 options to choose from. Make it engaging and election-focused.`,
+      t('simulation.start_prompt', { title: localizedTitle }),
       'IN',
       'simulation',
       i18n.language.split('-')[0]
@@ -40,7 +42,7 @@ export function SimulationEngine() {
     if (!userAction.trim() || status === 'loading' || status === 'streaming') return;
     
     submit(
-      `I choose: "${userAction}". Tell me the consequence of this choice and present the next step in the scenario with 2 new options.`,
+      t('simulation.action_prompt', { choice: userAction }),
       'IN',
       'simulation',
       i18n.language.split('-')[0]

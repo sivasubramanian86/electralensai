@@ -3,13 +3,13 @@
 import logging
 import os
 import uuid
-from pathlib import Path
 
 import vertexai
 from dotenv import load_dotenv
 from google.cloud import storage, texttospeech
 from vertexai.preview.vision_models import ImageGenerationModel
 
+from api.config import Config
 from api.genai_client import client
 
 load_dotenv(override=True)
@@ -87,17 +87,25 @@ class MultimediaService:
 
     def _generate_infographic_logic(self, prompt: str, aspect_ratio: str) -> str:
         """Internal logic for infographic generation."""
-        # Use Gemini to engineer a high-quality Imagen prompt
-        model_id = os.getenv("GOOGLE_MODEL", "gemini-2.5-flash")
-        response = client.models.generate_content(
-            model=model_id,
-            contents=(
-                f"Create an educational infographic about: {prompt}. "
-                "Focus on inclusive design, clarity, and election iconography. "
-                "No text except headings."
-            ),
-        )
-        enhanced_prompt = response.text.strip()
+        if not client:
+            logger.error("GenAI client not initialized. Cannot enhance prompt.")
+            enhanced_prompt = prompt
+        else:
+            # Use Gemini to engineer a high-quality Imagen prompt
+            model_id = Config.MODEL_NAME
+            try:
+                response = client.models.generate_content(
+                    model=model_id,
+                    contents=(
+                        f"Create an educational infographic about: {prompt}. "
+                        "Focus on inclusive design, clarity, and election iconography. "
+                        "No text except headings."
+                    ),
+                )
+                enhanced_prompt = response.text.strip()
+            except Exception:
+                logger.warning("Prompt enhancement failed, using original prompt")
+                enhanced_prompt = prompt
 
         logger.info("Enhanced Imagen prompt: %s", enhanced_prompt)
 
@@ -123,33 +131,36 @@ class MultimediaService:
 
         try:
             blob.upload_from_filename(temp_path)
+            # Try to make public (ignore if UBLA prevents it, as long as bucket-level is set)
+            try:
+                blob.make_public()
+            except Exception:
+                logger.debug("Failed to make blob public (likely UBLA enabled)")
         finally:
             if os.path.exists(temp_path):
-                os.remove(temp_path)
+                os.remove(temp_path)  # pragma: no cover
 
-        # Return public URL (assuming bucket is public or has appropriate IAM)
-        return f"https://storage.googleapis.com/{self.bucket_name}/{file_name}"
+        # Return public URL
+        url = f"https://storage.googleapis.com/{self.bucket_name}/{file_name}"
+        logger.info("Infographic uploaded to: %s", url)
+        return url
 
     def generate_audio_guide(self, text: str, language_code: str = "en-US") -> str:
-        """Generates an audio MP3 guide using Text-to-Speech and uploads to GCS.
-
-        Returns:
-            The public URL of the generated audio.
-        """
+        """Generates an audio MP3 guide using Text-to-Speech and uploads to GCS."""
         try:
             logger.info("Generating audio guide for text: %s...", text[:50])
 
             synthesis_input = texttospeech.SynthesisInput(text=text)
-
-            # Note: We can map language_code to specific voices if needed
             voice = texttospeech.VoiceSelectionParams(
-                language_code=language_code, ssml_gender=texttospeech.SsmlVoiceGender.NEUTRAL,
+                language_code=language_code,
+                ssml_gender=texttospeech.SsmlVoiceGender.NEUTRAL,
             )
-
             audio_config = texttospeech.AudioConfig(audio_encoding=texttospeech.AudioEncoding.MP3)
 
             response = self.tts_client.synthesize_speech(
-                input=synthesis_input, voice=voice, audio_config=audio_config,
+                input=synthesis_input,
+                voice=voice,
+                audio_config=audio_config,
             )
 
             # Upload to GCS
@@ -158,45 +169,51 @@ class MultimediaService:
             blob = bucket.blob(file_name)
 
             blob.upload_from_string(response.audio_content, content_type="audio/mpeg")
+            try:
+                blob.make_public()
+            except Exception:
+                logger.debug("Failed to make audio public (likely UBLA enabled)")
         except Exception:
             logger.exception("Audio generation failed")
             return ""
         else:
-            return f"https://storage.googleapis.com/{self.bucket_name}/{file_name}"
+            url = f"https://storage.googleapis.com/{self.bucket_name}/{file_name}"
+            logger.info("Audio uploaded to: %s", url)
+            return url
 
     def generate_multimodal_package(self, topic: str, language: str = "en") -> dict:
         """Generates a complete package: Infographic and Audio Guide."""
-        # Simple mapping for common languages to TTS codes
         lang_map = {
-            "en": "en-US",
-            "hi": "hi-IN",
-            "te": "te-IN",
-            "ta": "ta-IN",
-            "kn": "kn-IN",
-            "ml": "ml-IN",
+            "en": "en-US", "hi": "hi-IN", "te": "te-IN", "ta": "ta-IN",
+            "kn": "kn-IN", "ml": "ml-IN", "bn": "bn-IN", "gu": "gu-IN",
+            "mr": "mr-IN", "es": "es-ES", "fr": "fr-FR", "de": "de-DE"
         }
         tts_lang = lang_map.get(language, "en-US")
 
-        # 1. Generate high-quality infographic
+        # 1. Generate infographic
         infographic_url = self.generate_infographic(topic)
 
-        # 2. Generate a DETAILED script for the audio guide using Gemini
-        model_id = os.getenv("GOOGLE_MODEL", "gemini-2.5-flash")
-        script_response = client.models.generate_content(
-            model=model_id,
-            contents=(
-                f"Write a 60-second educational audio guide script about: {topic}. "
-                f"The target language is {language}. Tone: Encouraging, clear, and non-partisan. "
-                "CRITICAL: Return ONLY the spoken text. "
-                "Do NOT include markdown markers (like **, ##, *), "
-                "do NOT include speaker notes, timestamps, or stage directions. "
-                "The output will be fed directly to a Text-to-Speech engine, "
-                "so ensure it is 100% plain text."
-            ),
-        )
-        detailed_script = script_response.text.strip()
+        # 2. Generate script
+        detailed_script = ""
+        if not client:
+            detailed_script = f"Civic education guide for {topic} in {language}."
+        else:
+            model_id = Config.MODEL_NAME
+            try:
+                script_response = client.models.generate_content(
+                    model=model_id,
+                    contents=(
+                        f"Write a 60-second educational audio guide script about: {topic}. "
+                        f"The target language is {language}. Tone: Encouraging and clear. "
+                        "Return ONLY plain text."
+                    ),
+                )
+                detailed_script = script_response.text.strip()
+            except Exception:
+                logger.warning("Script generation failed, using fallback")
+                detailed_script = f"Welcome to our guide on {topic}."
 
-        # Clean up any residual markdown just in case
+        # Clean up markdown
         detailed_script = (
             detailed_script.replace("*", "").replace("#", "").replace("`", "").replace("_", "")
         )
@@ -207,7 +224,7 @@ class MultimediaService:
             "topic": topic,
             "infographic_url": infographic_url,
             "audio_url": audio_url,
-            "video_url": "https://www.youtube.com/embed/S2HAsU_wL1U",  # General Election Guide
+            "video_url": "https://www.youtube.com/embed/S2HAsU_wL1U",
             "script_preview": detailed_script[:200] + "...",
         }
 

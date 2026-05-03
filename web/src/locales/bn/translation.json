@@ -17,7 +17,9 @@
     "notif_time_2h": "২ ঘণ্টা আগে",
     "notif_time_5h": "৫ ঘণ্টা আগে",
     "notif_time_1d": "১ দিন আগে",
-    "mark_all_read": "সব পড়া হয়েছে হিসেবে চিহ্নিত করুন"
+    "mark_all_read": "সব পড়া হয়েছে হিসেবে চিহ্নিত করুন",
+    "live_greeting": "নমস্কার! আমি আপনার ইলেক্ট্রা লেন্স সহকারী। আজ আমি আপনাকে কিভাবে সাহায্য করতে পারি?",
+    "lang_name": "Bengali"
   },
   "nav": {
     "dashboard": "সচেতনতা হাব",
@@ -167,7 +169,8 @@
       "m4": "মনোনয়ন শেষ",
       "m5": "ভোটগ্রহণের দিন",
       "m6": "ফলাফল ঘোষণা"
-    }
+    },
+    "agent_prompt": "Provide a detailed overview of the election phase: {{title}}. Explain the key mechanics, typical timeline duration, and the role of the {{keyActors}}. Include an ASCII process graph in my language."
   },
   "ballot": {
     "title": "ভোটার প্রস্তুতি গাইড",
@@ -203,7 +206,8 @@
         "title": "ফর্ম ও হলফনামা",
         "desc": "প্রার্থীর প্রোফাইল এবং প্রয়োজনীয় ঘোষণাগুলি পর্যালোচনা করুন।"
       }
-    }
+    },
+    "agent_prompt": "I need help with voter readiness: {{title}}. Context: {{desc}}. Please provide a simple checklist in my language."
   },
   "rumor": {
     "title": "গুজব নিরোধক সাথী",
@@ -233,7 +237,8 @@
         "claim": "ছাত্র নির্বাচনের জন্য ভোটের বয়স ১৬ বছরে কমিয়ে আনা হয়েছে।",
         "verdict": "বিভ্রান্তিকর"
       }
-    }
+    },
+    "agent_prompt": "Please fact-check this claim: \"{{claim}}\". Provide the verdict and verification steps in my language."
   },
   "simulation": {
     "title": "গণতন্ত্রের খেলা",
@@ -259,7 +264,9 @@
         "title": "হোয়াট-ইফ ইঞ্জিন",
         "desc": "নির্বাচনী নিয়ম পরিবর্তন করুন এবং ফলাফল দেখুন।"
       }
-    }
+    },
+    "start_prompt": "Start a new interactive module: {{title}}. Provide a brief setup scenario and give me 2 options to choose from. Make it engaging and election-focused in my language.",
+    "action_prompt": "I choose: \"{{choice}}\". Tell me the consequence of this choice and present the next step in the scenario with 2 new options in my language."
   },
   "inclusive": {
     "title": "অন্তর্ভুক্তিমূলক শিক্ষা হাব",

@@ -27,16 +27,16 @@ export function Header() {
   return (
     <header className="h-16 border-b border-white/5 bg-navy-950/50 backdrop-blur-md flex items-center justify-between px-8 sticky top-0 z-30">
       {/* Search Bar - Modern Mac Style */}
-      <div className="flex-1 max-w-xl">
+      <div className="flex-1 max-w-xl" role="search">
         <div className="relative group">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500 group-focus-within:text-blue-400 transition-colors" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500 group-focus-within:text-blue-400 transition-colors" aria-hidden="true" />
           <input 
             type="text" 
             placeholder={t('app.search_placeholder', 'Search regulations, polling booths, or claims...')}
             aria-label={t('app.search_aria', 'Search civic information')}
             className="w-full bg-white/5 border border-white/5 rounded-xl py-2 pl-10 pr-12 text-sm focus:outline-none focus:border-blue-500/50 focus:bg-white/10 transition-all"
           />
-          <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-1 px-1.5 py-0.5 rounded border border-white/10 bg-white/5 text-[10px] text-slate-500">
+          <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-1 px-1.5 py-0.5 rounded border border-white/10 bg-white/5 text-[10px] text-slate-500" aria-hidden="true">
             <Command className="w-2.5 h-2.5" />
             <span>K</span>
           </div>
@@ -49,30 +49,47 @@ export function Header() {
           <button 
             onClick={() => setShowNotifications(!showNotifications)}
             className="relative p-2 text-slate-400 hover:text-white transition-colors"
-            aria-label={t('app.notifications_aria', 'View notifications')}
+            aria-label={`${t('app.notifications_aria', 'View notifications')}${unreadCount > 0 ? `, ${unreadCount} new` : ''}`}
             title={t('app.notifications', 'Notifications')}
             aria-expanded={showNotifications}
+            aria-haspopup="true"
           >
             <Bell className="w-5 h-5" />
             {unreadCount > 0 && (
-              <span className="absolute top-2 right-2 w-2 h-2 bg-blue-500 rounded-full border-2 border-navy-950" aria-hidden="true" />
+              <span 
+                className="absolute top-2 right-2 w-2 h-2 bg-blue-500 rounded-full border-2 border-navy-950" 
+                role="status"
+                aria-label={`${unreadCount} ${t('app.new_notif', 'new notifications')}`}
+              />
             )}
           </button>
 
           {showNotifications && (
-            <div className="absolute right-0 mt-2 w-80 bg-slate-900 border border-white/10 rounded-2xl shadow-2xl py-2 z-50 animate-in fade-in slide-in-from-top-4 duration-200">
+            <div 
+              className="absolute right-0 mt-2 w-80 bg-slate-900 border border-white/10 rounded-2xl shadow-2xl py-2 z-50 animate-in fade-in slide-in-from-top-4 duration-200"
+              role="dialog"
+              aria-modal="true"
+              aria-label={t('app.notifications', 'Notifications')}
+            >
               <div className="px-4 py-3 border-b border-white/5 flex justify-between items-center">
                 <h3 className="font-bold text-white">{t('app.notifications', 'Notifications')}</h3>
                 {unreadCount > 0 && (
-                  <span className="text-xs bg-blue-500/20 text-blue-400 px-2 py-0.5 rounded-full font-medium">
+                  <span 
+                    className="text-xs bg-blue-500/20 text-blue-400 px-2 py-0.5 rounded-full font-medium"
+                    aria-live="polite"
+                  >
                     {unreadCount} {t('app.new_notif', 'New')}
                   </span>
                 )}
               </div>
-              <div className="max-h-96 overflow-y-auto">
+              <div className="max-h-96 overflow-y-auto" role="list">
                 {notifications.map(notification => (
-                  <button key={notification.id} className="w-full text-left px-4 py-3 hover:bg-white/5 transition-colors border-b border-white/5 last:border-0 flex gap-3">
-                    <div className={`mt-1.5 w-2 h-2 rounded-full flex-shrink-0 ${notification.unread ? 'bg-blue-500' : 'bg-transparent'}`} />
+                  <button 
+                    key={notification.id} 
+                    role="listitem"
+                    className="w-full text-left px-4 py-3 hover:bg-white/5 transition-colors border-b border-white/5 last:border-0 flex gap-3"
+                  >
+                    <div className={`mt-1.5 w-2 h-2 rounded-full flex-shrink-0 ${notification.unread ? 'bg-blue-500' : 'bg-transparent'}`} aria-hidden="true" />
                     <div>
                       <p className={`text-sm ${notification.unread ? 'text-white font-bold' : 'text-slate-300 font-medium'}`}>{t(`app.${notification.titleKey}`, notification.defaultTitle)}</p>
                       <p className="text-xs text-slate-400 mt-0.5 line-clamp-2">{t(`app.${notification.descKey}`, notification.defaultDesc)}</p>

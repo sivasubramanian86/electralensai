@@ -17,7 +17,9 @@
     "notif_time_2h": "Hace 2 horas",
     "notif_time_5h": "Hace 5 horas",
     "notif_time_1d": "Hace 1 día",
-    "mark_all_read": "Marcar todo como leído"
+    "mark_all_read": "Marcar todo como leído",
+    "live_greeting": "¡Hola! Soy tu asistente de ElectraLens. ¿Cómo puedo ayudarte hoy?",
+    "lang_name": "Spanish"
   },
   "nav": {
     "dashboard": "Centro de Conciencia",
@@ -167,7 +169,8 @@
       "m4": "Límite de Nominaciones",
       "m5": "Día de la Elección",
       "m6": "Día de Resultados"
-    }
+    },
+    "agent_prompt": "Provide a detailed overview of the election phase: {{title}}. Explain the key mechanics, typical timeline duration, and the role of the {{keyActors}}. Include an ASCII process graph in my language."
   },
   "ballot": {
     "title": "Guía de Preparación del Votante",
@@ -203,7 +206,8 @@
         "title": "Formularios",
         "desc": "Revisa los perfiles de los candidatos y las declaraciones necesarias."
       }
-    }
+    },
+    "agent_prompt": "I need help with voter readiness: {{title}}. Context: {{desc}}. Please provide a simple checklist in my language."
   },
   "rumor": {
     "title": "Compañero Cazador de Mitos",
@@ -233,7 +237,8 @@
         "claim": "La edad para votar en elecciones estudiantiles se ha reducido a 16 años.",
         "verdict": "Engañoso"
       }
-    }
+    },
+    "agent_prompt": "Please fact-check this claim: \"{{claim}}\". Provide the verdict and verification steps in my language."
   },
   "simulation": {
     "title": "Juego de Democracia",
@@ -259,7 +264,9 @@
         "title": "Motor 'Qué pasaría si'",
         "desc": "Cambia las reglas electorales y mira qué ocurre."
       }
-    }
+    },
+    "start_prompt": "Start a new interactive module: {{title}}. Provide a brief setup scenario and give me 2 options to choose from. Make it engaging and election-focused in my language.",
+    "action_prompt": "I choose: \"{{choice}}\". Tell me the consequence of this choice and present the next step in the scenario with 2 new options in my language."
   },
   "inclusive": {
     "title": "Centro de Aprendizaje Inclusivo",

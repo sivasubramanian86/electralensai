@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { API_BASE } from '../constants';
 
 export interface MultimediaContent {
@@ -20,7 +20,7 @@ export const useMultimedia = (): UseMultimediaResult => {
   const [content, setContent] = useState<MultimediaContent | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  const pollJobStatus = async (jobId: string) => {
+  const pollJobStatus = useCallback(async (jobId: string) => {
     try {
       const response = await fetch(`${API_BASE}/v1/multimedia/jobs/${jobId}`);
       if (!response.ok) throw new Error('Polling failed');
@@ -39,9 +39,9 @@ export const useMultimedia = (): UseMultimediaResult => {
       setError(err instanceof Error ? err.message : 'Polling error');
       setLoading(false);
     }
-  };
+  }, []);
 
-  const generateContent = async (topic: string, language: string = 'en') => {
+  const generateContent = useCallback(async (topic: string, language: string = 'en') => {
     setLoading(true);
     setError(null);
     setContent(null);
@@ -60,7 +60,7 @@ export const useMultimedia = (): UseMultimediaResult => {
       setError(err instanceof Error ? err.message : 'An unknown error occurred');
       setLoading(false);
     }
-  };
+  }, [pollJobStatus]);
 
   return { generateContent, content, loading, error };
 };

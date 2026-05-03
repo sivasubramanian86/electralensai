@@ -17,7 +17,9 @@
     "notif_time_2h": "2 કલાક પહેલા",
     "notif_time_5h": "5 કલાક પહેલા",
     "notif_time_1d": "1 દિવસ પહેલા",
-    "mark_all_read": "બધાને વાંચેલા તરીકે ચિહ્નિત કરો"
+    "mark_all_read": "બધાને વાંચેલા તરીકે ચિહ્નિત કરો",
+    "live_greeting": "નમસ્તે! હું તમારો ઇલેક્ટ્રા લેન્સ સહાયક છું. આજે હું તમને કેવી રીતે મદદ કરી શકું?",
+    "lang_name": "Gujarati"
   },
   "nav": {
     "dashboard": "જાગૃતિ હબ",
@@ -167,7 +169,8 @@
       "m4": "નામાંકનની સમયમર્યાદા",
       "m5": "મતદાન દિવસ",
       "m6": "પરિણામ દિવસ"
-    }
+    },
+    "agent_prompt": "Provide a detailed overview of the election phase: {{title}}. Explain the key mechanics, typical timeline duration, and the role of the {{keyActors}}. Include an ASCII process graph in my language."
   },
   "ballot": {
     "title": "મતદાતા તૈયારી માર્ગદર્શિકા",
@@ -203,7 +206,8 @@
         "title": "ફોર્મ અને સોગંદનામા",
         "desc": "ઉમેદવારની પ્રોફાઇલ અને જરૂરી જાહેરનામાની સમીક્ષા કરો."
       }
-    }
+    },
+    "agent_prompt": "I need help with voter readiness: {{title}}. Context: {{desc}}. Please provide a simple checklist in my language."
   },
   "rumor": {
     "title": "અફવા નિવારક સાથી",
@@ -233,7 +237,8 @@
         "claim": "વિદ્યાર્થીઓની ચૂંટણી માટે મતદાનની ઉંમર ઘટાડીને 16 વર્ષ કરવામાં આવી છે.",
         "verdict": "ભ્રામક"
       }
-    }
+    },
+    "agent_prompt": "Please fact-check this claim: \"{{claim}}\". Provide the verdict and verification steps in my language."
   },
   "simulation": {
     "title": "લોકશાહીની રમત",
@@ -259,7 +264,9 @@
         "title": "વોટ-ઇફ એન્જિન",
         "desc": "ચૂંટણીના નિયમો બદલો અને જુઓ શું થાય છે."
       }
-    }
+    },
+    "start_prompt": "Start a new interactive module: {{title}}. Provide a brief setup scenario and give me 2 options to choose from. Make it engaging and election-focused in my language.",
+    "action_prompt": "I choose: \"{{choice}}\". Tell me the consequence of this choice and present the next step in the scenario with 2 new options in my language."
   },
   "inclusive": {
     "title": "સમાવેશી શિક્ષણ હબ",

@@ -55,6 +55,7 @@ async def test_memory_service_resilience() -> None:
     assert logs[0]["agent"] == "RootOrchestrator"
 
     await memory_service.get_historical_precedents("Test")
+    await memory_service.log_interaction("u", "a", "q", "r")
     set_use_alloydb(False)
 
 

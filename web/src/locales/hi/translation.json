@@ -17,7 +17,9 @@
     "notif_time_2h": "2 घंटे पहले",
     "notif_time_5h": "5 घंटे पहले",
     "notif_time_1d": "1 दिन पहले",
-    "mark_all_read": "सभी को पढ़ा हुआ चिह्नित करें"
+    "mark_all_read": "सभी को पढ़ा हुआ चिह्नित करें",
+    "live_greeting": "नमस्ते! मैं आपका इलेक्ट्रा-लेंस सहायक हूँ। आज मैं आपकी क्या मदद कर सकता हूँ?",
+    "lang_name": "Hindi"
   },
   "nav": {
     "dashboard": "जागरूकता हब",
@@ -167,7 +169,8 @@
       "m4": "नामांकन की समय सीमा",
       "m5": "मतदान दिवस",
       "m6": "परिणाम दिवस"
-    }
+    },
+    "agent_prompt": "Provide a detailed overview of the election phase: {{title}}. Explain the key mechanics, typical timeline duration, and the role of the {{keyActors}}. Include an ASCII process graph in my language."
   },
   "ballot": {
     "title": "मतदाता तत्परता मार्गदर्शिका",
@@ -203,7 +206,8 @@
         "title": "फॉर्म और शपथ पत्र",
         "desc": "उम्मीदवार प्रोफाइल और आवश्यक घोषणाओं की समीक्षा करें।"
       }
-    }
+    },
+    "agent_prompt": "I need help with voter readiness: {{title}}. Context: {{desc}}. Please provide a simple checklist in my language."
   },
   "rumor": {
     "title": "मिथ-बस्टर साथी",
@@ -233,7 +237,8 @@
         "claim": "छात्र चुनावों के लिए मतदान की आयु घटाकर 16 वर्ष कर दी गई है।",
         "verdict": "भ्रामक"
       }
-    }
+    },
+    "agent_prompt": "Please fact-check this claim: \"{{claim}}\". Provide the verdict and verification steps in my language."
   },
   "simulation": {
     "title": "लोकतंत्र का खेल",
@@ -259,7 +264,9 @@
         "title": "क्या-अगर इंजन",
         "desc": "चुनाव नियमों को बदलें और देखें कि क्या होता है।"
       }
-    }
+    },
+    "start_prompt": "Start a new interactive module: {{title}}. Provide a brief setup scenario and give me 2 options to choose from. Make it engaging and election-focused in my language.",
+    "action_prompt": "I choose: \"{{choice}}\". Tell me the consequence of this choice and present the next step in the scenario with 2 new options in my language."
   },
   "inclusive": {
     "title": "समावेशी शिक्षा हब",

@@ -3,63 +3,31 @@
 import asyncio
 import json
 import logging
+import os
 import secrets
 
 from fastapi import APIRouter, WebSocket, WebSocketDisconnect
+from google.adk import Runner, agents
 from google.adk.agents.live_request_queue import LiveRequestQueue
 from google.adk.agents.run_config import RunConfig
+from google.adk.sessions.in_memory_session_service import InMemorySessionService
 from google.genai import types
 
-from electra_agents.orchestrator import live_runner
+from electra_agents.root_agent import (
+    create_ballot_scribe_agent,
+    create_rumor_guard_agent,
+    create_simulation_engine_agent,
+    create_timeline_architect_agent,
+)
 
 logger = logging.getLogger(__name__)
 router = APIRouter()
 
 
-@router.get("/health")
-async def health_check() -> dict[str, str]:
-    """Health check for the live router."""
-    return {"status": "ok", "message": "ElectraLens Live Backend is active"}
-
-
-async def _run_adk_loop(
-    websocket: WebSocket,
-    user_id: str,
-    session_id: str,
-    live_request_queue: LiveRequestQueue,
-    run_config: RunConfig,
-) -> None:
-    """Handles the Gemini -> Client audio/transcript stream."""
-    max_retries = 3
-    retry_count = 0
-    while retry_count < max_retries:  # pragma: no cover
-        try:
-            logger.info("Starting ADK run_live (Attempt %d)", retry_count + 1)
-            async for event in live_runner.run_live(
-                user_id=user_id,
-                session_id=session_id,
-                live_request_queue=live_request_queue,
-                run_config=run_config,
-            ):
-                # Handle audio and text parts
-                if event.content and event.content.parts:  # pragma: no cover
-                    for part in event.content.parts:
-                        if part.inline_data:  # pragma: no cover
-                            await websocket.send_bytes(part.inline_data.data)
-                        elif part.text:  # pragma: no cover
-                            await websocket.send_json({"type": "transcript", "text": part.text})
-
-                if event.usage_metadata:  # pragma: no cover
-                    logger.info("Usage: %d tokens", event.usage_metadata.total_token_count)
-            break
-        except Exception as exc:
-            retry_count += 1
-            logger.warning("ADK Loop Error (Attempt %s)", retry_count)
-            if retry_count >= max_retries:
-                logger.exception("Max retries reached for ADK Loop")
-                await websocket.send_json({"error": f"Connection failed: {exc!s}"})
-                break
-            await asyncio.sleep(1)
+@router.get("/live/health")
+async def live_health_check() -> dict:
+    """Specific health check for the Gemini Live agent service."""
+    return {"status": "healthy", "service": "ElectraLens Live Agent"}
 
 
 async def _handle_client_message(message: dict, live_request_queue: LiveRequestQueue) -> bool:
@@ -101,36 +69,86 @@ async def _handle_client_message(message: dict, live_request_queue: LiveRequestQ
 
 
 @router.websocket("/ws/session")
-async def live_agent_ws(websocket: WebSocket) -> None:
-    """WebSocket endpoint for Gemini Multimodal Live API via ADK Runner."""
+async def live_agent_ws(websocket: WebSocket, lang: str = "en") -> None:
+    """WebSocket endpoint for Gemini Multimodal Live API via ADK Runner.
+
+    Args:
+        websocket: The FastAPI WebSocket connection.
+        lang: Language code (e.g., 'en', 'hi', 'ta').
+    """
     await websocket.accept()
-    logger.info("ElectraLens Live: WebSocket connection established")
+    logger.info("ElectraLens Live: WebSocket connection established (Lang: %s)", lang)
 
     user_id = "default_user"
     session_id = f"session_{secrets.randbelow(900000) + 100000}"
 
+    # Load localized content from translation JSONs via I18nService
+    from api.services.i18n_service import i18n_service
+    lang_name, greeting_text = i18n_service.get_live_metadata(lang)
+
     try:
         await websocket.send_json({"type": "session_id", "session_id": session_id})
 
+        # 1. Minimal & Forceful localized instruction (High Priority)
+        localized_instruction = (
+            f"IDENTITY: You are a NATIVE {lang_name} speaker and civic assistant. \n"
+            f"LANGUAGE RULE: English is FORBIDDEN. Respond ONLY in {lang_name}. \n"
+            f"FIRST TASK: Say exactly: '{greeting_text}'."
+        )
+
+        # 2. Initialize a session-specific Agent
+        model = os.getenv("GOOGLE_MODEL_LIVE")
+        local_agent = agents.Agent(
+            name=f"ElectraLens_{lang_name}_Native",
+            instruction=localized_instruction,
+            model=model,
+            generate_content_config=types.GenerateContentConfig(
+                response_modalities=[types.Modality.AUDIO]
+            ),
+            tools=[],
+            sub_agents=[
+                create_timeline_architect_agent(model),
+                create_ballot_scribe_agent(model),
+                create_rumor_guard_agent(model),
+                create_simulation_engine_agent(model),
+            ],
+        )
+
+        # 3. Create a session-specific Runner
+        local_runner = Runner(
+            app_name=f"ElectraLens_{lang_name}_Session",
+            agent=local_agent,
+            session_service=InMemorySessionService(),
+            auto_create_session=True,
+        )
+
         live_request_queue = LiveRequestQueue()
+
+        # Forceful Start Poke in target language for maximum impact
+        pokes = {
+            "te": "దయచేసి తెలుగులో మాట్లాడండి",
+            "ta": "தயவுசெய்து தமிழில் பேசவும்",
+            "hi": "कृपया हिंदी में बोलें",
+            "en": "Please speak in English",
+        }
+        poke_text = pokes.get(lang.split("-")[0].lower(), f"Please speak in {lang_name}")
+
+        live_request_queue.send_content(
+            types.Content(
+                role="user",
+                parts=[types.Part.from_text(text=poke_text)],
+            ),
+        )
+
         run_config = RunConfig(
-            response_modalities=["AUDIO"], session_resumption=types.SessionResumptionConfig(),
+            response_modalities=["AUDIO"],
+            session_resumption=types.SessionResumptionConfig(),
         )
 
         # Start downstream stream
         adk_task = asyncio.create_task(
-            _run_adk_loop(websocket, user_id, session_id, live_request_queue, run_config),
-        )
-
-        # Trigger Initial Greeting
-        live_request_queue.send_content(
-            types.Content(
-                role="user",
-                parts=[
-                    types.Part.from_text(
-                        text="User has joined. Greet them as ElectraLens Assistant.",
-                    ),
-                ],
+            _run_local_adk_loop(
+                websocket, user_id, session_id, live_request_queue, run_config, local_runner
             ),
         )
 
@@ -153,4 +171,45 @@ async def live_agent_ws(websocket: WebSocket) -> None:
             await websocket.close()
         except Exception:  # noqa: BLE001 # pragma: no cover
             logger.debug("Cleanup error (ignored)")
+
+
+async def _run_local_adk_loop(
+    websocket: WebSocket,
+    user_id: str,
+    session_id: str,
+    live_request_queue: LiveRequestQueue,
+    run_config: RunConfig,
+    runner: Runner,
+) -> None:
+    """Handles the Gemini -> Client stream using a session-specific runner."""
+    max_retries = 3
+    retry_count = 0
+    last_exc = None
+    while retry_count < max_retries:  # pragma: no cover
+        try:
+            async for event in runner.run_live(
+                user_id=user_id,
+                session_id=session_id,
+                live_request_queue=live_request_queue,
+                run_config=run_config,
+            ):
+                if event.content and event.content.parts:
+                    for part in event.content.parts:
+                        if part.inline_data:
+                            await websocket.send_bytes(part.inline_data.data)
+                        elif part.text:
+                            await websocket.send_json({"type": "transcript", "text": part.text})
+            break
+        except asyncio.CancelledError:
+            logger.info("ADK Loop cancelled")
+            break
+        except Exception as exc:
+            retry_count += 1
+            last_exc = exc
+            logger.warning("ADK Loop Error (Attempt %s): %s", retry_count, exc)
+            if retry_count >= max_retries:
+                logger.exception("Max retries reached for Local ADK Loop")
+                await websocket.send_json({"error": f"Connection failed: {last_exc!s}"})
+                break
+            await asyncio.sleep(1)
         logger.info("Session cleanup complete")

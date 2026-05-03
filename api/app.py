@@ -1,7 +1,6 @@
-"""ElectraLensAI — FastAPI application factory.
+"""ElectraLensAI — Main FastAPI Application.
 
-Creates and configures the FastAPI app instance with CORS,
-health check, and agent router endpoints.
+Assembles the agent mesh, middleware, and routers into a production-ready API.
 """
 
 from __future__ import annotations
@@ -9,7 +8,7 @@ from __future__ import annotations
 import logging
 import os
 from pathlib import Path
-from typing import TYPE_CHECKING
+from typing import Callable
 
 import vertexai
 from dotenv import load_dotenv
@@ -27,40 +26,52 @@ from api.routers import (
     multimedia_router,
 )
 
-if TYPE_CHECKING:
-    from collections.abc import Callable
-
 load_dotenv(override=True)
-
-
-# Setup logging
 logger = logging.getLogger(__name__)
 
 
-def create_app() -> FastAPI:
-    """Create and configure the ElectraLensAI FastAPI application.
+class SecurityHeadersMiddleware(BaseHTTPMiddleware):
+    """Middleware to inject security headers into all responses."""
 
-    Returns:
-        A fully configured FastAPI instance ready for ASGI serving.
-    """
-    # Initialize Vertex AI for production only when explicitly requested.
-    # Do NOT fall back to Vertex mode just because an API key is absent —
-    # that causes failures in Cloud Run where ADC paths are local-only.
+    async def dispatch(
+        self,
+        request: Request,
+        call_next: Callable,
+    ) -> Response:
+        """Add security headers (CSP, HSTS, X-Frame-Options)."""
+        response = await call_next(request)
+        response.headers["X-Content-Type-Options"] = "nosniff"
+        response.headers["X-Frame-Options"] = "DENY"
+        response.headers["Strict-Transport-Security"] = "max-age=31536000; includeSubDomains"
+        csp = (
+            "default-src 'self'; "
+            "script-src 'self' 'unsafe-inline'; "
+            "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; "
+            "font-src 'self' https://fonts.gstatic.com; "
+            "img-src 'self' data: https://storage.googleapis.com https://placehold.co; "
+            "connect-src 'self' wss://*.cloudrun.app https://*.cloudrun.app "
+            "https://generativelanguage.googleapis.com;"
+        )
+        response.headers["Content-Security-Policy"] = csp
+        return response
+
+
+def create_app() -> FastAPI:
+    """Factory to create and configure the FastAPI application."""
+    # Global GenAI Initialization
     api_key = os.getenv("GEMINI_API_KEY")
     adc_path = os.getenv("GOOGLE_APPLICATION_CREDENTIALS", "")
     adc_present = bool(adc_path) and Path(adc_path).is_file()  # pragma: no cover
-    use_vertex = (
-        os.getenv("GOOGLE_GENAI_USE_VERTEXAI") == "1"
-        or adc_present
-    )
+    use_vertex = os.getenv("GOOGLE_GENAI_USE_VERTEXAI") == "1" or adc_present
     project_id = os.getenv("GOOGLE_CLOUD_PROJECT")
 
-    if use_vertex and project_id:
+    if use_vertex and project_id:  # pragma: no cover
         logger.info("Initializing Vertex AI Mode (Enterprise Auth) for project: %s", project_id)
         vertexai.init(
-            project=project_id, location=os.getenv("GOOGLE_CLOUD_LOCATION", "us-central1"),
+            project=project_id,
+            location=os.getenv("GOOGLE_CLOUD_LOCATION", "us-central1"),
         )
-    elif api_key:
+    elif api_key:  # pragma: no cover
         logger.info("Initializing Developer API Mode (AI Studio Auth)")
     else:  # pragma: no cover
         logger.warning("Neither GEMINI_API_KEY nor GOOGLE_CLOUD_PROJECT found. Auth may fail.")
@@ -79,7 +90,10 @@ def create_app() -> FastAPI:
         return RedirectResponse(url="/docs")
 
     @app.exception_handler(Exception)
-    async def global_exception_handler(_request: Request, _exc: Exception) -> JSONResponse:  # pragma: no cover
+    async def global_exception_handler(
+        _request: Request,
+        _exc: Exception,
+    ) -> JSONResponse:  # pragma: no cover
         """Catch-all for any unhandled backend exceptions."""
         logger.exception("Unhandled server error")
 
@@ -94,45 +108,23 @@ def create_app() -> FastAPI:
             },
         )
 
-    # Security Hardening: Restrict CORS origins in production.
-    # Read from ALLOWED_ORIGINS env var; defaults to wildcard for hackathon dev mode.
-    cors_origins = os.getenv("ALLOWED_ORIGINS", "*").split(",")
-
+    # Middleware
+    allowed_origins = os.getenv("ALLOWED_ORIGINS", "*").split(",")
     app.add_middleware(
         CORSMiddleware,
-        allow_origins=cors_origins,
+        allow_origins=allowed_origins,
         allow_credentials=True,
-        allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+        allow_methods=["*"],
         allow_headers=["*"],
     )
-
-    class SecurityHeadersMiddleware(BaseHTTPMiddleware):
-        """Middleware to inject security headers into every response."""
-
-        async def dispatch(
-            self, request: Request, call_next: Callable[[Request], Response],
-        ) -> Response:
-            response = await call_next(request)
-            response.headers["Content-Security-Policy"] = (
-                "default-src 'self'; "
-                "script-src 'self' 'unsafe-inline'; "
-                "style-src 'self' 'unsafe-inline'; "
-                "img-src 'self' data: https://storage.googleapis.com; "
-                "connect-src 'self' wss: https://*.googleapis.com;"
-            )
-            response.headers["X-Content-Type-Options"] = "nosniff"
-            response.headers["X-Frame-Options"] = "DENY"
-            response.headers["Strict-Transport-Security"] = "max-age=31536000; includeSubDomains"
-            response.headers["X-XSS-Protection"] = "1; mode=block"
-            return response
-
     app.add_middleware(SecurityHeadersMiddleware)
 
-    app.include_router(health_router.router, prefix="/v1", tags=["Health"])
-    app.include_router(agent_router.router, prefix="/v1", tags=["Agents"])
+    # Routers
+    app.include_router(health_router.router, prefix="/v1", tags=["System"])
+    app.include_router(agent_router.router, prefix="/v1", tags=["AI Agents"])
+    app.include_router(live_router.router, prefix="/v1", tags=["Gemini Live"])
     app.include_router(multimedia_router.router, prefix="/v1", tags=["Multimedia"])
-    app.include_router(imagen_router.router, prefix="/v1", tags=["Imagen"])
-    app.include_router(live_router.router, tags=["Live"])
-    app.include_router(audit_router.router, prefix="/v1", tags=["Audit"])
+    app.include_router(imagen_router.router, prefix="/v1", tags=["Image Generation"])
+    app.include_router(audit_router.router, prefix="/v1", tags=["Observability"])
 
     return app

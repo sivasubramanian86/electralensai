@@ -17,7 +17,9 @@
     "notif_time_2h": "2 മണിക്കൂർ മുമ്പ്",
     "notif_time_5h": "5 മണിക്കൂർ മുമ്പ്",
     "notif_time_1d": "1 ദിവസം മുമ്പ്",
-    "mark_all_read": "എല്ലാം വായിച്ചതായി അടയാളപ്പെടുത്തുക"
+    "mark_all_read": "എല്ലാം വായിച്ചതായി അടയാളപ്പെടുത്തുക",
+    "live_greeting": "നമസ്കാരം! ഞാൻ നിങ്ങളുടെ ഇലക്ട്രാലെൻസ് അസിസ്റ്റന്റ്. ഇന്ന് എനിക്ക് നിങ്ങളെ എങ്ങനെ സഹായിക്കാനാകും?",
+    "lang_name": "Malayalam"
   },
   "nav": {
     "dashboard": "അവെയർനസ് ഹബ്",
@@ -167,7 +169,8 @@
       "m4": "നാമനിർദ്ദേശ പത്രിക അവസാന തീയതി",
       "m5": "പോളിംഗ് ദിവസം",
       "m6": "ഫല പ്രഖ്യാപനം"
-    }
+    },
+    "agent_prompt": "Provide a detailed overview of the election phase: {{title}}. Explain the key mechanics, typical timeline duration, and the role of the {{keyActors}}. Include an ASCII process graph in my language."
   },
   "ballot": {
     "title": "വോട്ടർ സന്നദ്ധതാ ഗൈഡ്",
@@ -203,7 +206,8 @@
         "title": "ഫോമുകളും സത്യവാങ്മൂലങ്ങളും",
         "desc": "സ്ഥാനാർത്ഥി വിവരങ്ങളും ആവശ്യമായ സത്യവാങ്മൂലങ്ങളും പരിശോധിക്കുക."
       }
-    }
+    },
+    "agent_prompt": "I need help with voter readiness: {{title}}. Context: {{desc}}. Please provide a simple checklist in my language."
   },
   "rumor": {
     "title": "മിത്ത്-ബസ്റ്റർ കൂട്ടുകാരൻ",
@@ -233,7 +237,8 @@
         "claim": "വിദ്യാർത്ഥി തിരഞ്ഞെടുപ്പിനുള്ള വോട്ടിംഗ് പ്രായം 16 ആയി കുറച്ചു.",
         "verdict": "തെറ്റിദ്ധരിപ്പിക്കുന്നത്"
       }
-    }
+    },
+    "agent_prompt": "Please fact-check this claim: \"{{claim}}\". Provide the verdict and verification steps in my language."
   },
   "simulation": {
     "title": "ഡെമോക്രസി പ്ലേ",
@@ -259,7 +264,9 @@
         "title": "വാട്ട്-ഇഫ് എഞ്ചിൻ",
         "desc": "തിരഞ്ഞെടുപ്പ് നിയമങ്ങൾ മാറ്റുക, എന്ത് സംഭവിക്കുമെന്ന് കാണുക."
       }
-    }
+    },
+    "start_prompt": "Start a new interactive module: {{title}}. Provide a brief setup scenario and give me 2 options to choose from. Make it engaging and election-focused in my language.",
+    "action_prompt": "I choose: \"{{choice}}\". Tell me the consequence of this choice and present the next step in the scenario with 2 new options in my language."
   },
   "inclusive": {
     "title": "ഇൻക്ലൂസീവ് ലേണിംഗ് ഹബ്",

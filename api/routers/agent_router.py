@@ -116,7 +116,8 @@ async def _stream_agent_response(request: QueryRequest) -> AsyncIterator[dict[st
         # If language is not English, translate the final summary or offer a translated event
         if request.language != "en":  # pragma: no cover
             translated_content = translation_service.translate_text(
-                full_content, target_language_code=request.language,
+                full_content,
+                target_language_code=request.language,
             )
             yield {
                 "event": "translated_done",

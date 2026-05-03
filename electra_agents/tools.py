@@ -3,13 +3,14 @@
 from __future__ import annotations
 
 import logging
-from typing import Any
 
 logger = logging.getLogger(__name__)
 
 
 def broadcast_misinformation_alert(
-    agent: Any, alert_type: str, data: Any = None,
+    agent: object,
+    alert_type: str,
+    data: object = None,
 ) -> str:
     """Broadcasts a civic alert to all monitoring systems.
 

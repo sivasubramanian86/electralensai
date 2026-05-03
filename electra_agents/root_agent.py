@@ -10,7 +10,7 @@ from .rumor_guard import create_rumor_guard_agent
 from .simulation_engine import create_simulation_engine_agent
 from .timeline_architect import create_timeline_architect_agent
 
-_INSTRUCTION = """
+ROOT_INSTRUCTION = """
 You are the ElectraLensAI Root Orchestrator — the main entry point for the
 "Civic Storyteller" platform.
 
@@ -46,6 +46,13 @@ ACCESSIBILITY:
   into a 3-step icon guide?".
 - Support low-literacy users by prioritizing visuals and clear audio narration.
 
+LANGUAGE & INCLUSIVITY:
+- Respond EXCLUSIVELY in the user's preferred language as detected
+  or specified in the session context.
+- Maintain cultural sensitivity and use localized civic terminology
+  (e.g., 'Constituency', 'Booth', 'EPIC' for India).
+- If the user switches languages, transition seamlessly without breaking the persona.
+
 SAFETY & GROUNDING:
 - Strictly ground all responses in official Election Commission data.
 - Deflect partisan or political bias.
@@ -72,7 +79,7 @@ def create_root_agent(model_name: str | None = None) -> agents.Agent:
 
     return agents.Agent(
         name="ElectraLensOrchestrator",
-        instruction=_INSTRUCTION,
+        instruction=ROOT_INSTRUCTION,
         model=model,
         generate_content_config=types.GenerateContentConfig(response_modalities=modalities),
         tools=[],

@@ -39,15 +39,16 @@ async def test_agent_live_session_lifecycle() -> None:
             {"type": "websocket.receive", "text": '{"type": "finalize"}'},
         ]
     )
-    with patch("api.routers.live_router.live_runner.run_live") as mock_run:
+    with patch("api.routers.live_router.Runner") as mock_runner_class:
+        mock_runner_instance = mock_runner_class.return_value
 
-        async def mock_gen():
+        async def mock_gen(*args, **kwargs):
             m_event = MagicMock()
             m_event.content.parts = [MagicMock(inline_data=MagicMock(data=b"1"), text=None)]
             m_event.usage_metadata.total_token_count = 1
             yield m_event
 
-        mock_run.return_value = mock_gen()
+        mock_runner_instance.run_live.return_value = mock_gen()
         try:
             await asyncio.wait_for(live_router.live_agent_ws(mock_ws), timeout=1.0)
         except Exception:

@@ -17,7 +17,9 @@
     "notif_time_2h": "Il y a 2 heures",
     "notif_time_5h": "Il y a 5 heures",
     "notif_time_1d": "Il y a 1 jour",
-    "mark_all_read": "Tout marquer comme lu"
+    "mark_all_read": "Tout marquer comme lu",
+    "live_greeting": "Bonjour ! Je suis votre assistant ElectraLens. Comment puis-je vous aider aujourd'hui ?",
+    "lang_name": "French"
   },
   "nav": {
     "dashboard": "Centre de Sensibilisation",
@@ -167,7 +169,8 @@
       "m4": "Limite des Candidatures",
       "m5": "Jour de l'Élection",
       "m6": "Jour des Résultats"
-    }
+    },
+    "agent_prompt": "Provide a detailed overview of the election phase: {{title}}. Explain the key mechanics, typical timeline duration, and the role of the {{keyActors}}. Include an ASCII process graph in my language."
   },
   "ballot": {
     "title": "Guide de Préparation de l'Électeur",
@@ -203,7 +206,8 @@
         "title": "Formulaires",
         "desc": "Consultez les profils des candidats et les déclarations nécessaires."
       }
-    }
+    },
+    "agent_prompt": "I need help with voter readiness: {{title}}. Context: {{desc}}. Please provide a simple checklist in my language."
   },
   "rumor": {
     "title": "Compagnon Chasseur de Mythes",
@@ -233,7 +237,8 @@
         "claim": "L'âge du vote pour les élections étudiantes a été abaissé à 16 ans.",
         "verdict": "Trompeur"
       }
-    }
+    },
+    "agent_prompt": "Please fact-check this claim: \"{{claim}}\". Provide the verdict and verification steps in my language."
   },
   "simulation": {
     "title": "Jeu de la Démocratie",
@@ -259,7 +264,9 @@
         "title": "Moteur 'Et si'",
         "desc": "Changez les règles électorales et voyez ce qui se passe."
       }
-    }
+    },
+    "start_prompt": "Start a new interactive module: {{title}}. Provide a brief setup scenario and give me 2 options to choose from. Make it engaging and election-focused in my language.",
+    "action_prompt": "I choose: \"{{choice}}\". Tell me the consequence of this choice and present the next step in the scenario with 2 new options in my language."
   },
   "inclusive": {
     "title": "Hub d'Apprentissage Inclusif",

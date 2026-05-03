@@ -1,3 +1,8 @@
+"""Unit tests for the Gemini Multimodal Live WebSocket interface.
+
+Tests real-time audio/text streaming via ADK LiveRunner.
+"""
+
 from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
@@ -13,14 +18,17 @@ def client():
 
 
 def test_live_health(client) -> None:
-    # Use the /health endpoint from health_router or live_router
-    response = client.get("/health")
+    """Verify health check on the live router."""
+    # Prefix is /v1 as defined in app.py, subpath /live/health
+    response = client.get("/v1/live/health")
     assert response.status_code == 200
-    assert response.json()["status"] == "ok"
+    assert response.json()["status"] == "healthy"
 
 
-@patch("api.routers.live_router.live_runner.run_live")
-def test_live_ws_session_extended(mock_run_live, client) -> None:
+@patch("api.routers.live_router.Runner")
+def test_live_ws_session_extended(mock_runner_class, client) -> None:
+    """Verify end-to-end WebSocket session with mixed modalities."""
+
     async def mock_live_iter(*args, **kwargs):
         class MockBlob:
             def __init__(self, data) -> None:
@@ -43,9 +51,12 @@ def test_live_ws_session_extended(mock_run_live, client) -> None:
         yield MockEvent(text="Text message")
         yield MockEvent(data=b"Audio data")
 
-    mock_run_live.return_value = mock_live_iter()
+    # Setup the mock instance
+    mock_runner_instance = mock_runner_class.return_value
+    mock_runner_instance.run_live.return_value = mock_live_iter()
 
-    with client.websocket_connect("/ws/session") as websocket:
+    # Prefix is /v1 as defined in app.py
+    with client.websocket_connect("/v1/ws/session") as websocket:
         # 1. Session ID
         data = websocket.receive_json()
         assert data["type"] == "session_id"
@@ -69,15 +80,55 @@ def test_live_ws_session_extended(mock_run_live, client) -> None:
         websocket.send_json({"type": "finalize"})
 
 
-@patch("api.routers.live_router.live_runner.run_live")
+@patch("api.routers.live_router.Runner")
 @patch("api.routers.live_router.asyncio.sleep", new_callable=AsyncMock)
-def test_live_ws_retry_exhaustion(mock_sleep, mock_run_live, client) -> None:
-    mock_run_live.side_effect = Exception("Permanent Failure")
+def test_live_ws_retry_exhaustion(mock_sleep, mock_runner_class, client) -> None:
+    """Verify WebSocket error handling after max retries."""
+    mock_runner_instance = mock_runner_class.return_value
+    mock_runner_instance.run_live.side_effect = Exception("Permanent Failure")
 
-    with client.websocket_connect("/ws/session") as websocket:
+    with client.websocket_connect("/v1/ws/session") as websocket:
         websocket.receive_json()  # session_id
-
-        # Should receive error message after 3 retries
         data = websocket.receive_json()
         assert "error" in data
         assert "Permanent Failure" in data["error"]
+
+@patch("api.routers.live_router.Runner")
+def test_live_ws_empty_events(mock_runner_class, client) -> None:
+    """Verify handling of empty events/parts."""
+    async def mock_empty_iter(*args, **kwargs):
+        class MockEvent:
+            def __init__(self, content=None) -> None:
+                self.content = content
+
+        yield MockEvent(content=None)
+        class MockPart:
+            def __init__(self) -> None:
+                self.inline_data = None
+                self.text = None
+        class MockContent:
+            def __init__(self) -> None:
+                self.parts = [MockPart()]
+        yield MockEvent(content=MockContent())
+
+    mock_runner_instance = mock_runner_class.return_value
+    mock_runner_instance.run_live.return_value = mock_empty_iter()
+
+    with client.websocket_connect("/v1/ws/session") as websocket:
+        websocket.receive_json() # session_id
+        websocket.send_json({"type": "finalize"})
+
+@patch("api.routers.live_router.Runner")
+def test_live_ws_cancellation(mock_runner_class, client) -> None:
+    """Verify handling of task cancellation."""
+    import asyncio
+    async def mock_cancel_iter(*args, **kwargs):
+        raise asyncio.CancelledError()
+        yield None
+
+    mock_runner_instance = mock_runner_class.return_value
+    mock_runner_instance.run_live.return_value = mock_cancel_iter()
+
+    with client.websocket_connect("/v1/ws/session") as websocket:
+        websocket.receive_json() # session_id
+        websocket.send_json({"type": "finalize"})

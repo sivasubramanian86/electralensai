@@ -17,7 +17,9 @@
     "notif_time_2h": "Vor 2 Stunden",
     "notif_time_5h": "Vor 5 Stunden",
     "notif_time_1d": "Vor 1 Tag",
-    "mark_all_read": "Alles als gelesen markieren"
+    "mark_all_read": "Alles als gelesen markieren",
+    "live_greeting": "Hallo! Ich bin Ihr ElectraLens-Assistent. Wie kann ich Ihnen heute helfen?",
+    "lang_name": "German"
   },
   "nav": {
     "dashboard": "Bewusstseinszentrum",
@@ -167,7 +169,8 @@
       "m4": "Nominierungsfrist",
       "m5": "Wahltag",
       "m6": "Ergebnistag"
-    }
+    },
+    "agent_prompt": "Provide a detailed overview of the election phase: {{title}}. Explain the key mechanics, typical timeline duration, and the role of the {{keyActors}}. Include an ASCII process graph in my language."
   },
   "ballot": {
     "title": "Wähler-Vorbereitungsleitfaden",
@@ -203,7 +206,8 @@
         "title": "Formulare",
         "desc": "Prüfen Sie die Profile der Kandidaten und notwendige Erklärungen."
       }
-    }
+    },
+    "agent_prompt": "I need help with voter readiness: {{title}}. Context: {{desc}}. Please provide a simple checklist in my language."
   },
   "rumor": {
     "title": "Mythen-Jäger-Begleiter",
@@ -233,7 +237,8 @@
         "claim": "Das Wahlalter für Studentenwahlen wurde auf 16 Jahre gesenkt.",
         "verdict": "Irreführend"
       }
-    }
+    },
+    "agent_prompt": "Please fact-check this claim: \"{{claim}}\". Provide the verdict and verification steps in my language."
   },
   "simulation": {
     "title": "Demokratiespiel",
@@ -259,7 +264,9 @@
         "title": "Was-Wäre-Wenn-Maschine",
         "desc": "Ändern Sie Wahlregeln und sehen Sie, was passiert."
       }
-    }
+    },
+    "start_prompt": "Start a new interactive module: {{title}}. Provide a brief setup scenario and give me 2 options to choose from. Make it engaging and election-focused in my language.",
+    "action_prompt": "I choose: \"{{choice}}\". Tell me the consequence of this choice and present the next step in the scenario with 2 new options in my language."
   },
   "inclusive": {
     "title": "Inklusives Lernzentrum",

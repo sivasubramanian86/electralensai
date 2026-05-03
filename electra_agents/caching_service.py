@@ -20,7 +20,10 @@ class CachingService:
         self.enabled = os.getenv("ENABLE_CONTEXT_CACHING", "false").lower() == "true"
 
     def create_instruction_cache(
-        self, model: str, _instruction: str, _ttl_minutes: int = 60,
+        self,
+        model: str,
+        _instruction: str,
+        _ttl_minutes: int = 60,
     ) -> str | None:
         """Creates a context cache for a specific set of instructions.
 

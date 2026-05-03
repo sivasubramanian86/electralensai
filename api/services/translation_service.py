@@ -25,11 +25,16 @@ class TranslationService:
             self.client = None
 
     def translate_text(
-        self, text: str, target_language_code: str, source_language_code: str = "en",
+        self,
+        text: str,
+        target_language_code: str,
+        source_language_code: str = "en",
     ) -> str:
         """Translates text using Google Cloud Translation API."""
         logger.info(
-            "Translation requested to %s for text: %s...", target_language_code, text[:50],
+            "Translation requested to %s for text: %s...",
+            target_language_code,
+            text[:50],
         )
         if not self.client or target_language_code == source_language_code:
             return text  # No-op if no credentials or same language

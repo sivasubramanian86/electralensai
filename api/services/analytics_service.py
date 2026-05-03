@@ -43,7 +43,12 @@ class AnalyticsService:
                     logger.warning("[Analytics] Cloud Monitoring init failed")
 
     def trace_agent_call(
-        self, name: str, user_id: str, input_str: str, output_str: str, metadata: dict[str, Any],
+        self,
+        name: str,
+        user_id: str,
+        input_str: str,
+        output_str: str,
+        metadata: dict[str, Any],
     ) -> None:
         """Log a complete agent trace to Langfuse."""
         if not self.langfuse:  # pragma: no cover
@@ -51,7 +56,11 @@ class AnalyticsService:
 
         try:
             self.langfuse.trace(
-                name=name, user_id=user_id, input=input_str, output=output_str, metadata=metadata,
+                name=name,
+                user_id=user_id,
+                input=input_str,
+                output=output_str,
+                metadata=metadata,
             )
         except Exception:  # noqa: BLE001
             logger.debug("[Analytics] Trace failed")

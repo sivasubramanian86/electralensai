@@ -96,8 +96,11 @@ export function TimelineArchitect() {
 
   const handleLearnMore = () => {
     setShowAiInsights(true);
+    const localizedTitle = t(`timeline.phases.${phase.id}.title`, phase.title);
+    const localizedActors = t(`timeline.phases.${phase.id}.key_actors`, phase.keyActors);
+
     submit(
-      `Provide a detailed overview of the election phase: ${phase.title}. Explain the key mechanics, typical timeline duration, and the role of the ${phase.keyActors}. Include an ASCII process graph.`,
+      t('timeline.agent_prompt', { title: localizedTitle, keyActors: localizedActors }),
       'IN',
       'timeline',
       i18n.language.split('-')[0]
@@ -252,7 +255,7 @@ export function TimelineArchitect() {
               </p>
             </div>
             <button 
-              onClick={() => generateContent(phase.title, i18n.language.split('-')[0])}
+              onClick={() => generateContent(t(`timeline.phases.${phase.id}.title`, phase.title), i18n.language.split('-')[0])}
               disabled={multimediaLoading}
               className="px-6 py-3 bg-blue-600 hover:bg-blue-500 disabled:opacity-50 rounded-2xl text-white font-bold flex items-center gap-2 transition-all shadow-lg shadow-blue-500/20"
             >

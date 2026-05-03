@@ -110,7 +110,7 @@ class TestMultimediaService:
         mock_blob.upload_from_string.assert_called_once_with(
             b"audio data", content_type="audio/mpeg"
         )
-        
+
         # Test failure fallback
         mock_tts_client.synthesize_speech.side_effect = Exception("TTS fail")
         fail_url = service.generate_audio_guide("Fail")

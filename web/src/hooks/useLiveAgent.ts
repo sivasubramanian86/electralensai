@@ -1,4 +1,5 @@
 import { useState, useRef, useCallback, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { API_BASE } from '../constants';
 
 export interface LiveMessage {
@@ -10,6 +11,7 @@ export interface LiveMessage {
 }
 
 export function useLiveAgent() {
+  const { i18n } = useTranslation();
   const [isActive, setIsActive] = useState(false);
   const [transcript, setTranscript] = useState<string>('');
   const [isSpeaking, setIsSpeaking] = useState(false);
@@ -94,15 +96,21 @@ export function useLiveAgent() {
     playNextInQueueRef.current = playNextInQueue;
   }, [playNextInQueue]);
 
+  const lastLangRef = useRef(i18n.language);
+
   const startSession = useCallback(async () => {
     try {
       setIsActive(true);
-      setTranscript('Connecting to ElectraLens Live...');
+      const lang = i18n.language.split('-')[0];
+      lastLangRef.current = i18n.language; // Sync ref on manual start
+      setTranscript(`Connecting to ElectraLens Live (${lang.toUpperCase()})...`);
 
-      // 1. Initialize WebSocket
-      const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+      // 1. Initialize WebSocket with Language Query Param
+      // If API_BASE is https or we are on https, use wss
+      const isSecure = window.location.protocol === 'https:' || API_BASE.startsWith('https:');
+      const protocol = isSecure ? 'wss:' : 'ws:';
       const host = API_BASE.replace(/^https?:\/\//, '');
-      const wsUrl = `${protocol}//${host}/ws/session`;
+      const wsUrl = `${protocol}//${host}/ws/session?lang=${lang}`;
       console.log('Attempting WebSocket connection to:', wsUrl);
       
       const socket = new WebSocket(wsUrl);
@@ -110,7 +118,7 @@ export function useLiveAgent() {
       socketRef.current = socket;
 
       socket.onopen = () => {
-        setTranscript('Connection established. Listening...');
+        setTranscript(`Connection established in ${lang.toUpperCase()}. Listening...`);
         socket.send(JSON.stringify({ type: 'audio_start' }));
       };
 
@@ -179,7 +187,35 @@ export function useLiveAgent() {
       setTranscript('Microphone access denied or connection failed.');
       setIsActive(false);
     }
-  }, [stopSession, playNextInQueue]);
+  }, [stopSession, playNextInQueue, i18n.language]);
+
+  // Handle Language Shifts: Auto-restart session if active
+  useEffect(() => {
+    let isMounted = true;
+    
+    // Only restart if the language actually CHANGED while the session was active
+    if (isActive && i18n.language !== lastLangRef.current) {
+      console.log(`Language changed from ${lastLangRef.current} to ${i18n.language}. Restarting.`);
+      lastLangRef.current = i18n.language;
+      
+      // Defer stop to next tick to avoid synchronous setState in effect lint error
+      setTimeout(() => {
+        if (isMounted) stopSession();
+      }, 0);
+
+      // Brief timeout to ensure cleanup before restart
+      const timer = setTimeout(() => {
+        if (isMounted) startSession();
+      }, 800);
+      return () => {
+        isMounted = false;
+        clearTimeout(timer);
+      };
+    } else if (!isActive) {
+      // Keep ref in sync while inactive to prevent restart on first manual start
+      lastLangRef.current = i18n.language;
+    }
+  }, [i18n.language, isActive, startSession, stopSession]);
 
   // Clean up on unmount
   useEffect(() => {

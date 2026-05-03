@@ -17,7 +17,9 @@
     "notif_time_2h": "2 గంటల క్రితం",
     "notif_time_5h": "5 గంటల క్రితం",
     "notif_time_1d": "1 రోజు క్రితం",
-    "mark_all_read": "అన్నీ చదివినట్లుగా గుర్తించండి"
+    "mark_all_read": "అన్నీ చదివినట్లుగా గుర్తించండి",
+    "live_greeting": "నమస్కారం! నేను మీ ఎలక్ట్రాలెన్స్ అసిస్టెంట్. ఈరోజు నేను మీకు ఎలా సహాయపడగలను?",
+    "lang_name": "Telugu"
   },
   "nav": {
     "dashboard": "అవేర్‌నెస్ హబ్",
@@ -167,7 +169,8 @@
       "m4": "నామినేషన్ గడువు",
       "m5": "పోలింగ్ రోజు",
       "m6": "ఫలితాల రోజు"
-    }
+    },
+    "agent_prompt": "Provide a detailed overview of the election phase: {{title}}. Explain the key mechanics, typical timeline duration, and the role of the {{keyActors}}. Include an ASCII process graph in my language."
   },
   "ballot": {
     "title": "ఓటర్ సంసిద్ధత గైడ్",
@@ -203,7 +206,8 @@
         "title": "ఫారాలు & అఫిడవిట్లు",
         "desc": "అభ్యర్థి ప్రొఫైల్స్ మరియు అవసరమైన డిక్లరేషన్లను సమీక్షించండి."
       }
-    }
+    },
+    "agent_prompt": "I need help with voter readiness: {{title}}. Context: {{desc}}. Please provide a simple checklist in my language."
   },
   "rumor": {
     "title": "మిత్-బస్టర్ తోడు",
@@ -233,7 +237,8 @@
         "claim": "విద్యార్థి ఎన్నికల కోసం ఓటింగ్ వయస్సు 16 ఏళ్లకు తగ్గించబడింది.",
         "verdict": "తప్పుదారి పట్టించేది"
       }
-    }
+    },
+    "agent_prompt": "Please fact-check this claim: \"{{claim}}\". Provide the verdict and verification steps in my language."
   },
   "simulation": {
     "title": "డెమోక్రసీ ప్లే",
@@ -259,7 +264,9 @@
         "title": "ఏమిటి-ఒకవేళ ఇంజిన్",
         "desc": "ఎన్నికల నియమాలను మార్చండి మరియు ఏం జరుగుతుందో చూడండి."
       }
-    }
+    },
+    "start_prompt": "Start a new interactive module: {{title}}. Provide a brief setup scenario and give me 2 options to choose from. Make it engaging and election-focused in my language.",
+    "action_prompt": "I choose: \"{{choice}}\". Tell me the consequence of this choice and present the next step in the scenario with 2 new options in my language."
   },
   "inclusive": {
     "title": "ఇంక్లూసివ్ లెర్నింగ్ హబ్",

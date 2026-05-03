@@ -35,10 +35,7 @@ try:
     api_key = os.getenv("GEMINI_API_KEY")
     adc_path = os.getenv("GOOGLE_APPLICATION_CREDENTIALS", "")
     adc_present = bool(adc_path) and Path(adc_path).is_file()
-    use_vertex = (
-        os.getenv("GOOGLE_GENAI_USE_VERTEXAI") == "1"
-        or adc_present
-    )
+    use_vertex = os.getenv("GOOGLE_GENAI_USE_VERTEXAI") == "1" or adc_present
 
     if use_vertex:
         client = genai.Client(vertexai=True, project=PROJECT_ID, location=LOCATION)

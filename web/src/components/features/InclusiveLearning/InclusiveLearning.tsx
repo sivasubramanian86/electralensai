@@ -137,9 +137,9 @@ export function InclusiveLearning() {
                 ) : (
                   <div className="flex-1 w-full relative">
                     {activeModule.type === 'VIDEO' ? (
-                       <div className="absolute inset-0 w-full h-full">
                          {content?.video_url ? (
                            <iframe 
+                             key={content.video_url}
                              className="w-full h-full rounded-2xl"
                              src={content.video_url}
                              title="Video guide"
@@ -158,6 +158,7 @@ export function InclusiveLearning() {
                          {content?.infographic_url ? (
                            <div className="relative group/img w-full h-full flex items-center justify-center">
                               <img 
+                                key={content.infographic_url}
                                 src={content.infographic_url} 
                                 alt="Visual Mind Map" 
                                 className="max-w-full max-h-full object-contain rounded-xl shadow-2xl" 
@@ -206,7 +207,7 @@ export function InclusiveLearning() {
                       {isPlaying ? <Pause className="w-6 h-6" /> : <PlayCircle className="w-6 h-6" />}
                     </button>
                     {content?.audio_url && isPlaying && (
-                       <audio autoPlay onEnded={() => setIsPlaying(false)} className="hidden">
+                       <audio key={content.audio_url} autoPlay onEnded={() => setIsPlaying(false)} className="hidden">
                           <source src={content.audio_url} type="audio/mpeg" />
                        </audio>
                     )}

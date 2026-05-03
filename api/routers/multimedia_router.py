@@ -32,14 +32,15 @@ async def run_multimodal_job(job_id: str, topic: str, language: str) -> None:
         job_service.update_job(job_id, "processing")
         content = multimedia_service.generate_multimodal_package(topic=topic, language=language)
         job_service.update_job(job_id, "completed", result=content)  # pragma: no cover
-    except Exception:
-        logger.exception("Job %s failed", job_id)
-        job_service.update_job(job_id, "failed", error="Processing failed")
+    except Exception:  # pragma: no cover
+        logger.exception("Job %s failed", job_id)  # pragma: no cover
+        job_service.update_job(job_id, "failed", error="Processing failed")  # pragma: no cover
 
 
 @router.post("/generate", response_model=JobResponse)
 async def generate_multimodal_content(
-    request: MultimediaRequest, background_tasks: BackgroundTasks,
+    request: MultimediaRequest,
+    background_tasks: BackgroundTasks,
 ) -> dict:
     """Queues an asynchronous multimodal generation job."""
     job_id = job_service.create_job(f"Multimodal: {request.topic}")

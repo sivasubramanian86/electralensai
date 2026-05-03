@@ -17,7 +17,9 @@
     "notif_time_2h": "2 ಗಂಟೆಗಳ ಹಿಂದೆ",
     "notif_time_5h": "5 ಗಂಟೆಗಳ ಹಿಂದೆ",
     "notif_time_1d": "1 ದಿನದ ಹಿಂದೆ",
-    "mark_all_read": "ಎಲ್ಲವನ್ನೂ ಓದಿದೆ ಎಂದು ಗುರುತಿಸಿ"
+    "mark_all_read": "ಎಲ್ಲವನ್ನೂ ಓದಿದೆ ಎಂದು ಗುರುತಿಸಿ",
+    "live_greeting": "ನಮಸ್ಕಾರ! ನಾನು ನಿಮ್ಮ ಎಲೆಕ್ಟ್ರಾ ಲೆನ್ಸ್ ಸಹಾಯಕ. ಇಂದು ನಾನು ನಿಮಗೆ ಹೇಗೆ ಸಹಾಯ ಮಾಡಲಿ?",
+    "lang_name": "Kannada"
   },
   "nav": {
     "dashboard": "ಅವೇರ್‌ನೆಸ್ ಹಬ್",
@@ -167,7 +169,8 @@
       "m4": "ನಾಮಪತ್ರ ಸಲ್ಲಿಕೆ ಗಡುವು",
       "m5": "ಮತದಾನದ ದಿನ",
       "m6": "ಫಲಿತಾಂಶಗಳ ದಿನ"
-    }
+    },
+    "agent_prompt": "Provide a detailed overview of the election phase: {{title}}. Explain the key mechanics, typical timeline duration, and the role of the {{keyActors}}. Include an ASCII process graph in my language."
   },
   "ballot": {
     "title": "ಮತದಾರರ ಸಿದ್ಧತೆಯ ಮಾರ್ಗದರ್ಶಿ",
@@ -203,7 +206,8 @@
         "title": "ಫಾರಂಗಳು ಮತ್ತು ಅಫಿಡವಿಟ್‌ಗಳು",
         "desc": "ಅಭ್ಯರ್ಥಿಗಳ ವಿವರಗಳು ಮತ್ತು ಅಗತ್ಯ ಘೋಷಣೆಗಳನ್ನು ಪರಿಶೀಲಿಸಿ."
       }
-    }
+    },
+    "agent_prompt": "I need help with voter readiness: {{title}}. Context: {{desc}}. Please provide a simple checklist in my language."
   },
   "rumor": {
     "title": "ಮಿತ್-ಬಸ್ಟರ್ ಸಂಗಾತಿ",
@@ -233,7 +237,8 @@
         "claim": "ವಿದ್ಯಾರ್ಥಿ ಚುನಾವಣೆಗಾಗಿ ಮತದಾನದ ವಯಸ್ಸನ್ನು 16 ಕ್ಕೆ ಇಳಿಸಲಾಗಿದೆ.",
         "verdict": "ದಾರಿ ತಪ್ಪಿಸುವಂತಹದ್ದು"
       }
-    }
+    },
+    "agent_prompt": "Please fact-check this claim: \"{{claim}}\". Provide the verdict and verification steps in my language."
   },
   "simulation": {
     "title": "ಡೆಮಾಕ್ರಸಿ ಪ್ಲೇ",
@@ -259,7 +264,9 @@
         "title": "ವಾಟ್-ಇಫ್ ಇಂಜಿನ್",
         "desc": "ಚುನಾವಣಾ ನಿಯಮಗಳನ್ನು ಬದಲಿಸಿ ಮತ್ತು ಏನಾಗುತ್ತದೆ ಎಂದು ನೋಡಿ."
       }
-    }
+    },
+    "start_prompt": "Start a new interactive module: {{title}}. Provide a brief setup scenario and give me 2 options to choose from. Make it engaging and election-focused in my language.",
+    "action_prompt": "I choose: \"{{choice}}\". Tell me the consequence of this choice and present the next step in the scenario with 2 new options in my language."
   },
   "inclusive": {
     "title": "ಇಂಕ್ಲೂಸಿವ್ ಲರ್ನಿಂಗ್ ಹಬ್",

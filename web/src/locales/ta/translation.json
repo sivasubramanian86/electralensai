@@ -17,7 +17,9 @@
     "notif_time_2h": "2 மணி நேரத்திற்கு முன்",
     "notif_time_5h": "5 மணி நேரத்திற்கு முன்",
     "notif_time_1d": "1 நாளுக்கு முன்",
-    "mark_all_read": "அனைத்தையும் படித்ததாகக் குறி"
+    "mark_all_read": "அனைத்தையும் படித்ததாகக் குறி",
+    "live_greeting": "வணக்கம்! நான் உங்கள் எலக்ட்ரா லென்ஸ் உதவியாளர். இன்று நான் உங்களுக்கு எப்படி உதவ முடியும்?",
+    "lang_name": "Tamil"
   },
   "nav": {
     "dashboard": "விழிப்புணர்வு மையம்",
@@ -167,7 +169,8 @@
       "m4": "வேட்புமனு காலக்கெடு",
       "m5": "வாக்குப்பதிவு நாள்",
       "m6": "முடிவுகள் நாள்"
-    }
+    },
+    "agent_prompt": "Provide a detailed overview of the election phase: {{title}}. Explain the key mechanics, typical timeline duration, and the role of the {{keyActors}}. Include an ASCII process graph in my language."
   },
   "ballot": {
     "title": "வாக்காளர் தயார்நிலை வழிகாட்டி",
@@ -203,7 +206,8 @@
         "title": "படிவங்கள் மற்றும் பிரமாணப் பத்திரங்கள்",
         "desc": "வேட்பாளர் சுயவிவரங்கள் மற்றும் தேவையான அறிவிப்புகளை மதிப்பாய்வு செய்யவும்."
       }
-    }
+    },
+    "agent_prompt": "I need help with voter readiness: {{title}}. Context: {{desc}}. Please provide a simple checklist in my language."
   },
   "rumor": {
     "title": "வதந்தி தடுப்புத் தோழன்",
@@ -233,7 +237,8 @@
         "claim": "மாணவர் தேர்தலுக்கான வாக்களிக்கும் வயது 16 ஆகக் குறைக்கப்பட்டுள்ளது.",
         "verdict": "தவறாக வழிநடத்துகிறது"
       }
-    }
+    },
+    "agent_prompt": "Please fact-check this claim: \"{{claim}}\". Provide the verdict and verification steps in my language."
   },
   "simulation": {
     "title": "ஜனநாயக விளையாட்டு",
@@ -259,7 +264,9 @@
         "title": "என்ன-இருந்தால் இயந்திரம்",
         "desc": "தேர்தல் விதிகளை மாற்றி என்ன நடக்கிறது என்று பாருங்கள்."
       }
-    }
+    },
+    "start_prompt": "Start a new interactive module: {{title}}. Provide a brief setup scenario and give me 2 options to choose from. Make it engaging and election-focused in my language.",
+    "action_prompt": "I choose: \"{{choice}}\". Tell me the consequence of this choice and present the next step in the scenario with 2 new options in my language."
   },
   "inclusive": {
     "title": "உள்ளடக்கிய கற்றல் மையம்",

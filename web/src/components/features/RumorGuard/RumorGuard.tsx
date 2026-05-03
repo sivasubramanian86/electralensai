@@ -47,7 +47,7 @@ export function RumorGuard() {
     setCurrentClaim(claim);
     // Send to agent mesh. The Root orchestrator will route it to MythBuster.
     submit(
-      `Please fact-check this claim: "${claim}". Provide the verdict and verification steps.`, 
+      t('rumor.agent_prompt', { claim }), 
       'IN', // India region by default
       'rumor_guard',
       i18n.language.split('-')[0]

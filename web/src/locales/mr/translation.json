@@ -17,7 +17,9 @@
     "notif_time_2h": "२ तासांपूर्वी",
     "notif_time_5h": "५ तासांपूर्वी",
     "notif_time_1d": "१ दिवसापूर्वी",
-    "mark_all_read": "सर्व वाचलेले म्हणून चिन्हांकित करा"
+    "mark_all_read": "सर्व वाचलेले म्हणून चिन्हांकित करा",
+    "live_greeting": "नमस्कार! मी तुमचा इलेक्ट्रा लेन्स सहाय्यक आहे. आज मी तुम्हाला कशी मदत करू शकतो?",
+    "lang_name": "Marathi"
   },
   "nav": {
     "dashboard": "जागरूकता हब",
@@ -167,7 +169,8 @@
       "m4": "नामांकन मुदत",
       "m5": "मतदान दिवस",
       "m6": "निकाल दिवस"
-    }
+    },
+    "agent_prompt": "Provide a detailed overview of the election phase: {{title}}. Explain the key mechanics, typical timeline duration, and the role of the {{keyActors}}. Include an ASCII process graph in my language."
   },
   "ballot": {
     "title": "मतदार सज्जता मार्गदर्शक",
@@ -203,7 +206,8 @@
         "title": "फॉर्म आणि प्रतिज्ञापत्रे",
         "desc": "उमेदवार प्रोफाइल आणि आवश्यक घोषणांचे पुनरावलोकन करा."
       }
-    }
+    },
+    "agent_prompt": "I need help with voter readiness: {{title}}. Context: {{desc}}. Please provide a simple checklist in my language."
   },
   "rumor": {
     "title": "अफवा प्रतिबंधक साथी",
@@ -233,7 +237,8 @@
         "claim": "विद्यार्थी निवडणुकीसाठी मतदानाचे वय 16 वर्षे करण्यात आले आहे.",
         "verdict": "दिशाभूल करणारे"
       }
-    }
+    },
+    "agent_prompt": "Please fact-check this claim: \"{{claim}}\". Provide the verdict and verification steps in my language."
   },
   "simulation": {
     "title": "लोकशाहीचा खेळ",
@@ -259,7 +264,9 @@
         "title": "व्हॉट-इफ इंजिन",
         "desc": "निवडणुकीचे नियम बदला आणि काय होते ते पहा."
       }
-    }
+    },
+    "start_prompt": "Start a new interactive module: {{title}}. Provide a brief setup scenario and give me 2 options to choose from. Make it engaging and election-focused in my language.",
+    "action_prompt": "I choose: \"{{choice}}\". Tell me the consequence of this choice and present the next step in the scenario with 2 new options in my language."
   },
   "inclusive": {
     "title": "समावेशी शिक्षण हब",

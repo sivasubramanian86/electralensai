@@ -17,7 +17,9 @@
     "notif_time_2h": "2 hours ago",
     "notif_time_5h": "5 hours ago",
     "notif_time_1d": "1 day ago",
-    "mark_all_read": "Mark all as read"
+    "mark_all_read": "Mark all as read",
+    "live_greeting": "Hello! I am your ElectraLens Assistant. How can I help you today?",
+    "lang_name": "English"
   },
   "nav": {
     "dashboard": "Awareness Hub",
@@ -167,7 +169,8 @@
       "m4": "Nomination Deadline",
       "m5": "Polling Day",
       "m6": "Results Day"
-    }
+    },
+    "agent_prompt": "Provide a detailed overview of the election phase: {{title}}. Explain the key mechanics, typical timeline duration, and the role of the {{keyActors}}. Include an ASCII process graph in my language."
   },
   "ballot": {
     "title": "Voter Readiness Guide",
@@ -203,7 +206,8 @@
         "title": "Forms & Affidavits",
         "desc": "Review candidate profiles and required declarations."
       }
-    }
+    },
+    "agent_prompt": "I need help with voter readiness: {{title}}. Context: {{desc}}. Please provide a simple checklist in my language."
   },
   "rumor": {
     "title": "Myth-Buster Companion",
@@ -233,7 +237,8 @@
         "claim": "Voting age has been reduced to 16 for student elections.",
         "verdict": "MISLEADING"
       }
-    }
+    },
+    "agent_prompt": "Please fact-check this claim: \"{{claim}}\". Provide the verdict and verification steps in my language."
   },
   "simulation": {
     "title": "Play Democracy",
@@ -259,7 +264,9 @@
         "title": "What-If Engine",
         "desc": "Change election rules and see what happens."
       }
-    }
+    },
+    "start_prompt": "Start a new interactive module: {{title}}. Provide a brief setup scenario and give me 2 options to choose from. Make it engaging and election-focused in my language.",
+    "action_prompt": "I choose: \"{{choice}}\". Tell me the consequence of this choice and present the next step in the scenario with 2 new options in my language."
   },
   "inclusive": {
     "title": "Inclusive Learning Hub",

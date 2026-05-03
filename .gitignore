@@ -50,7 +50,9 @@ coverage/
 coverage_*/
 coverage.json
 coverage_full_report.txt
+coverage_report.txt
 htmlcov/
+brain/
 *.log
 
 # ADK Virtual Envs

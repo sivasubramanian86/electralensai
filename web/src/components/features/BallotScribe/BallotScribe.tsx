@@ -36,15 +36,18 @@ export function BallotScribe() {
 
   useEffect(() => {
     if (activeStepDetails) {
-      // Trigger the ReadinessCoach agent
+      // Trigger the ReadinessCoach agent with a localized prompt
+      const localizedTitle = t(`ballot.steps.s${activeStep}.title`, activeStepDetails.title);
+      const localizedDesc = t(`ballot.steps.s${activeStep}.desc`, activeStepDetails.desc);
+      
       submit(
-        `I need help with voter readiness: ${activeStepDetails.title}. Context: ${activeStepDetails.desc}. Please provide a simple checklist.`,
+        t('ballot.agent_prompt', { title: localizedTitle, desc: localizedDesc }),
         'IN',
         'ballot',
         i18n.language.split('-')[0]
       );
     }
-  }, [activeStep, submit, activeStepDetails, i18n.language]);
+  }, [activeStep, submit, activeStepDetails, i18n.language, t]);
 
   return (
     <div className="max-w-6xl mx-auto h-full flex flex-col space-y-8 animate-in fade-in duration-1000">
