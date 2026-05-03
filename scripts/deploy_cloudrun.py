@@ -67,6 +67,13 @@ def deploy_service(project: str, service_account: str) -> None:
         service_account: The Cloud Run service account email (least-privilege IAM).
     """
     gcloud_bin = "gcloud.cmd" if sys.platform == "win32" else "gcloud"
+    # Vertex AI env vars are required for LLM model auth in Cloud Run.
+    # GEMINI_API_KEY is pulled from Secret Manager (never hardcoded).
+    env_vars = ",".join([
+        f"GOOGLE_CLOUD_PROJECT={project}",
+        f"GOOGLE_CLOUD_LOCATION={_REGION}",
+        "GOOGLE_GENAI_USE_VERTEXAI=1",
+    ])
     _run(
         [
             gcloud_bin,
@@ -82,6 +89,8 @@ def deploy_service(project: str, service_account: str) -> None:
             "--allow-unauthenticated",
             "--service-account",
             service_account,
+            "--set-env-vars",
+            env_vars,
             "--memory",
             "1Gi",
             "--cpu",
