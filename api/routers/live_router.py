@@ -84,6 +84,7 @@ async def live_agent_ws(websocket: WebSocket, lang: str = "en") -> None:
 
     # Load localized content from translation JSONs via I18nService
     from api.services.i18n_service import i18n_service
+
     lang_name, greeting_text = i18n_service.get_live_metadata(lang)
 
     try:

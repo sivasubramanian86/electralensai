@@ -67,4 +67,5 @@ class I18nService:
 
         return lang_name, greeting
 
+
 i18n_service = I18nService()

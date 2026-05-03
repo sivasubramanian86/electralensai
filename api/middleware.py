@@ -1,9 +1,12 @@
 """Middleware for ElectraLensAI API."""
+
 from __future__ import annotations
 
 from typing import Callable
+
 from fastapi import Request, Response
 from starlette.middleware.base import BaseHTTPMiddleware
+
 
 class SecurityHeadersMiddleware(BaseHTTPMiddleware):
     """Middleware to inject security headers into all responses."""

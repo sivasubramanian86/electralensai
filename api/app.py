@@ -8,15 +8,14 @@ from __future__ import annotations
 import logging
 import os
 from pathlib import Path
-from typing import Callable
 
 import vertexai
 from dotenv import load_dotenv
-from fastapi import FastAPI, Request, Response
+from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse, RedirectResponse
-from starlette.middleware.base import BaseHTTPMiddleware
 
+from api.middleware import SecurityHeadersMiddleware
 from api.routers import (
     agent_router,
     audit_router,
@@ -25,13 +24,9 @@ from api.routers import (
     live_router,
     multimedia_router,
 )
-from api.middleware import SecurityHeadersMiddleware
 
 load_dotenv(override=True)
 logger = logging.getLogger(__name__)
-
-
-
 
 
 def create_app() -> FastAPI:

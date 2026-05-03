@@ -12,11 +12,13 @@ def test_get_app_strings_success():
             strings = service.get_app_strings("te")
             assert strings["lang_name"] == "Telugu"
 
+
 def test_get_app_strings_missing_file():
     service = I18nService()
     with patch("pathlib.Path.exists", return_value=False):
         strings = service.get_app_strings("invalid")
         assert strings == {}
+
 
 def test_get_app_strings_exception():
     service = I18nService()
@@ -25,6 +27,7 @@ def test_get_app_strings_exception():
             strings = service.get_app_strings("te")
             assert strings == {}
 
+
 def test_get_live_metadata_defaults():
     service = I18nService()
     with patch.object(service, "get_app_strings", return_value={}):
@@ -32,12 +35,14 @@ def test_get_live_metadata_defaults():
         assert name == "English"
         assert "Hello" in greeting
 
+
 def test_get_live_metadata_unsupported():
     """Verify fallback for unsupported locale."""
     service = I18nService()
     lang_name, greeting = service.get_live_metadata("unknown")
     assert lang_name == "English"
     assert "Hello" in greeting
+
 
 def test_i18n_service_custom_dir():
     """Verify initialization with a custom locales directory."""

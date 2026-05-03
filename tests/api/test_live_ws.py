@@ -103,35 +103,42 @@ def test_live_ws_retry_exhaustion(mock_sleep, mock_runner_class, client) -> None
     except WebSocketDisconnect:
         pass
 
+
 @patch("api.routers.live_router.Runner")
 def test_live_ws_empty_events(mock_runner_class, client) -> None:
     """Verify handling of empty events/parts."""
+
     async def mock_empty_iter(*args, **kwargs):
         class MockEvent:
             def __init__(self, content=None) -> None:
                 self.content = content
 
         yield MockEvent(content=None)
+
         class MockPart:
             def __init__(self) -> None:
                 self.inline_data = None
                 self.text = None
+
         class MockContent:
             def __init__(self) -> None:
                 self.parts = [MockPart()]
+
         yield MockEvent(content=MockContent())
 
     mock_runner_instance = mock_runner_class.return_value
     mock_runner_instance.run_live.return_value = mock_empty_iter()
 
     with client.websocket_connect("/v1/ws/session") as websocket:
-        websocket.receive_json() # session_id
+        websocket.receive_json()  # session_id
         websocket.send_json({"type": "finalize"})
+
 
 @patch("api.routers.live_router.Runner")
 def test_live_ws_cancellation(mock_runner_class, client) -> None:
     """Verify handling of task cancellation."""
     import asyncio
+
     async def mock_cancel_iter(*args, **kwargs):
         raise asyncio.CancelledError()
         yield None
@@ -140,5 +147,5 @@ def test_live_ws_cancellation(mock_runner_class, client) -> None:
     mock_runner_instance.run_live.return_value = mock_cancel_iter()
 
     with client.websocket_connect("/v1/ws/session") as websocket:
-        websocket.receive_json() # session_id
+        websocket.receive_json()  # session_id
         websocket.send_json({"type": "finalize"})

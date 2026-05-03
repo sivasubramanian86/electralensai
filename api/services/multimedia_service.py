@@ -215,9 +215,18 @@ class MultimediaService:
             along with a script preview.
         """
         lang_map = {
-            "en": "en-US", "hi": "hi-IN", "te": "te-IN", "ta": "ta-IN",
-            "kn": "kn-IN", "ml": "ml-IN", "bn": "bn-IN", "gu": "gu-IN",
-            "mr": "mr-IN", "es": "es-ES", "fr": "fr-FR", "de": "de-DE"
+            "en": "en-US",
+            "hi": "hi-IN",
+            "te": "te-IN",
+            "ta": "ta-IN",
+            "kn": "kn-IN",
+            "ml": "ml-IN",
+            "bn": "bn-IN",
+            "gu": "gu-IN",
+            "mr": "mr-IN",
+            "es": "es-ES",
+            "fr": "fr-FR",
+            "de": "de-DE",
         }
         tts_lang = lang_map.get(language, "en-US")
 

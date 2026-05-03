@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useRef, useEffect } from 'react';
 import { API_BASE } from '../constants';
 
 export interface MultimediaContent {
@@ -19,17 +19,22 @@ export const useMultimedia = (): UseMultimediaResult => {
   const [loading, setLoading] = useState(false);
   const [content, setContent] = useState<MultimediaContent | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const activeRef = useRef(true);
+
+  useEffect(() => {
+    activeRef.current = true;
+    return () => { activeRef.current = false; };
+  }, []);
 
   const pollJobStatus = useCallback(async (jobId: string) => {
-    let active = true;
     const poll = async () => {
-      if (!active) return;
+      if (!activeRef.current) return;
       try {
         const response = await fetch(`${API_BASE}/v1/multimedia/jobs/${jobId}`);
         if (!response.ok) throw new Error('Polling failed');
         
         const data = await response.json();
-        if (!active) return;
+        if (!activeRef.current) return;
 
         if (data.status === 'completed') {
           setContent(data.result);
@@ -41,13 +46,12 @@ export const useMultimedia = (): UseMultimediaResult => {
           setTimeout(poll, 3000);
         }
       } catch (err) {
-        if (!active) return;
+        if (!activeRef.current) return;
         setError(err instanceof Error ? err.message : 'Polling error');
         setLoading(false);
       }
     };
     poll();
-    return () => { active = false; };
   }, []);
 
   const generateContent = useCallback(async (topic: string, language: string = 'en') => {

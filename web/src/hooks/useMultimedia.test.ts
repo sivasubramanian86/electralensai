@@ -177,4 +177,75 @@ describe('useMultimedia Hook', () => {
 
     expect(result.current.error).toBe('Polling error');
   });
+
+  it('stops polling when unmounted before poll starts', async () => {
+    const fetchMock = vi.fn()
+      .mockResolvedValueOnce({ ok: true, json: () => Promise.resolve({ job_id: '123' }) })
+      .mockResolvedValueOnce({ ok: true, json: () => Promise.resolve({ status: 'pending' }) });
+    vi.stubGlobal('fetch', fetchMock);
+
+    const { result, unmount } = renderHook(() => useMultimedia());
+    await act(async () => { result.current.generateContent('test'); });
+    
+    // Call 1 (POST) and Call 2 (GET) have happened.
+    // Call 3 is scheduled for T+3000.
+    
+    // Unmount before T+3000
+    await act(async () => { unmount(); });
+    
+    // Advance to T+3000 - Call 3 should NOT happen
+    await act(async () => { await vi.advanceTimersByTimeAsync(3000); });
+    
+    // fetch should have been called 2 times
+    expect(fetchMock).toHaveBeenCalledTimes(2); 
+  });
+
+  it('stops polling when unmounted during fetch', async () => {
+    let resolveFetch: any;
+    const fetchPromise = new Promise((resolve) => { resolveFetch = resolve; });
+    
+    const fetchMock = vi.fn()
+      .mockResolvedValueOnce({ ok: true, json: () => Promise.resolve({ job_id: '123' }) })
+      .mockReturnValueOnce(fetchPromise);
+    vi.stubGlobal('fetch', fetchMock);
+
+    const { result, unmount } = renderHook(() => useMultimedia());
+    await act(async () => { result.current.generateContent('test'); });
+    
+    // Trigger the first poll
+    await act(async () => { await vi.advanceTimersByTimeAsync(3000); });
+    
+    // Unmount while fetch is "in flight"
+    unmount();
+    
+    // Resolve the fetch
+    await act(async () => { 
+      resolveFetch({ ok: true, json: () => Promise.resolve({ status: 'completed', result: { infographic_url: 'ok' } }) });
+    });
+
+    expect(result.current.content).toBeNull();
+  });
+
+  it('stops polling when unmounted during failed fetch', async () => {
+    let rejectFetch: any;
+    const fetchPromise = new Promise((_, reject) => { rejectFetch = reject; });
+    
+    const fetchMock = vi.fn()
+      .mockResolvedValueOnce({ ok: true, json: () => Promise.resolve({ job_id: '123' }) })
+      .mockReturnValueOnce(fetchPromise);
+    vi.stubGlobal('fetch', fetchMock);
+
+    const { result, unmount } = renderHook(() => useMultimedia());
+    await act(async () => { result.current.generateContent('test'); });
+    
+    await act(async () => { await vi.advanceTimersByTimeAsync(3000); });
+    
+    unmount();
+    
+    await act(async () => { 
+      rejectFetch(new Error('Network fail'));
+    });
+
+    expect(result.current.error).toBeNull();
+  });
 });

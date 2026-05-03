@@ -1,4 +1,5 @@
 """Tests for maximizing multimedia service coverage and error handling saturation."""
+
 from unittest.mock import MagicMock, patch
 
 import pytest
@@ -15,6 +16,7 @@ def service():
     svc._imagen_model = MagicMock()
     return svc
 
+
 def test_multimedia_no_client(service):
     """Cover 'if not client' branches."""
     with patch("api.services.multimedia_service.client", None):
@@ -27,6 +29,7 @@ def test_multimedia_no_client(service):
         with patch.object(service, "generate_infographic"):
             with patch.object(service, "generate_audio_guide"):
                 service.generate_multimodal_package("test")
+
 
 def test_multimedia_make_public_failure(service):
     """Cover 'except Exception' in make_public."""
@@ -45,6 +48,7 @@ def test_multimedia_make_public_failure(service):
 
         # 2. Audio make_public failure
         service.generate_audio_guide("test")
+
 
 def test_multimedia_general_failure(service):
     """Cover general exception in generate_infographic."""
