@@ -110,7 +110,7 @@ export function useLiveAgent() {
       const isSecure = window.location.protocol === 'https:' || API_BASE.startsWith('https:');
       const protocol = isSecure ? 'wss:' : 'ws:';
       const host = API_BASE.replace(/^https?:\/\//, '');
-      const wsUrl = `${protocol}//${host}/ws/session?lang=${lang}`;
+      const wsUrl = `${protocol}//${host}/v1/ws/session?lang=${lang}`;
       console.log('Attempting WebSocket connection to:', wsUrl);
       
       const socket = new WebSocket(wsUrl);

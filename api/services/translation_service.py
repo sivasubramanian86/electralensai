@@ -1,28 +1,19 @@
-"""Translation service module."""
+"""Translation service module using Gemini LLM for high-quality semantic translation."""
 
 import logging
-import os
 
-from google.cloud import translate_v3 as translate
+from api.config import Config
+from api.genai_client import client
 
 logger = logging.getLogger(__name__)
 
 
 class TranslationService:
-    """Service wrapper for Google Cloud Translation API."""
+    """Service wrapper for Gemini-powered Translation."""
 
     def __init__(self, project_id: str | None = None) -> None:
         """Initialize the TranslationService."""
-        self.project_id = project_id or os.environ.get("GOOGLE_CLOUD_PROJECT")
-        if not self.project_id:  # pragma: no cover
-            logger.warning(
-                "No GOOGLE_CLOUD_PROJECT set. Translation functionality will fallback to native LLM.",  # noqa: E501
-            )
-        try:
-            self.client = translate.TranslationServiceClient() if self.project_id else None
-        except Exception:  # pragma: no cover
-            logger.exception("Failed to initialize Translation client")
-            self.client = None
+        self.project_id = project_id
 
     def translate_text(
         self,
@@ -30,30 +21,34 @@ class TranslationService:
         target_language_code: str,
         source_language_code: str = "en",
     ) -> str:
-        """Translates text using Google Cloud Translation API."""
+        """Translates text using Gemini LLM."""
         logger.info(
             "Translation requested to %s for text: %s...",
             target_language_code,
             text[:50],
         )
-        if not self.client or target_language_code == source_language_code:
-            return text  # No-op if no credentials or same language
+        if target_language_code == source_language_code:
+            return text
 
-        parent = f"projects/{self.project_id}/locations/global"
+        if not client:
+            logger.warning("GenAI client not initialized. Returning original text.")
+            return text
 
         try:
-            response = self.client.translate_text(
-                request={
-                    "parent": parent,
-                    "contents": [text],
-                    "mime_type": "text/plain",
-                    "source_language_code": source_language_code,
-                    "target_language_code": target_language_code,
-                },
+            model_id = Config.MODEL_NAME
+            prompt = (
+                f"Translate the following text to language code '{target_language_code}'.\n"
+                "Maintain the tone and context of civic education. "
+                "Return ONLY the translated text.\n\n"
+                f"Text: {text}"
             )
-            return response.translations[0].translated_text
+            response = client.models.generate_content(
+                model=model_id,
+                contents=prompt,
+            )
+            return response.text.strip()
         except Exception:  # pragma: no cover
-            logger.exception("Translation failed")
+            logger.exception("Gemini Translation failed")
             return text  # Fallback to original text
 
 

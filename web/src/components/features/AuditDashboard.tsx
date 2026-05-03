@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Shield, Activity, BarChart3, Clock, CheckCircle2, AlertCircle, Terminal, Accessibility } from 'lucide-react';
+import { API_BASE } from '../../constants';
 
 interface AuditTrace {
   timestamp: string;
@@ -30,8 +31,8 @@ export function AuditDashboard() {
     // Mock fetch for the audit endpoints
     const fetchData = async () => {
       try {
-        const traceRes = await fetch('http://localhost:8082/v1/audit/traces?session_id=demo');
-        const metricRes = await fetch('http://localhost:8082/v1/audit/metrics');
+        const traceRes = await fetch(`${API_BASE}/v1/audit/traces?session_id=demo`);
+        const metricRes = await fetch(`${API_BASE}/v1/audit/metrics`);
         
         if (!traceRes.ok || !metricRes.ok) {
            console.warn('Audit Dashboard: Backend metrics unavailable');

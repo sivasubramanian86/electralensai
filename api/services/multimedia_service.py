@@ -203,70 +203,80 @@ class MultimediaService:
             logger.info("Audio uploaded to: %s", url)
             return url
 
+    def _get_cache_key(self, topic: str, language: str) -> str:
+        """Generates a stable cache key for a topic and language."""
+        import hashlib
+        clean_topic = topic.lower().strip()
+        hash_val = hashlib.sha256(f"{clean_topic}:{language}".encode()).hexdigest()
+        return f"manifests/{hash_val}.json"
+
     def generate_multimodal_package(self, topic: str, language: str = "en") -> dict:
-        """Generates a complete package: Infographic and Audio Guide.
+        """Generates a package, checking for cached versions in GCS first.
 
         Args:
             topic: The educational topic to generate content for.
             language: The target language code (e.g., "hi", "ta").
 
         Returns:
-            A dictionary containing URLs for the infographic, audio, and video assets,
-            along with a script preview.
+            A dictionary containing URLs for the infographic, audio, and video assets.
         """
+        cache_path = self._get_cache_key(topic, language)
+        bucket = self.storage_client.bucket(self.bucket_name)
+        blob = bucket.blob(cache_path)
+
+        if blob.exists():
+            logger.info("[Multimedia] Cache hit for topic: %s (%s)", topic, language)
+            import json
+            return json.loads(blob.download_as_text())
+
+        logger.info("[Multimedia] Cache miss for topic: %s (%s). Generating...", topic, language)
+
+        from concurrent.futures import ThreadPoolExecutor
+
         lang_map = {
-            "en": "en-US",
-            "hi": "hi-IN",
-            "te": "te-IN",
-            "ta": "ta-IN",
-            "kn": "kn-IN",
-            "ml": "ml-IN",
-            "bn": "bn-IN",
-            "gu": "gu-IN",
-            "mr": "mr-IN",
-            "es": "es-ES",
-            "fr": "fr-FR",
-            "de": "de-DE",
+            "en": "en-US", "hi": "hi-IN", "te": "te-IN", "ta": "ta-IN",
+            "kn": "kn-IN", "ml": "ml-IN", "bn": "bn-IN", "gu": "gu-IN",
+            "mr": "mr-IN", "es": "es-ES", "fr": "fr-FR", "de": "de-DE",
         }
         tts_lang = lang_map.get(language, "en-US")
 
-        # 1. Generate infographic
-        infographic_url = self.generate_infographic(topic)
-
-        # 2. Generate script
-        detailed_script = ""
-        if not client:
-            detailed_script = f"Civic education guide for {topic} in {language}."
-        else:
-            model_id = Config.MODEL_NAME
+        def get_script() -> str:
+            if not client:
+                return f"Civic education guide for {topic} in {language}."
             try:
-                script_response = client.models.generate_content(
-                    model=model_id,
-                    contents=(
-                        f"Write a 60-second educational audio guide script about: {topic}. "
-                        f"The target language is {language}. Tone: Encouraging and clear. "
-                        "Return ONLY plain text."
-                    ),
+                resp = client.models.generate_content(
+                    model=Config.MODEL_NAME,
+                    contents=f"Write a 45s audio guide script about: {topic} in {language}.",
                 )
-                detailed_script = script_response.text.strip()
+                return resp.text.strip().replace("*", "").replace("#", "")
             except Exception:  # pragma: no cover
-                logger.warning("Script generation failed")  # pragma: no cover
-                detailed_script = f"Welcome to our guide on {topic}."  # pragma: no cover
+                return f"Guide on {topic}"
 
-        # Clean up markdown
-        detailed_script = (
-            detailed_script.replace("*", "").replace("#", "").replace("`", "").replace("_", "")
-        )
+        with ThreadPoolExecutor(max_workers=3) as executor:
+            info_future = executor.submit(self.generate_infographic, topic)
+            script_future = executor.submit(get_script)
 
-        audio_url = self.generate_audio_guide(detailed_script, tts_lang)
+            infographic_url = info_future.result()
+            detailed_script = script_future.result()
+            audio_url = self.generate_audio_guide(detailed_script, tts_lang)
 
-        return {
+        result = {
             "topic": topic,
             "infographic_url": infographic_url,
             "audio_url": audio_url,
             "video_url": "https://www.youtube.com/embed/S2HAsU_wL1U",
             "script_preview": detailed_script[:200] + "...",
         }
+
+        # Store in cache
+        try:
+            import json
+            blob.upload_from_string(json.dumps(result), content_type="application/json")
+            blob.make_public()
+        except Exception:
+            logger.debug("Failed to cache manifest")
+
+        return result
 
 
 multimedia_service = MultimediaService()

@@ -15,6 +15,20 @@ export function SettingsPanel() {
     security: true
   });
 
+  const handleSave = () => {
+    alert(t('settings.save_success', 'Settings saved successfully!'));
+  };
+
+  const handleDiscard = () => {
+    setAccessibilityMode('standard');
+    setAnalyticsEnabled(true);
+    setNotificationPrefs({
+      alerts: true,
+      insights: false,
+      security: true
+    });
+  };
+
   const tabs = [
     { id: 'profile', label: t('nav.profile', 'Profile'), icon: User },
     { id: 'notifications', label: t('nav.notifications', 'Notifications'), icon: Bell },
@@ -232,10 +246,16 @@ export function SettingsPanel() {
               {renderContent()}
 
               <div className="pt-8 mt-8 border-t border-white/5 flex justify-end gap-4">
-                <button className="px-8 py-3 rounded-xl text-slate-400 hover:text-white hover:bg-white/5 transition-colors focus:ring-2 focus:ring-white/10 focus:outline-none">
+                <button 
+                  onClick={handleDiscard}
+                  className="px-8 py-3 rounded-xl text-slate-400 hover:text-white hover:bg-white/5 transition-colors focus:ring-2 focus:ring-white/10 focus:outline-none"
+                >
                   {t('settings.discard', 'Discard')}
                 </button>
-                <button className="px-8 py-3 rounded-xl bg-blue-600 text-white font-bold shadow-lg shadow-blue-600/20 hover:shadow-blue-600/40 hover:-translate-y-0.5 transition-all flex items-center gap-2 focus:ring-2 focus:ring-blue-400 focus:outline-none active:scale-95">
+                <button 
+                  onClick={handleSave}
+                  className="px-8 py-3 rounded-xl bg-blue-600 text-white font-bold shadow-lg shadow-blue-600/20 hover:shadow-blue-600/40 hover:-translate-y-0.5 transition-all flex items-center gap-2 focus:ring-2 focus:ring-blue-400 focus:outline-none active:scale-95"
+                >
                   <Save className="w-4 h-4" aria-hidden="true" /> {t('settings.save', 'Save Changes')}
                 </button>
               </div>

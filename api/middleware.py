@@ -23,12 +23,14 @@ class SecurityHeadersMiddleware(BaseHTTPMiddleware):
         response.headers["Strict-Transport-Security"] = "max-age=31536000; includeSubDomains"
         csp = (
             "default-src 'self'; "
-            "script-src 'self' 'unsafe-inline'; "
-            "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; "
+            "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net; "
+            "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com "
+            "https://cdn.jsdelivr.net; "
             "font-src 'self' https://fonts.gstatic.com; "
-            "img-src 'self' data: https://storage.googleapis.com https://placehold.co; "
+            "img-src 'self' data: https://storage.googleapis.com https://placehold.co "
+            "https://fastapi.tiangolo.com; "
             "connect-src 'self' wss://*.cloudrun.app https://*.cloudrun.app "
-            "https://generativelanguage.googleapis.com;"
+            "https://generativelanguage.googleapis.com https://cdn.jsdelivr.net;"
         )
         response.headers["Content-Security-Policy"] = csp
         return response

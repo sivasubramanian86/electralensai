@@ -28,6 +28,7 @@ dependencies = [
     "python-dotenv>=1.0.1",
     "asyncpg>=0.29.0",
     "pgvector>=0.3.0",
+    "google-cloud-firestore>=2.14.0",
 ]
 
 [tool.hatch.build.targets.wheel]

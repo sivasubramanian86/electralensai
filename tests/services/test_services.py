@@ -118,15 +118,26 @@ class TestMultimediaService:
 
     @patch("google.cloud.storage.Client")
     @patch("google.cloud.texttospeech.TextToSpeechClient")
+    @patch("vertexai.init")
     @patch("vertexai.preview.vision_models.ImageGenerationModel.from_pretrained")
     @patch("api.services.multimedia_service.client")
     def test_generate_multimodal_package(
-        self, mock_genai_client, mock_imagen_class, mock_tts_client, mock_storage_client
+        self,
+        mock_genai_client,
+        mock_imagen_class,
+        mock_vertex_init,
+        mock_tts_client,
+        mock_storage_client,
     ) -> None:
         """Verifies orchestration of a complete multimodal package (Image + Audio).."""
         service = MultimediaService()
         service.generate_infographic = MagicMock(return_value="http://image-url")
         service.generate_audio_guide = MagicMock(return_value="http://audio-url")
+
+        # Mock Storage Blob for cache miss
+        mock_bucket = mock_storage_client.return_value.bucket.return_value
+        mock_blob = mock_bucket.blob.return_value
+        mock_blob.exists.return_value = False
 
         mock_genai_response = MagicMock()
         mock_genai_response.text = "Script content"
@@ -137,6 +148,15 @@ class TestMultimediaService:
         assert package["infographic_url"] == "http://image-url"
         assert package["audio_url"] == "http://audio-url"
         assert "Script content" in package["script_preview"]
+
+        # Mock cache hit
+        mock_blob.exists.return_value = True
+        mock_blob.download_as_text.return_value = (
+            '{"topic": "Cached", "infographic_url": "url", "audio_url": "url", '
+            '"video_url": "url", "script_preview": "preview"}'
+        )
+        package_cached = service.generate_multimodal_package("Topic", "en")
+        assert package_cached["topic"] == "Cached"
 
 
 class TestAnalyticsService:

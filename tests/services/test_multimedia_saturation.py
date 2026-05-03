@@ -28,6 +28,9 @@ def test_multimedia_no_client(service):
         # 2. generate_multimodal_package
         with patch.object(service, "generate_infographic"):
             with patch.object(service, "generate_audio_guide"):
+                # Mock blob to return False for exists
+                mock_blob = service.storage_client.bucket.return_value.blob.return_value
+                mock_blob.exists.return_value = False
                 service.generate_multimodal_package("test")
 
 

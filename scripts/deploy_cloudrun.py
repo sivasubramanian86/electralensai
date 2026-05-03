@@ -83,7 +83,7 @@ def deploy_service(project: str, service_account: str) -> None:
             "GOOGLE_GENAI_USE_VERTEXAI=1",
             "GOOGLE_MODEL_FLASH=gemini-2.5-flash",
             "GOOGLE_MODEL_LIVE=gemini-live-2.5-flash-native-audio",
-            f"VITE_FIREBASE_STORAGE_BUCKET={project}-media",
+            "VITE_FIREBASE_STORAGE_BUCKET=electralensai-prod-media-301947480687",
         ]
     )
     _run(

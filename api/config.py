@@ -13,9 +13,12 @@ class Config:
     LOCATION = os.getenv("GOOGLE_CLOUD_LOCATION", "us-central1")
     MODEL_NAME = os.getenv("GOOGLE_MODEL", "gemini-2.5-flash")
 
-    # Firebase (Optional: backend might need some keys if using admin SDK)
+    # Firebase / Storage
     FIREBASE_PROJECT_ID = os.getenv("VITE_FIREBASE_PROJECT_ID")
-    STORAGE_BUCKET = os.getenv("VITE_FIREBASE_STORAGE_BUCKET")
+    # Default to project-id-media if not specified in env
+    STORAGE_BUCKET = os.getenv("VITE_FIREBASE_STORAGE_BUCKET") or (
+        f"{PROJECT_ID}-media" if PROJECT_ID else None
+    )
 
     @classmethod
     def get_secret(cls, secret_id: str, default: str | None = None) -> str | None:
