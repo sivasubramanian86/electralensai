@@ -264,7 +264,7 @@ class MultimediaService:
             "topic": topic,
             "infographic_url": infographic_url,
             "audio_url": audio_url,
-            "video_url": "https://www.youtube.com/embed/S2HAsU_wL1U",
+            "video_url": "https://www.youtube.com/embed/wcmmJi8AHK0",
             "script_preview": detailed_script[:200] + "...",
         }
 
